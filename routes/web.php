@@ -74,3 +74,5 @@ Route::get('/tarefausuario/info/{idProjeto}/{idTarefa}', 'ControllerTarefaUsuari
 Route::get('/tarefausuario/apagar/{alocacao}/{id}', 'ControllerTarefaUsuario@destroy');
 Route::get('/tarefausuario/minhastarefas', 'ControllerTarefaUsuario@getTarefasUsuario');
 Route::get('/gerenciarTarefa/{id}', 'ControllerTarefaUsuario@detalhesTarefa');
+Route::get('/comecatimer/{id}', 'ControllerTarefaUsuario@startTimer');
+Route::get('/stoptimer/{id}', 'ControllerTarefaUsuario@stopTimer');

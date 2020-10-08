@@ -43,6 +43,7 @@ class ControllerProjetoUsuario extends Controller
         $projUsu = new ProjetoUsuario();
         $projUsu->projeto_id = $request->input('idProjeto');
         $projUsu->user_id = $request->input('usuario');
+        $projUsu->tempo_total = "00:00:00";
         $projUsu->save();
         return redirect('/projetousuario/info/'.$request->input('idProjeto'));
     }

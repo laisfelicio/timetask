@@ -9,7 +9,8 @@ use App\User;
 use App\Tarefa;
 use App\TarefaUsuario;
 use Illuminate\Support\Collection;
-
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 
 class ControllerTarefaUsuario extends Controller
@@ -54,6 +55,7 @@ class ControllerTarefaUsuario extends Controller
         $tarefaUsu->user_id = $request->input('usuario');
         $tarefaUsu->tempo_gasto = "00:00:00";
         $tarefaUsu->ultimo_start = "1920-01-01 01:00:00";
+        $tarefaUsu->ultimo_stop = "1920-01-01 01:00:00";
         $tarefaUsu->save();
         return redirect('/tarefausuario/info/'.$request->input('idProjeto')."/".$request->input('idTarefa'));
     }
@@ -134,6 +136,75 @@ class ControllerTarefaUsuario extends Controller
         $tarefasUsuarios = TarefaUsuario::where('tarefa_id', $tarefaId)->get();
         $infoUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', Auth::user()->id)->get();
         return view ('tarefas.gerenciartarefa', compact('tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
+    }
+
+    public function startTimer($tarefaId){
+        $usuarioId = Auth::user()->id;
+        $tarefaUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', $usuarioId)->first();
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataHora = Carbon::now();
+        
+        var_dump(Carbon::parse($dataHora)->format('y-m-d H:i:s'));
+        var_dump ($dataHora);
+        $tarefaUsu->ultimo_start = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+        $tarefaUsu->save();
+    }
+
+    public function stopTimer($tarefaId){
+        $usuarioId = Auth::user()->id;
+        $tarefaUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', $usuarioId)->first();
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataHora = Carbon::now();
+        
+      
+        $tarefaUsu->ultimo_stop = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+        $tarefaUsu->save();
+
+        $fim = Carbon::parse($tarefaUsu->ultimo_stop);
+        $inicio = Carbon::parse($tarefaUsu->ultimo_start);
+        $total = $inicio->diffInHours($fim) . ':' . $inicio->diff($fim)->format('%I:%S');
+
+        $tarefa = Tarefa::find($tarefaId);
+        $projeto = Projeto::find($tarefa->projeto_id);
+        echo "Total novo = ".$total;
+        echo "Total projeto = ".$projeto->tempo_gasto;
+        $total_horas_projeto = $this->somaHoras($total,$projeto->tempo_gasto);
+        $projeto->tempo_gasto = $total_horas_projeto;
+        $projeto->save();
+
+        $tarefaUsu->tempo_gasto = $this->somaHoras($total,$tarefaUsu->tempo_gasto);
+        $tarefaUsu->save();
+
+        
+        
+
+    }
+
+    public function somaHoras($antiga, $nova){
+        
+        $tempo1 = explode(":", $antiga);
+        $tempo2 = explode(":", $nova);
+
+        var_dump($nova);
+        $totalSecs = 0;
+        $totalSecs += $tempo1[0] * 3600;
+        $totalSecs += $tempo1[1] * 60;
+        $totalSecs += $tempo1[2];
+        $totalSecs += $tempo2[0] * 3600;
+        $totalSecs += $tempo2[1] * 60;
+        $totalSecs += $tempo2[2];
+
+        $hora = intdiv($totalSecs,3600);
+        $hora = str_pad($hora, 3, "0", STR_PAD_LEFT);
+        $min = intdiv(($totalSecs%3600),60);
+        $min = str_pad($min, 2, "0", STR_PAD_LEFT);
+        $sec = ($totalSecs%3600)%60;
+        $sec = str_pad($sec, 2, "0", STR_PAD_LEFT);
+        return $hora.":".$min.":".$sec;
     }
 
     

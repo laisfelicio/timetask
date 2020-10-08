@@ -21,6 +21,7 @@ class CreateTarefaUsuariosTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->time('tempo_gasto');
             $table->dateTime('ultimo_start');
+            $table->dateTime('ultimo_stop');
             $table->softDeletes();
             $table->timestamps();
         });

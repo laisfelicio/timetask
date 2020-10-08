@@ -19,6 +19,7 @@ class CreateProjetoUsuariosTable extends Migration
             $table->foreign('projeto_id')->references('id')->on('projetos');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->time('tempo_total');
             $table->softDeletes();
             $table->timestamps();
         });
