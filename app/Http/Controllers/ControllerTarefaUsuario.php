@@ -8,6 +8,7 @@ use App\ProjetoUsuario;
 use App\User;
 use App\Tarefa;
 use App\TarefaUsuario;
+use App\StatusTarefa;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use DateTime;
@@ -135,7 +136,8 @@ class ControllerTarefaUsuario extends Controller
         $projeto = Projeto::find($tarefa->projeto_id);
         $tarefasUsuarios = TarefaUsuario::where('tarefa_id', $tarefaId)->get();
         $infoUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', Auth::user()->id)->get();
-        return view ('tarefas.gerenciartarefa', compact('tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
+        $statusTarefa = StatusTarefa::all();
+        return view ('tarefas.gerenciartarefa', compact('statusTarefa', 'tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
     }
 
     public function startTimer($tarefaId){
@@ -170,8 +172,6 @@ class ControllerTarefaUsuario extends Controller
 
         $tarefa = Tarefa::find($tarefaId);
         $projeto = Projeto::find($tarefa->projeto_id);
-        echo "Total novo = ".$total;
-        echo "Total projeto = ".$projeto->tempo_gasto;
         $total_horas_projeto = $this->somaHoras($total,$projeto->tempo_gasto);
         $projeto->tempo_gasto = $total_horas_projeto;
         $projeto->save();
@@ -179,7 +179,11 @@ class ControllerTarefaUsuario extends Controller
         $tarefaUsu->tempo_gasto = $this->somaHoras($total,$tarefaUsu->tempo_gasto);
         $tarefaUsu->save();
 
-        
+        $projetoUso = ProjetoUsuario::where('projeto_id', $projeto->id)->where('user_id', $usuarioId)->first();
+        $total_horas_projeto_usuario = $this->somaHoras($total,$projetoUso->tempo_total);
+        $projetoUso->tempo_total =  $total_horas_projeto_usuario;
+        $projetoUso->save();
+
         
 
     }
