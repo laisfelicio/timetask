@@ -20,6 +20,9 @@ class CreateTarefasTable extends Migration
             $table->foreign('projeto_id')->references('id')->on('projetos');
             $table->string('descricao');
             $table->time('tempo_previsto');
+            $table->date('data_prevista');
+            $table->dateTime('data_finalizacao');
+            $table-boolval('finalizada');
             $table->integer('status_id')->unsigned();
             $table->foreign('status_id')->references('id')->on('status_tarefas');
             $table->softDeletes();

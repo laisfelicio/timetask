@@ -3,26 +3,32 @@
 @section('body')
 <div class = "card border">
     <div class = "card-body">
-        <h5 class = "card-title"> Tarefas </h5>
+        <h5 class = "card-title"> Gerenciar Tarefa </h5>
+        <hr style="border-top: 1px solid black;">
         <br>
-        <form action = "/tarefas" method="POST">
+        <form action = "/gerenciarTarefa" method="POST">
             @csrf
             <div class = "row">
-                <div class="col-sm-6">
-                    <div class = "form-group">
-                        <input type = "text" class = "form-control" name = "nomeTarefa" id = "nomeTarefa"  value = "{{$tarefa->nome}}">
+                <div class="col-sm-12">
+                    <div class = "card border-dark">
+                        <div class = "card-body">
+                            <input type="hidden" id="idTarefa" name="idTarefa" value="{{$tarefa->id}}">
+                            <div class = "form-group">
+                                <input type = "text" class = "form-control input-lg" name = "nomeTarefa" id = "nomeTarefa"  value = "{{$tarefa->nome}}">
+                            </div>
+                            <div class = "form-group">
+                                <input type = "text" class = "form-control border-light" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$projeto->nome}}" readonly>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class = "form-group">
-                        <input type = "text" class = "form-control" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$projeto->nome}}" readonly>
-                    </div>
-                </div>
+               
                 
             </div>
-            <hr>
+            <hr style="border-top: 1px solid black;">
             <div class = "row">
                 <div class="col-sm-6">
+                    <h5><b>Status</b></h5>
                     <div class = "form-group">
                         <select class = "form-control" name = "statusTarefa" id = "statusTarefa" >
                             @foreach($statusTarefa as $status)
@@ -37,28 +43,40 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
+                    <h5><b>
+                        @if($infoUsu->ultimo_start <= $infoUsu->ultimo_stop)
+                            Start timer
+                        @else
+                            Stop timer
+                        @endif
+                    </h5></b>    
+
                     <div class = "form-group">
-                        <a href = "/comecatimer/{{$tarefa->id}}" class="btn btn-success"> 
-                            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-                              </svg>
-                        </a>
-                        <a href = "/stoptimer/{{$tarefa->id}}" class="btn btn-danger"> 
-                            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-pause-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
-                              </svg>
-                        </a>
+                        @if($infoUsu->ultimo_start <= $infoUsu->ultimo_stop)
+                            <a href = "/comecatimer/{{$tarefa->id}}" class="btn btn-success"> 
+                                <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                                </svg>
+                            </a>
+                        @else
+                            <a href = "/stoptimer/{{$tarefa->id}}" class="btn btn-danger"> 
+                                <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-pause-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
+                                </svg>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
             <div class = "row">
                
             </div>
+            <hr style="border-top: 1px solid black;">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="card">
+                    <h5><b>Outros usuários</b></h5>
+                    <div class="card scroll">
                       <div class="card-body">
-                        <h5 class="card-title">Outros usuários</h5>
                         @if(count($tarefasUsuarios) > 1)
                             <table class = "table table-ordered table hover">
                                 <thead>
@@ -85,9 +103,9 @@
                     </div>
                   </div>
                   <div class="col-sm-6">
+                      <h5><b>Seu histórico</b></h5>
                     <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">Seu histórico</h5>
+                      <div class="card-body scroll">
                         <table class = "table table-ordered table hover">
                             <thead>
                                 <th> Total horas</th>
@@ -95,23 +113,61 @@
                                 <th> Tarefa pausada pela ultima vez em: </th>
                             </thead>
                             <tbody>
-                                @if(count($infoUsu) > 0)
+                                
                                     <tr>
-                                        @foreach($infoUsu as $usu)
-                                            <td> {{$usu->tempo_gasto}} </td>
-                                            <td> {{$usu->ultimo_start}} </td>
-                                            <td> {{$usu->ultimo_stop}} </td>
-                                        @endforeach
+                                        
+                                            <td> {{$infoUsu->tempo_gasto}} </td>
+                                            <td> {{$infoUsu->ultimo_start}} </td>
+                                            <td> {{$infoUsu->ultimo_stop}} </td>
+                                        
                                     </tr>
-                                @endif
+                                
                             </tbody>
                         </table>
                       </div>
                     </div>
                   </div>
             </div>
+            <button type = "submit" class = "btn btn-primary btn-lg"> Salvar Alterações</button>
         </form>
+        
+        <hr style="border-top: 1px solid black;">
+        <br>
+        <h5> Comentários </h5>
+        <form action = "/comentarios" method="POST">
+            @csrf
+            <div class = "row">
+                <div class="col-sm-12">
+                    <div class = "card">
+                        <div class = "card-body">
+                            <input type="hidden" id="idTarefa" name="idTarefa" value="{{$tarefa->id}}">
+                            <div class = "form-group">
+                                <input type = "text" class = "form-control input-lg" name = "comentario" id = "comentario">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type = "submit" class = "btn btn-primary"> Adicionar comentário</button>
+        </form>
+        <hr style="border-top: 1px solid black;">
+        @foreach($comentarios as $comentario)
+            <div class = "row">
+                <div class="col-sm-12">
+                    <div class = "card">
+                        <div class = "card-body">
+                            {{$comentario->comentario}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
     </div>
+
+
+
+    
    
 </div>
 @endsection

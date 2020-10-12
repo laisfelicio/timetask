@@ -9,6 +9,7 @@ use App\User;
 use App\Tarefa;
 use App\TarefaUsuario;
 use App\StatusTarefa;
+use App\Comentario;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use DateTime;
@@ -21,6 +22,12 @@ class ControllerTarefaUsuario extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index($idProjeto, $idTarefa)
     {
         //
@@ -135,9 +142,10 @@ class ControllerTarefaUsuario extends Controller
         $tarefa = Tarefa::find($tarefaId);
         $projeto = Projeto::find($tarefa->projeto_id);
         $tarefasUsuarios = TarefaUsuario::where('tarefa_id', $tarefaId)->get();
-        $infoUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', Auth::user()->id)->get();
+        $infoUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', Auth::user()->id)->first();
         $statusTarefa = StatusTarefa::all();
-        return view ('tarefas.gerenciartarefa', compact('statusTarefa', 'tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
+        $comentarios = Comentario::where('tarefa_id', $tarefaId)->get();
+        return view ('tarefas.gerenciartarefa', compact('comentarios', 'statusTarefa', 'tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
     }
 
     public function startTimer($tarefaId){
@@ -152,6 +160,8 @@ class ControllerTarefaUsuario extends Controller
         var_dump ($dataHora);
         $tarefaUsu->ultimo_start = Carbon::parse($dataHora)->format('y-m-d H:i:s');
         $tarefaUsu->save();
+
+        return redirect("/gerenciarTarefa/".$tarefaId);
     }
 
     public function stopTimer($tarefaId){
@@ -184,7 +194,7 @@ class ControllerTarefaUsuario extends Controller
         $projetoUso->tempo_total =  $total_horas_projeto_usuario;
         $projetoUso->save();
 
-        
+        return redirect("/gerenciarTarefa/".$tarefaId);
 
     }
 
@@ -211,5 +221,12 @@ class ControllerTarefaUsuario extends Controller
         return $hora.":".$min.":".$sec;
     }
 
+    public function gerenciar(Request $request){
+        $tarefa = Tarefa::find($request->idTarefa);
+        $tarefa->nome = $request->nomeTarefa;
+        $tarefa->status_id = $request->statusTarefa;
+        $tarefa->save();
+        return redirect("/gerenciarTarefa/".$request->idTarefa);
+    }
     
 }

@@ -20,6 +20,9 @@ class CreateProjetosTable extends Migration
             $table->time('tempo_gasto');
             $table->integer('cliente_id')->unsigned();
             $table->foreign('cliente_id')->references('id')->on('clientes');
+            $table->date('data_prevista');
+            $table->dateTime('data_finalizacao');
+            $table-boolval('finalizado');
             $table->softDeletes();
             $table->timestamps();
         });

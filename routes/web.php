@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcomeNovo');
 });
 
 Auth::routes();
@@ -76,3 +76,14 @@ Route::get('/tarefausuario/minhastarefas', 'ControllerTarefaUsuario@getTarefasUs
 Route::get('/gerenciarTarefa/{id}', 'ControllerTarefaUsuario@detalhesTarefa');
 Route::get('/comecatimer/{id}', 'ControllerTarefaUsuario@startTimer');
 Route::get('/stoptimer/{id}', 'ControllerTarefaUsuario@stopTimer');
+
+
+Route::get('/kanban', 'ControllerKanban@index');
+Route::post('/comentarios', 'ControllerComentario@store');
+Route::post('/gerenciarTarefa', 'ControllerTarefaUsuario@gerenciar');
+Route::get('/usuarios/registrar', 'ControllerUsuario@create');
+Route::post('/usuarios', 'ControllerUsuario@store');
+Route::get('/usuarios', 'ControllerUsuario@index');
+Route::post('/usuarios/{id}', 'ControllerUsuario@update');
+Route::get('/usuarios/editar/{id}', 'ControllerUsuario@edit');
+Route::get('/usuarios/apagar/{id}', 'ControllerUsuario@destroy');

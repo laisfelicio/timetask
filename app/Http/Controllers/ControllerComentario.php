@@ -3,28 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Cliente;
-class ControllerCliente extends Controller
+use App\Comentario;
+use Illuminate\Support\Facades\Auth;
+class ControllerComentario extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function __construct()
     {
         $this->middleware('auth');
     }
-    
     public function index()
     {
-
-
-
-
         //
-        $clientes = Cliente::all();
-        return view('clientes.clientes', compact('clientes'));
     }
 
     /**
@@ -35,7 +30,6 @@ class ControllerCliente extends Controller
     public function create()
     {
         //
-        return view('clientes.novoCliente');
     }
 
     /**
@@ -47,10 +41,13 @@ class ControllerCliente extends Controller
     public function store(Request $request)
     {
         //
-        $cliente = new Cliente();
-        $cliente->nome = $request->input('nomeCliente');
-        $cliente->save();
-        return redirect('/clientes');
+        $comentario = new Comentario();
+        $comentario->user_id = Auth::user()->id;
+        $comentario->tarefa_id = $request->idTarefa;
+        $comentario->comentario = $request->comentario;
+        $comentario->save();
+        return redirect("/gerenciarTarefa/".$request->idTarefa);
+
     }
 
     /**
@@ -73,11 +70,6 @@ class ControllerCliente extends Controller
     public function edit($id)
     {
         //
-        $cli = Cliente::find($id);
-        if(isset($cli)){
-            return view('clientes.editarCliente', compact('cli'));
-        }
-        return redirect('/clientes');
     }
 
     /**
@@ -90,12 +82,6 @@ class ControllerCliente extends Controller
     public function update(Request $request, $id)
     {
         //
-        $cliente = Cliente::find($id);
-        if(isset($cliente)){
-            $cliente->nome = $request->input('nomeCliente');
-            $cliente->save();
-        }
-        return redirect('/clientes');
     }
 
     /**
@@ -107,11 +93,5 @@ class ControllerCliente extends Controller
     public function destroy($id)
     {
         //
-        $cliente = Cliente::find($id);
-        if(isset($cliente)){
-            $cliente->delete();
-        }
-        return redirect("/clientes");
-       
     }
 }

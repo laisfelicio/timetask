@@ -3,28 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Cliente;
-class ControllerCliente extends Controller
+use App\User;
+use Illuminate\Support\Facades\Hash;
+class ControllerUsuario extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function __construct()
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
-
-
-
-
-        //
-        $clientes = Cliente::all();
-        return view('clientes.clientes', compact('clientes'));
+        $usuarios = User::all();
+        return view('usuarios.usuarios', compact('usuarios'));
     }
 
     /**
@@ -35,7 +32,7 @@ class ControllerCliente extends Controller
     public function create()
     {
         //
-        return view('clientes.novoCliente');
+        return view('usuarios.registrar');
     }
 
     /**
@@ -47,10 +44,13 @@ class ControllerCliente extends Controller
     public function store(Request $request)
     {
         //
-        $cliente = new Cliente();
-        $cliente->nome = $request->input('nomeCliente');
-        $cliente->save();
-        return redirect('/clientes');
+        dd($request->input('admin'));
+        $user = new User();
+        $user->name = $request->input('nomeUsuario');
+        $user->email = $request->input('emailUsuario');
+        $user->password = Hash::make($request->input('senhaUsuario'));
+        $user->save();
+        return redirect('/usuarios');
     }
 
     /**
@@ -72,12 +72,11 @@ class ControllerCliente extends Controller
      */
     public function edit($id)
     {
-        //
-        $cli = Cliente::find($id);
-        if(isset($cli)){
-            return view('clientes.editarCliente', compact('cli'));
+        $usuario = User::find($id);
+        if(isset($usuario)){
+            return view('usuarios.editarusuario', compact('usuario'));
         }
-        return redirect('/clientes');
+        return redirect('/usuarios');
     }
 
     /**
@@ -89,13 +88,14 @@ class ControllerCliente extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $cliente = Cliente::find($id);
-        if(isset($cliente)){
-            $cliente->nome = $request->input('nomeCliente');
-            $cliente->save();
+        $usuario = User::find($id);
+        if(isset($usuario)){
+            $usuario->name = $request->input('nomeUsuario');
+            $usuario->email = $request->input('emailUsuario');
+            $usuario->password = Hash::make($request->input('senhaUsuario'));
+            $usuario->save();
         }
-        return redirect('/clientes');
+        return redirect('/usuarios');
     }
 
     /**
@@ -107,11 +107,10 @@ class ControllerCliente extends Controller
     public function destroy($id)
     {
         //
-        $cliente = Cliente::find($id);
-        if(isset($cliente)){
-            $cliente->delete();
+        $usuario = User::find($id);
+        if(isset($usuario)){
+            $usuario->delete();
         }
-        return redirect("/clientes");
-       
+        return redirect("/usuarios");
     }
 }

@@ -17,7 +17,7 @@
         </style>
     </head>
     <body>
-        <div class = "container">
+        <div class = "container-fluid">
             @component('component_navbar', ["current" => $current])
             @endcomponent
             <main role = "main">

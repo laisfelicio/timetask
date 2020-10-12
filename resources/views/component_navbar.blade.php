@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark rounded" style="background-color: #503D5A">
+<nav class="navbar navbar-expand-lg navbar-dark rounded" style="background-color:#6C2A6A">
     <span class="navbar-brand mb-0 h1">TimeTask</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
