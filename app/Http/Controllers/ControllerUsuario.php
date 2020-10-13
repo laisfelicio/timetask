@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 class ControllerUsuario extends Controller
 {
     /**
@@ -16,6 +17,8 @@ class ControllerUsuario extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        
     }
 
     public function index()
@@ -32,6 +35,9 @@ class ControllerUsuario extends Controller
     public function create()
     {
         //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
         return view('usuarios.registrar');
     }
 
@@ -41,14 +47,24 @@ class ControllerUsuario extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     
     public function store(Request $request)
     {
-        //
-        dd($request->input('admin'));
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
+
         $user = new User();
         $user->name = $request->input('nomeUsuario');
         $user->email = $request->input('emailUsuario');
         $user->password = Hash::make($request->input('senhaUsuario'));
+        if($request->input('admin') == "sim"){
+            $user->admin = 1;
+        }
+        else{
+            $user->admin = 0;
+        }
         $user->save();
         return redirect('/usuarios');
     }
@@ -72,6 +88,10 @@ class ControllerUsuario extends Controller
      */
     public function edit($id)
     {
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
+
         $usuario = User::find($id);
         if(isset($usuario)){
             return view('usuarios.editarusuario', compact('usuario'));
@@ -88,6 +108,10 @@ class ControllerUsuario extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
+
         $usuario = User::find($id);
         if(isset($usuario)){
             $usuario->name = $request->input('nomeUsuario');
@@ -106,7 +130,9 @@ class ControllerUsuario extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
         $usuario = User::find($id);
         if(isset($usuario)){
             $usuario->delete();

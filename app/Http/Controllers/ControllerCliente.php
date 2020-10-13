@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cliente;
+use Illuminate\Support\Facades\Auth;
 class ControllerCliente extends Controller
 {
     /**
@@ -18,10 +19,6 @@ class ControllerCliente extends Controller
     
     public function index()
     {
-
-
-
-
         //
         $clientes = Cliente::all();
         return view('clientes.clientes', compact('clientes'));
@@ -34,7 +31,9 @@ class ControllerCliente extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
         return view('clientes.novoCliente');
     }
 
@@ -47,6 +46,9 @@ class ControllerCliente extends Controller
     public function store(Request $request)
     {
         //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
         $cliente = new Cliente();
         $cliente->nome = $request->input('nomeCliente');
         $cliente->save();
@@ -72,7 +74,9 @@ class ControllerCliente extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
         $cli = Cliente::find($id);
         if(isset($cli)){
             return view('clientes.editarCliente', compact('cli'));
@@ -89,7 +93,10 @@ class ControllerCliente extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
+
         $cliente = Cliente::find($id);
         if(isset($cliente)){
             $cliente->nome = $request->input('nomeCliente');
@@ -106,7 +113,10 @@ class ControllerCliente extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
+        
         $cliente = Cliente::find($id);
         if(isset($cliente)){
             $cliente->delete();

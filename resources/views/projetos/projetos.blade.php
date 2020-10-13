@@ -10,8 +10,6 @@
                 <th> Código </th>
                 <th> Nome </th>
                 <th> Cliente </th>
-                <th> Descrição </th>
-                <th> Tempo Gasto </th>
                 <th> Status </th>
                 <th> Ações </th>
             </thead>
@@ -21,8 +19,6 @@
                     <td>{{$proj->id}}</td>
                     <td>{{$proj->nome}}</td>
                     <td>{{$proj->cliente}}</td>
-                    <td>{{$proj->descricao}}</td>
-                    <td>{{$proj->tempo_gasto}}</td>
                     <td>{{$proj->status}}</td>
                     <td>
                         <a href = "/projetos/editar/{{$proj->id}}" class = "btn btn-sm btn-primary"> Editar </a>

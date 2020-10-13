@@ -53,6 +53,7 @@ class ControllerProjeto extends Controller
         $proj->descricao = $request->input('descProjeto');
         $proj->cliente_id = $request->input('cliente');
         $proj->tempo_gasto = "00:00:00";
+        $proj->data_prevista = $request->input('dataPrevista');
         $proj->status_id = 1;
 
         $proj->save();

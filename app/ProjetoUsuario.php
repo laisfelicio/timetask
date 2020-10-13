@@ -8,9 +8,10 @@ class ProjetoUsuario extends Model
 {
     //
     use SoftDeletes;
-    protected $appends = ['projeto', 'nomeUsuario', 'emailUsuario', 'idUsuario'];
+    protected $appends = ['nomeProjeto', 'nomeUsuario', 'emailUsuario', 'idUsuario', 
+                           'clienteProjeto', 'statusProjeto'];
 
-    public function getProjetoAttribute(): string
+    public function getNomeProjetoAttribute(): string
      {
         $projeto = Projeto::find($this->projeto_id);
 
@@ -19,6 +20,33 @@ class ProjetoUsuario extends Model
         }
         return '';
      }
+
+     public function getClienteProjetoAttribute(): string
+     {
+        $projeto = Projeto::find($this->projeto_id);
+
+        if ($projeto) {
+            $cliente = Cliente::find($projeto->cliente_id);
+            if($cliente){
+                return $cliente->nome;
+            }
+        }
+        return '';
+     }
+
+     public function getStatusProjetoAttribute(): string
+     {
+        $projeto = Projeto::find($this->projeto_id);
+
+        if ($projeto) {
+            $status = StatusProjeto::find($projeto->status_id);
+            if($status){
+                return $status->nome;
+            }
+        }
+        return '';
+     }
+
 
      public function getNomeUsuarioAttribute(): string
      {

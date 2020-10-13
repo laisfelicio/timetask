@@ -73,6 +73,7 @@ class ControllerTarefa extends Controller
         $tarefa->tempo_previsto = $request->input('tempoPrevisto');
         $tarefa->projeto_id = $request->input('projeto');
         $tarefa->status_id = 1;
+        $tarefa->data_prevista = $request->input('dataPrevista');
         $tarefa->save();
         return redirect('/tarefas');
     }

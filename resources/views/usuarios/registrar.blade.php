@@ -19,7 +19,7 @@
                 <input type = "password" class = "form-control" name = "senhaUsuario" id = "senhaUsuario">
             </div>  
             <div class = "form-group">
-                <input type="checkbox" name="admin[]" value="sim"> <label>Administrador</label>
+                <input type="checkbox" name="admin" value="sim"> <label>Administrador</label>
             </div>
             <button type = "submit" class = "btn btn-primary btn-sm"> Salvar </button>
             <button type = "cancel" class = "btn btn-danger btn-sm"> Cancelar </button>

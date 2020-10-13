@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ProjetoUsuario;
 use App\Projeto;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 class ControllerProjetoUsuario extends Controller
 {
     /**
@@ -107,5 +108,13 @@ class ControllerProjetoUsuario extends Controller
         }
         return redirect("/projetousuario/info/".$projetoId);
         
+    }
+
+    public function getProjetoUsuario(){
+        
+        $usuarioId = Auth::user()->id;
+        $projetos = ProjetoUsuario::where('user_id', $usuarioId)->get();
+        return view('projetos.meusprojetos', compact('projetos'));
+
     }
 }

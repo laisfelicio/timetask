@@ -31,7 +31,6 @@ class ControllerTarefaUsuario extends Controller
     public function index($idProjeto, $idTarefa)
     {
         //
-        echo "oiiiiiiiiiiiiiie";
         $projeto = Projeto::find($idProjeto);
         $tarefa = Tarefa::find($idTarefa);
         $usuarios= ProjetoUsuario::where('projeto_id', $idProjeto)->get();
@@ -57,7 +56,6 @@ class ControllerTarefaUsuario extends Controller
     public function store(Request $request)
     {
         //
-        echo "STOREEEE";
         $tarefaUsu = new TarefaUsuario();
         $tarefaUsu->tarefa_id = $request->input('idTarefa');
         $tarefaUsu->user_id = $request->input('usuario');
@@ -115,7 +113,6 @@ class ControllerTarefaUsuario extends Controller
     public function destroy($rota, $id)
     {
         //
-        echo "destroy";
         var_dump($rota);
         var_dump($id);
         $tarefaUsuario = TarefaUsuario::find($id);
@@ -130,12 +127,11 @@ class ControllerTarefaUsuario extends Controller
     }
 
     public function getTarefasUsuario(){
-        echo "usuario = ".Auth::user()->id;
+        
         $usuarioId = Auth::user()->id;
         $tarefas = TarefaUsuario::where('user_id', $usuarioId)->get();
         return view('tarefas.minhastarefas', compact('tarefas'));
 
-        return "";
     }
     
     public function detalhesTarefa($tarefaId){

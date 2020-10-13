@@ -26,8 +26,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/produtos', function () {
-    return view('produtos');
+Route::get('/relatorio', function () {
+    return view('relatorio');
 });
 
 Route::get('/clientes', 'ControllerCliente@index');
@@ -44,6 +44,7 @@ Route::post('/projetos', 'ControllerProjeto@store');
 Route::get('/projetos/apagar/{id}', 'ControllerProjeto@destroy');
 Route::get('/projetos/editar/{id}', 'ControllerProjeto@edit');
 Route::post('/projetos/{id}', 'ControllerProjeto@update');
+
 
 Route::get('/tarefas', 'ControllerTarefa@index');
 Route::get('/tarefas/novo', 'ControllerTarefa@create');
@@ -66,7 +67,7 @@ Route::get('/projetousuario/alocar/{id}', 'ControllerProjetoUsuario@index');
 Route::get('/projetousuario/info/{id}', 'ControllerProjetoUsuario@show');
 Route::post('/projetousuario', 'ControllerProjetoUsuario@store');
 Route::get('/projetousuario/apagar/{id}', 'ControllerProjetoUsuario@destroy');
-
+Route::get('/projetousuario/meusprojetos', 'ControllerProjetoUsuario@getProjetoUsuario');
 
 Route::get('/tarefausuario/{idProjeto}/{idTarefa}', 'ControllerTarefaUsuario@index');
 Route::post('/tarefausuario', 'ControllerTarefaUsuario@store');

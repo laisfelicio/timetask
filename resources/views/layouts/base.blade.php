@@ -28,7 +28,7 @@
         </div>
     </body>
     <script src="{{asset('js/app.js')}}" type = "text/javascript"> </script>
-
+    <script src = "{{asset('js/chart.js') }}"></script>
     @hasSection('javascript')
         @yield('javascript')
     @endif

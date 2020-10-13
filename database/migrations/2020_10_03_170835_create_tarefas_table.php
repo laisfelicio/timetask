@@ -22,7 +22,7 @@ class CreateTarefasTable extends Migration
             $table->time('tempo_previsto');
             $table->date('data_prevista');
             $table->dateTime('data_finalizacao');
-            $table-boolval('finalizada');
+            $table->integer('finalizado')->default(0);
             $table->integer('status_id')->unsigned();
             $table->foreign('status_id')->references('id')->on('status_tarefas');
             $table->softDeletes();
