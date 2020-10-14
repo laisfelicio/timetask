@@ -26,9 +26,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/relatorio', function () {
-    return view('relatorio');
-});
+Route::get('/relatorio', 'ControllerRelatorio@index');
 
 Route::get('/clientes', 'ControllerCliente@index');
 Route::get('/clientes/novo', 'ControllerCliente@create');
