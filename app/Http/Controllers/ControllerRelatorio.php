@@ -21,7 +21,7 @@ class ControllerRelatorio extends Controller
         $status = $user_info->pluck('status');
         
         $batata = "batatinha";
-        return view('relatorio', compact('batata', 'totais', 'status'));
+        return view('relatorios.relatorio', compact('batata', 'totais', 'status'));
     }
 
     /**

@@ -1,4 +1,4 @@
-@extends('layouts.base', ["current" => "categorias"])
+@extends('layouts.baseAt', ["current" => "clientes"])
 
 @section('body')
 <div class = "card border">
@@ -9,17 +9,21 @@
             <thead>
                 <th> Código </th>
                 <th> Nome </th>
-                <th> Ações </th>
+                @if(Auth::user()->admin == 1)
+                    <th> Ações </th>
+                @endif
             </thead>
             <tbody>
                 @foreach($clientes as $cliente)
                 <tr>
                     <td>{{$cliente->id}}</td>
                     <td>{{$cliente->nome}}</td>
-                    <td>
-                        <a href = "/clientes/editar/{{$cliente->id}}" class = "btn btn-sm btn-primary"> Editar </a>
-                        <a href = "/clientes/apagar/{{$cliente->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
-                    </td>
+                    @if(Auth::user()->admin == 1)
+                        <td>
+                            <a href = "/clientes/editar/{{$cliente->id}}" class = "btn btn-sm btn-primary"> Editar </a>
+                            <a href = "/clientes/apagar/{{$cliente->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                        </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
@@ -27,6 +31,9 @@
         @endif
     </div>
     <div class = "card-footer">
-        <a href = "/clientes/novo" class = "btn btn-sm btn-primary" role = "button"> Novo cliente </a>
+        @if(Auth::user()->admin == 1)
+            <a href = "/clientes/novo" class = "btn btn-sm btn-primary" role = "button"> Novo cliente </a>
+        @endif
+    </div>
 </div>
 @endsection

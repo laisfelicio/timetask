@@ -9,7 +9,7 @@ class TarefaUsuario extends Model
     //
     use SoftDeletes;
     protected $appends = ['tarefa', 'nomeUsuario', 'emailUsuario', 'idUsuario', 
-    'nomeTarefa', 'nomeProjeto', 'descricaoTarefa', 'tempoPrevistoTarefa', 'statusTarefa'];
+    'nomeTarefa', 'nomeProjeto', 'descricaoTarefa', 'tempoPrevistoTarefa', 'statusTarefa', 'idProjeto'];
 
     public function getTarefaAttribute(): string
      {
@@ -68,6 +68,17 @@ class TarefaUsuario extends Model
 
         if ($projeto) {
             return $projeto->nome;
+        }
+        return '';
+     }
+
+     public function getIdProjetoAttribute(): string
+     {
+        $tarefa = Tarefa::find($this->tarefa_id);
+        $projeto = Projeto::find($tarefa->projeto_id);
+
+        if ($projeto) {
+            return $projeto->id;
         }
         return '';
      }

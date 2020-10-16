@@ -1,4 +1,4 @@
-@extends('layouts.base', ["current" => "Projetos"])
+@extends('layouts.baseAt', ["current" => "projetos"])
 
 @section('body')
 <div class = "card border">
@@ -34,5 +34,6 @@
     </div>
     <div class = "card-footer">
         <a href = "/projetos/novo" class = "btn btn-sm btn-primary" role = "button"> Novo Projeto </a>
+    </div>
 </div>
 @endsection
