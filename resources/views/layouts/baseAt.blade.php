@@ -17,7 +17,7 @@
       <!-- CSS Files -->
       <link href="/assets/css/material-dashboard.css" rel="stylesheet" />
       <!-- CSS Just for demo purpose, dont include it in your project -->
-      <link href="/assets/demo/demo.css" rel="stylesheet" />
+      <!-- <link href="/assets/demo/demo.css" rel="stylesheet" /> -->
     </head>
     
     <body class="">
@@ -194,7 +194,7 @@
       <script src="/assets/js/core/jquery.min.js"></script>
       <script src="/assets/js/core/popper.min.js"></script>
       <script src="/assets/js/core/bootstrap-material-design.min.js"></script>
-      <script src="/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+      <!--<script src="/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>-->
       <!-- Plugin for the momentJs  -->
       <script src="/assets/js/plugins/moment.min.js"></script>
       <!--  Plugin for Sweet Alert -->
@@ -230,7 +230,7 @@
       <!--  Notifications Plugin    -->
       <script src="/assets/js/plugins/bootstrap-notify.js"></script>
       <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-      <script src="/assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+      <script src="/assets/js/material-dashboard.js" type="text/javascript"></script>
       <!-- Material Dashboard DEMO methods, dont include it in your project! -->
       <script src="/assets/demo/demo.js"></script>
       <script>

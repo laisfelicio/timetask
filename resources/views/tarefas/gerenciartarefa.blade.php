@@ -1,7 +1,7 @@
 @extends('layouts.baseAt', ["current" => "tarefas"])
 
 @section('body')
-<div class = "card border">
+<div class = "card">
     <div class = "card-body">
         <h5 class = "card-title"> Gerenciar Tarefa </h5>
         <hr style="border-top: 1px solid black;">
@@ -10,7 +10,7 @@
             @csrf
             <div class = "row">
                 <div class="col-sm-12">
-                    <div class = "card border-dark">
+                    <div class = "card border-secondary">
                         <div class = "card-body">
                             <input type="hidden" id="idTarefa" name="idTarefa" value="{{$tarefa->id}}">
                             <div class = "form-group">
@@ -94,6 +94,55 @@
                                             <td> {{$tarefaUsuario->tempo_gasto}} </td>
                                             <td> {{$tarefaUsuario->ultimo_start}} </td>
                                             </tr>
+                                            <tr>
+                                                <td> {{$tarefaUsuario->user_id}} </td>
+                                                <td> {{$tarefaUsuario->nomeUsuario}} </td>
+                                                <td> {{$tarefaUsuario->tempo_gasto}} </td>
+                                                <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> {{$tarefaUsuario->user_id}} </td>
+                                                    <td> {{$tarefaUsuario->nomeUsuario}} </td>
+                                                    <td> {{$tarefaUsuario->tempo_gasto}} </td>
+                                                    <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> {{$tarefaUsuario->user_id}} </td>
+                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
+                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
+                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                        </tr>
+                                                        <td> {{$tarefaUsuario->user_id}} </td>
+                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
+                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
+                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                        </tr>
+                                                        <td> {{$tarefaUsuario->user_id}} </td>
+                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
+                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
+                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                        </tr>
+                                                        <td> {{$tarefaUsuario->user_id}} </td>
+                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
+                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
+                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                        </tr>
+                                                        <td> {{$tarefaUsuario->user_id}} </td>
+                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
+                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
+                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                        </tr>
+                                                        <td> {{$tarefaUsuario->user_id}} </td>
+                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
+                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
+                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                        </tr>
+                                                        <td> {{$tarefaUsuario->user_id}} </td>
+                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
+                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
+                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                        </tr>
+
                                         @endif
                                     @endforeach
                                 </tbody>
@@ -151,10 +200,12 @@
             <button type = "submit" class = "btn btn-primary"> Adicionar comentário</button>
         </form>
         <hr style="border-top: 1px solid black;">
+
         @foreach($comentarios as $comentario)
             <div class = "row">
                 <div class="col-sm-12">
-                    <div class = "card">
+                    <div class = "card bg-comentario" style = "color: #000000">
+                        <div class = "card-header" style = "color: #54327B"> <b>{{$comentario->nomeUsuario}} ( {{$comentario->emailUsuario}} ) :</b></div>
                         <div class = "card-body">
                             {{$comentario->comentario}}
                         </div>

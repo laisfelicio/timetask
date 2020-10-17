@@ -17361,7 +17361,7 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
 }
 
 .card {
-  border: 0;
+  border: 1;
   margin-bottom: 30px;
   margin-top: 30px;
   border-radius: 6px;
@@ -19752,5 +19752,20 @@ Copyright (c) 2015 Daniel Eden
     display: none !important;
   }
 }
+
+.scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.input-lg {
+  font-size: 20px;
+}
+
+.bg-comentario{
+	background-color: #E2D8ED;
+	color: #000000;
+}
+	
 
 /*# sourceMappingURL=dashboard-free.css.map */
