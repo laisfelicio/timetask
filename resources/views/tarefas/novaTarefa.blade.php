@@ -7,11 +7,11 @@
             @csrf
             <div class = "form-group">
                 <label for = "nomeTarefa"> Nome da tarefa </label>
-                <input type = "text" class = "form-control" name = "nomeTarefa" id = "nomeTarefa" placeHolder = "Nome da tarefa">
+                <input type = "text" class = "form-control" name = "nomeTarefa" id = "nomeTarefa" >
             </div>
             <div class = "form-group">
                 <label for = "descTarefa"> Descrição do Projeto </label>
-                <input type = "text" class = "form-control" name = "descTarefa" id = "descTarefa" placeHolder = "Breve descrição da tarefa">
+                <input type = "text" class = "form-control" name = "descTarefa" id = "descTarefa" >
             </div>
             <div class="form-group">
                 <label for="projeto">Cliente</label>
@@ -23,7 +23,7 @@
             </div>
             <div class = "form-group">
                 <label for = "tempoPrevisto"> Tempo estimado </label>
-                <input type = "text" class = "form-control" name = "tempoPrevisto" id = "tempoPrevisto" placeHolder = "Tempo estimado da tarefa">
+                <input type = "text" class = "form-control" name = "tempoPrevisto" id = "tempoPrevisto">
             </div>
             <div class = "form-group">
                 <label for = "dataPrevista"> Data prevista de entrega </label>

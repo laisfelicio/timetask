@@ -7,7 +7,7 @@ use App\Tarefa;
 use App\Projeto;
 use App\StatusProjeto;
 use App\User;
-
+use Carbon\Carbon;
 class ControllerTarefa extends Controller
 {
     /**
@@ -25,8 +25,13 @@ class ControllerTarefa extends Controller
     {
         //
         //$tarefas = Tarefa::all();
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataAtual = Carbon::now();
+        $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $tarefas = Tarefa::all();
-        return view('tarefas.tarefas', compact('tarefas'));
+        return view('tarefas.tarefas', compact('tarefas', 'dataAtual'));
     }
 
     public function alocar($id){
@@ -124,6 +129,7 @@ class ControllerTarefa extends Controller
             $tarefa->descricao = $request->input('descTarefa');
             $tarefa->projeto_id = $request->input('projeto');
             $tarefa->status_id = $request->input('status');
+            $tarefa->data_prevista = $request->input('dataPrevista');
             $tarefa->save();
         }
         return redirect('/tarefas');

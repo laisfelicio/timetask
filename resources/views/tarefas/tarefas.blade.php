@@ -10,10 +10,9 @@
                 <th> Código </th>
                 <th> Nome </th>
                 <th> Projeto </th>
-                <th> Descrição </th>
-                <th> Tempo Previsto </th>
                 <th> Status </th>
                 <th> Ações </th>
+                <th> </th>
             </thead>
             <tbody>
                 @foreach($tarefas as $tarefa)
@@ -21,14 +20,18 @@
                     <td>{{$tarefa->id}}</td>
                     <td>{{$tarefa->nome}}</td>
                     <td>{{$tarefa->projeto}}</td>
-                    <td>{{$tarefa->descricao}}</td>
-                    <td>{{$tarefa->tempo_previsto}}</td>
                     <td>{{$tarefa->status}}</td>
                     <td>
                         <a href = "/tarefas/editar/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Editar </a>
                         <a href = "/tarefausuario/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
                         <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> + Info </a>
                         <a href = "/tarefas/apagar/{{$tarefa->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                    </td>
+                    <td>
+                        
+                        @if($dataAtual > $tarefa->data_prevista)
+                            <i class="material-icons" style = "color: #ff0000;">warning</i>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

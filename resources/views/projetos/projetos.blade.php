@@ -12,6 +12,7 @@
                 <th> Cliente </th>
                 <th> Status </th>
                 <th> Ações </th>
+                <th> </th>
             </thead>
             <tbody>
                 @foreach($projetos as $proj)
@@ -25,6 +26,12 @@
                         <a href = "/projetousuario/alocar/{{$proj->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
                         <a href = "/projetousuario/info/{{$proj->id}}" class = "btn btn-sm btn-primary"> + Info </a>
                         <a href = "/projetos/apagar/{{$proj->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                    </td>
+                    <td>
+                        
+                        @if($dataAtual > $proj->data_prevista)
+                            <i class="material-icons" style = "color: #ff0000;">warning</i>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

@@ -10,10 +10,9 @@
                 <th> Código </th>
                 <th> Nome </th>
                 <th> Projeto </th>
-                <th> Descrição </th>
-                <th> Tempo Previsto </th>
                 <th> Status </th>
                 <th> Ações </th>
+                <th> </th>
             </thead>
             <tbody>
                 @foreach($tarefas as $tarefa)
@@ -21,8 +20,6 @@
                     <td>{{$tarefa->tarefa_id}}</td>
                     <td>{{$tarefa->nomeTarefa}}</td>
                     <td>{{$tarefa->nomeProjeto}}</td>
-                    <td>{{$tarefa->descricaoTarefa}}</td>
-                    <td>{{$tarefa->tempoPrevistoTarefa}}</td>
                     <td>{{$tarefa->statusTarefa}}</td>
                     <td>
                         <a href = "/tarefas/editar/{{$tarefa->tarefa_id}}" class ="btn btn-sm btn-primary"> Editar </a>
@@ -32,6 +29,12 @@
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
                           </svg> </a>
                         <a href = "/tarefas/apagar/{{$tarefa->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                    </td>
+                    <td>
+                        
+                        @if($dataAtual > $tarefa->dataPrevista)
+                            <i class="material-icons" style = "color: #ff0000;">warning</i>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

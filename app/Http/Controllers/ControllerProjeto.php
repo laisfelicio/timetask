@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Projeto;
 use App\Cliente;
 use App\StatusProjeto;
+use Carbon\Carbon;
 class ControllerProjeto extends Controller
 {
     /**
@@ -22,8 +23,13 @@ class ControllerProjeto extends Controller
     public function index()
     {
         //
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataAtual = Carbon::now();
+        $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $projetos = Projeto::all();
-        return view('projetos.projetos', compact('projetos'));
+        return view('projetos.projetos', compact('projetos', 'dataAtual'));
     }
 
     /**

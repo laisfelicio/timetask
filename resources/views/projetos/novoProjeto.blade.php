@@ -7,11 +7,11 @@
             @csrf
             <div class = "form-group">
                 <label for = "nomeProjeto"> Nome do Projeto </label>
-                <input type = "text" class = "form-control" name = "nomeProjeto" id = "nomeProjeto" placeHolder = "Nome do projeto">
+                <input type = "text" class = "form-control" name = "nomeProjeto" id = "nomeProjeto">
             </div>
             <div class = "form-group">
                 <label for = "descProjeto"> Descrição do Projeto </label>
-                <input type = "text" class = "form-control" name = "descProjeto" id = "descProjeto" placeHolder = "Breve descrição do projeto">
+                <input type = "text" class = "form-control" name = "descProjeto" id = "descProjeto">
             </div>
             <div class="form-group">
                 <label for="cliente">Cliente</label>

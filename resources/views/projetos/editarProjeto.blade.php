@@ -37,6 +37,10 @@
                   @endforeach
                 </select>
             </div>
+            <div class = "form-group">
+                <label for = "dataPrevista"> Data prevista de entrega </label>
+                <input type = "date" class = "form-control" name = "dataPrevista" id = "dataPrevista" value = "{{$projeto->data_prevista}}">
+            </div>
         
             <button type = "submit" class = "btn btn-primary btn-sm"> Salvar </button>
             <button type = "cancel" class = "btn btn-danger btn-sm"> Cancelar </button>

@@ -128,9 +128,14 @@ class ControllerTarefaUsuario extends Controller
 
     public function getTarefasUsuario(){
         
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataAtual = Carbon::now();
+        $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $usuarioId = Auth::user()->id;
         $tarefas = TarefaUsuario::where('user_id', $usuarioId)->get();
-        return view('tarefas.minhastarefas', compact('tarefas'));
+        return view('tarefas.minhastarefas', compact('tarefas', 'dataAtual'));
 
     }
     
@@ -152,8 +157,6 @@ class ControllerTarefaUsuario extends Controller
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataHora = Carbon::now();
         
-        var_dump(Carbon::parse($dataHora)->format('y-m-d H:i:s'));
-        var_dump ($dataHora);
         $tarefaUsu->ultimo_start = Carbon::parse($dataHora)->format('y-m-d H:i:s');
         $tarefaUsu->save();
 
