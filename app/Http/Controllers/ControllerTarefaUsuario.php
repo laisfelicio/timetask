@@ -135,18 +135,26 @@ class ControllerTarefaUsuario extends Controller
         $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $usuarioId = Auth::user()->id;
         $tarefas = TarefaUsuario::where('user_id', $usuarioId)->get();
+        
         return view('tarefas.minhastarefas', compact('tarefas', 'dataAtual'));
 
     }
     
     public function detalhesTarefa($tarefaId){
+        $alocado = TarefaUsuario::where('tarefa_id', $tarefaId)->
+                                  where('user_id', Auth::user()->id)->get();
+        if(count($alocado) <=0){
+            abort(404);
+        }                            
         $tarefa = Tarefa::find($tarefaId);
         $projeto = Projeto::find($tarefa->projeto_id);
         $tarefasUsuarios = TarefaUsuario::where('tarefa_id', $tarefaId)->get();
         $infoUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', Auth::user()->id)->first();
         $statusTarefa = StatusTarefa::all();
         $comentarios = Comentario::where('tarefa_id', $tarefaId)->get();
-        return view ('tarefas.gerenciartarefa', compact('comentarios', 'statusTarefa', 'tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
+        
+
+        return view ('tarefas.gerenciartarefa', compact('alocado', 'comentarios', 'statusTarefa', 'tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
     }
 
     public function startTimer($tarefaId){

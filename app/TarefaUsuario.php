@@ -74,23 +74,35 @@ class TarefaUsuario extends Model
      public function getNomeProjetoAttribute(): string
      {
         $tarefa = Tarefa::find($this->tarefa_id);
-        $projeto = Projeto::find($tarefa->projeto_id);
+        if($tarefa){
+            $projeto = Projeto::find($tarefa->projeto_id);
 
-        if ($projeto) {
-            return $projeto->nome;
+            
+            if ($projeto) {
+                return $projeto->nome;
+            }
+            return '';
         }
-        return '';
+        else{
+            return '';
+        }
+
      }
 
      public function getIdProjetoAttribute(): string
      {
         $tarefa = Tarefa::find($this->tarefa_id);
-        $projeto = Projeto::find($tarefa->projeto_id);
+        if($tarefa){
+            $projeto = Projeto::find($tarefa->projeto_id);
 
-        if ($projeto) {
-            return $projeto->id;
+            if ($projeto) {
+                return $projeto->id;
+            }
+            return '';
         }
-        return '';
+        else{
+            return '';
+        }
      }
 
      public function getDescricaoTarefaAttribute(): string
@@ -116,11 +128,16 @@ class TarefaUsuario extends Model
      public function getStatusTarefaAttribute(): string
      {
         $tarefa = Tarefa::find($this->tarefa_id);
-        $status = StatusTarefa::find($tarefa->status_id);
-        if ($tarefa) {
-            return $status->nome;
+        if($tarefa){
+            $status = StatusTarefa::find($tarefa->status_id);
+            if ($tarefa) {
+                return $status->nome;
+            }
+            return '';
         }
-        return '';
+        else{
+            return '';
+        }
      }
 
      

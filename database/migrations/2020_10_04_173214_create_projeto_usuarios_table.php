@@ -16,9 +16,9 @@ class CreateProjetoUsuariosTable extends Migration
         Schema::create('projeto_usuarios', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('projeto_id')->unsigned();
-            $table->foreign('projeto_id')->references('id')->on('projetos');
+            $table->foreign('projeto_id')->references('id')->on('projetos')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->time('tempo_total');
             $table->softDeletes();
             $table->timestamps();

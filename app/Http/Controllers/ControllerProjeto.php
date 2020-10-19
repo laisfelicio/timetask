@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Projeto;
 use App\Cliente;
+use App\ProjetoUsuario;
 use App\StatusProjeto;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 class ControllerProjeto extends Controller
 {
     /**
@@ -86,6 +88,9 @@ class ControllerProjeto extends Controller
     public function edit($id)
     {
         //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
         $projeto = Projeto::find($id);
         $clientes = Cliente::all();
         $statusProjetos = StatusProjeto::all();
@@ -105,6 +110,9 @@ class ControllerProjeto extends Controller
     public function update(Request $request, $id)
     {
         //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
         $projeto = Projeto::find($id);
         if(isset($projeto)){
             $projeto->nome = $request->input('nomeProjeto');
@@ -126,6 +134,9 @@ class ControllerProjeto extends Controller
     public function destroy($id)
     {
         //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
         $projeto = Projeto::find($id);
         if(isset($projeto)){
             $projeto->delete();
@@ -133,5 +144,6 @@ class ControllerProjeto extends Controller
         return redirect("/projetos");
     }
 
+   
    
 }

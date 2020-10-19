@@ -34,6 +34,7 @@
 
         <div class = "row">
             <div class="col-sm-12">
+                <h5><b>Usuários alocados </b> </h5>
                 <div class = "card">
                     <div class = "card-body">
                         @if(count($alocados) > 0)
@@ -63,6 +64,46 @@
             </div>
         </div>
         <hr style="border-top: 1px solid black;">
+        <div class = "row">
+            <div class="col-sm-12">
+                <h5><b>Tarefas </b> </h5>
+                <div class = "card">
+                    <div class = "card-body">
+                        @if(count($alocados) > 0)
+                            <table class = "table table-ordered table hover">
+                                <thead>
+                                    <th> Código </th>
+                                    <th> Nome </th>
+                                    <th> Status </th>
+                                    <th> Ações </th>
+                                    <th> </th>
+                                </thead>
+                                <tbody>
+                                    @foreach($tarefas as $tarefa)
+                                    <tr>
+                                        <td>{{$tarefa->id}}</td>
+                                        <td>{{$tarefa->nome}}</td>
+                                        <td>{{$tarefa->status}}</td>
+                                        <td>
+                                            <a href = "/tarefas/editar/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Editar </a>
+                                            <a href = "/tarefausuario/{{$projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
+                                            <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> + Info </a>
+                                            <a href = "/tarefas/apagar/{{$tarefa->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                                        </td>
+                                        <td> 
+                                            @if($dataAtual > $tarefa->data_prevista)
+                                                <i class="material-icons" style = "color: #ff0000;">warning</i>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
         
 
     </div>

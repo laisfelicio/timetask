@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ProjetoUsuario;
 use App\Projeto;
+use App\Tarefa;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 class ControllerProjetoUsuario extends Controller
 {
     /**
@@ -22,6 +24,7 @@ class ControllerProjetoUsuario extends Controller
     public function index($id)
     {
         //
+      
         $projeto = Projeto::find($id);
         $usuarios = User::all();
         return view('projetos.alocarUsuario', compact('projeto', 'usuarios'));
@@ -46,6 +49,11 @@ class ControllerProjetoUsuario extends Controller
     public function store(Request $request)
     {
         //
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataAtual = Carbon::now();
+        $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $projUsu = new ProjetoUsuario();
         $projUsu->projeto_id = $request->input('idProjeto');
         $projUsu->user_id = $request->input('usuario');
@@ -63,9 +71,15 @@ class ControllerProjetoUsuario extends Controller
     public function show($id)
     {
         //
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataAtual = Carbon::now();
+        $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $alocados= ProjetoUsuario::where('projeto_id', $id)->get();
         $projeto = Projeto::find($id);
-        return view('projetos.info', compact('alocados', 'projeto'));
+        $tarefas = Tarefa::where('projeto_id', $id)->get();
+        return view('projetos.info', compact('alocados', 'projeto', 'tarefas', 'dataAtual'));
     }
 
     /**

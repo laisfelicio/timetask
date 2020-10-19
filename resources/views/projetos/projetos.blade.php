@@ -22,10 +22,14 @@
                     <td>{{$proj->cliente}}</td>
                     <td>{{$proj->status}}</td>
                     <td>
-                        <a href = "/projetos/editar/{{$proj->id}}" class = "btn btn-sm btn-primary"> Editar </a>
+                        @if(Auth::user()->admin == 1)
+                            <a href = "/projetos/editar/{{$proj->id}}" class = "btn btn-sm btn-primary"> Editar </a>
+                        @endif
                         <a href = "/projetousuario/alocar/{{$proj->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
                         <a href = "/projetousuario/info/{{$proj->id}}" class = "btn btn-sm btn-primary"> + Info </a>
-                        <a href = "/projetos/apagar/{{$proj->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                        @if(Auth::user()->admin == 1)
+                            <a href = "/projetos/apagar/{{$proj->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                        @endif
                     </td>
                     <td>
                         
@@ -40,7 +44,9 @@
         @endif
     </div>
     <div class = "card-footer">
-        <a href = "/projetos/novo" class = "btn btn-sm btn-primary" role = "button"> Novo Projeto </a>
+        @if(Auth::user()->admin == 1)
+            <a href = "/projetos/novo" class = "btn btn-sm btn-primary" role = "button"> Novo Projeto </a>
+        @endif
     </div>
 </div>
 @endsection

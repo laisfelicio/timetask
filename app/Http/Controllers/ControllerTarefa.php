@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Tarefa;
 use App\Projeto;
 use App\StatusProjeto;
+use App\TarefaUsuario;
 use App\User;
 use Carbon\Carbon;
 class ControllerTarefa extends Controller
@@ -145,9 +146,17 @@ class ControllerTarefa extends Controller
     {
         //
         $tarefa = Tarefa::find($id);
+        $this->deletaDependentes($id);
         if(isset($tarefa)){
             $tarefa->delete();
         }
         return redirect("/tarefas");
+    }
+
+    public function deletaDependentes($tarefaId){
+        $tarefaUsuario = TarefaUsuario::where('tarefa_id', $tarefaId)->get();
+        foreach($tarefaUsuario as $taUsu){
+            $taUsu->delete();
+        }
     }
 }

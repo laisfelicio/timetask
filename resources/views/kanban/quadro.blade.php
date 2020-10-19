@@ -12,8 +12,14 @@
                 <div class = "card border-light bg-info mb-3 rounded scroll">
                     <br>
                     @foreach($abertas as $tarefa)
-                        <div class = "card border-info mb-3">
-                            <div class = "card-header">{{$tarefa->nome}}</div>
+                        <div class = "card border-info mb-1">
+                            <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-primary btn-fab btn-fab-mini btn-round"> <i class="material-icons">add</i> </a>
+
+                            <div class = "card-header">{{$tarefa->nome}}
+                                @if($dataAtual > $tarefa->data_prevista)
+                                    <i class="material-icons" style = "color: #ff0000;">warning</i>
+                                @endif
+                            </div>
                             <div class = "card-body">
                                     {{$tarefa->descricao}}
                                     <hr>

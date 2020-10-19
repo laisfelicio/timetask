@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tarefa;
+use Carbon\Carbon;
 class ControllerKanban extends Controller
 {
     /**
@@ -20,12 +21,17 @@ class ControllerKanban extends Controller
     public function index()
     {
         //
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataAtual = Carbon::now();
+        $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $abertas = Tarefa::where('status_id', 1)->orderBy('id', 'ASC')->get();
         $exec =  Tarefa::where('status_id', 2)->orderBy('id', 'ASC')->get();
         $homolog = Tarefa::where('status_id', 3)->orderBy('id', 'ASC')->get();
         $finalizadas = Tarefa::where('status_id', 4)->orderBy('id', 'ASC')->get();
 
-        return view('kanban.quadro', compact('abertas', 'exec', 'homolog', 'finalizadas'));
+        return view('kanban.quadro', compact('abertas', 'exec', 'homolog', 'finalizadas', 'dataAtual'));
 
     }
 

@@ -43,6 +43,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
+                    @if($tarefa->status_id != 4)
                     <h5><b>
                         @if($infoUsu->ultimo_start <= $infoUsu->ultimo_stop)
                             Start timer
@@ -66,6 +67,7 @@
                             </a>
                         @endif
                     </div>
+                    @endif
                 </div>
             </div>
             <div class = "row">

@@ -16,9 +16,9 @@ class CreateTarefaUsuariosTable extends Migration
         Schema::create('tarefa_usuarios', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tarefa_id')->unsigned();
-            $table->foreign('tarefa_id')->references('id')->on('tarefas');
+            $table->foreign('tarefa_id')->references('id')->on('tarefas')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->time('tempo_gasto');
             $table->dateTime('ultimo_start');
             $table->dateTime('ultimo_stop');

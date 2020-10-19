@@ -16,16 +16,18 @@
             <tbody>
                 @foreach($projetos as $projeto)
                 <tr>
-                    <td>{{$projeto->id}}</td>
+                    <td>{{$projeto->projeto_id}}</td>
                     <td>{{$projeto->nomeProjeto}}</td>
                     <td>{{$projeto->clienteProjeto}}</td>
                     <td>{{$projeto->statusProjeto}}</td>
                     <td>
-                        <a href = "/projetos/editar/{{$projeto->id}}" class = "btn btn-sm btn-primary"> Editar </a>
-                        <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
-                        <a href = "/projetousuario/info/{{$projeto->id}}" class = "btn btn-sm btn-primary"> + Info </a>
                         @if(Auth::user()->admin == 1)
-                             <a href = "/projetos/apagar/{{$projeto->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                            <a href = "/projetos/editar/{{$projeto->projeto_id}}" class = "btn btn-sm btn-primary"> Editar </a>
+                        @endif
+                         <a href = "/projetousuario/alocar/{{$projeto->projeto_id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
+                        <a href = "/projetousuario/info/{{$projeto->projeto_id}}" class = "btn btn-sm btn-primary"> + Info </a>
+                        @if(Auth::user()->admin == 1)
+                             <a href = "/projetos/apagar/{{$projeto->projeto_id}}" class = "btn btn-sm btn-danger"> Apagar </a>
                         @endif
                         </td>
                 </tr>

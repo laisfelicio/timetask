@@ -17,7 +17,7 @@ class CreateTarefasTable extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->integer('projeto_id')->unsigned();
-            $table->foreign('projeto_id')->references('id')->on('projetos');
+            $table->foreign('projeto_id')->references('id')->on('projetos')->onDelete('cascade');
             $table->string('descricao');
             $table->time('tempo_previsto');
             $table->date('data_prevista');
