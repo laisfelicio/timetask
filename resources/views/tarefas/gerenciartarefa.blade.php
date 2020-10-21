@@ -94,7 +94,11 @@
                                             <td> {{$tarefaUsuario->user_id}} </td>
                                             <td> {{$tarefaUsuario->nomeUsuario}} </td>
                                             <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                            <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                            @if($tarefaUsuario->ultimo_start == "1920-01-01 01:00:00")
+                                                <td> - </td>
+                                            @else
+                                                <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                            @endif
                                             </tr>
                                             <tr>
                                                 <td> {{$tarefaUsuario->user_id}} </td>
@@ -168,8 +172,17 @@
                                     <tr>
                                         
                                             <td> {{$infoUsu->tempo_gasto}} </td>
-                                            <td> {{$infoUsu->ultimo_start}} </td>
-                                            <td> {{$infoUsu->ultimo_stop}} </td>
+                                            @if($infoUsu->ultimo_start == "1920-01-01 01:00:00")
+                                                <td> - </td>
+                                            @else
+                                                <td> {{$infoUsu->ultimo_start}} </td>
+                                            @endif
+
+                                            @if($infoUsu->ultimo_stop == "1920-01-01 01:00:00")
+                                                <td> - </td>
+                                            @else
+                                                <td> {{$infoUsu->ultimo_stop}} </td>
+                                            @endif
                                         
                                     </tr>
                                 

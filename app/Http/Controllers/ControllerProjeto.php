@@ -114,7 +114,20 @@ class ControllerProjeto extends Controller
             abort(404);
         }
         $projeto = Projeto::find($id);
-        if(isset($projeto)){
+            if(isset($projeto)){
+            date_default_timezone_set('America/Sao_Paulo');
+            setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+            setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+            $dataHora = Carbon::now();
+
+            if($request->status == 4){
+                $projeto->finalizado = 1;
+                $projeto->data_finalizacao = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+            }
+            else{
+                $projeto->finalizado = 0;
+                $projeto->data_finalizacao =null;
+            }
             $projeto->nome = $request->input('nomeProjeto');
             $projeto->descricao = $request->input('descProjeto');
             $projeto->cliente_id = $request->input('cliente');

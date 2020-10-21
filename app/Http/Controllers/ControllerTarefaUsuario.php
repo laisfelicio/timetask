@@ -229,7 +229,20 @@ class ControllerTarefaUsuario extends Controller
     }
 
     public function gerenciar(Request $request){
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataHora = Carbon::now();
+
         $tarefa = Tarefa::find($request->idTarefa);
+        if($request->statusTarefa == 4){
+            $tarefa->finalizado = 1;
+            $tarefa->data_finalizacao = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+        }
+        else{
+            $tarefa->finalizado = 0;
+            $tarefa->data_finalizacao =null;
+        }
         $tarefa->nome = $request->nomeTarefa;
         $tarefa->status_id = $request->statusTarefa;
         $tarefa->save();
