@@ -86,3 +86,4 @@ Route::get('/usuarios', 'ControllerUsuario@index');
 Route::post('/usuarios/{id}', 'ControllerUsuario@update');
 Route::get('/usuarios/editar/{id}', 'ControllerUsuario@edit');
 Route::get('/usuarios/apagar/{id}', 'ControllerUsuario@destroy');
+

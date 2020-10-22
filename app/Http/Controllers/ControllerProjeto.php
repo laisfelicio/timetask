@@ -25,15 +25,40 @@ class ControllerProjeto extends Controller
     public function index()
     {
         //
+        
+        $projetos = Projeto::all();
+        $projetos = $this->filtrar($projetos);
+        
         date_default_timezone_set('America/Sao_Paulo');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataAtual = Carbon::now();
         $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
-        $projetos = Projeto::all();
-        return view('projetos.projetos', compact('projetos', 'dataAtual'));
+        
+        $statusProjetos = StatusProjeto::all();
+        $clientes = Cliente::all();
+        return view('projetos.projetos', compact('projetos', 'dataAtual', 'statusProjetos', 'clientes'));
     }
 
+    public function filtrar($projetos){
+
+        $projetosFiltrados = $projetos;
+        $columns = ['clienteProjeto', 'statusProjeto', 'excluidos', 'emAtraso'];
+
+        
+        if(request()->has('clienteProjeto') && !empty(request('clienteProjeto'))){
+            
+            $projetosFiltrados = $projetosFiltrados->where('cliente_id', request('clienteProjeto'));
+          
+        }
+
+        if(request()->has('statusProjeto') && !empty(request('statusProjeto'))){
+            $projetosFiltrados = $projetosFiltrados->where('status_id', request('statusProjeto'));
+        }
+
+        return $projetosFiltrados;
+
+    }
     /**
      * Show the form for creating a new resource.
      *

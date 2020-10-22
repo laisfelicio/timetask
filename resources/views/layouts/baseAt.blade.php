@@ -39,6 +39,19 @@
                       <p>Perfil</p>
                     </a>
                   </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">
+                      <i class="material-icons">dashboard</i>
+                      <p>Projetos</p>
+                    </a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/projetos">Todos os projetos</a>
+                      <a class="dropdown-item" href="/projetousuario/meusprojetos">Meus Projetos</a>
+                      <a class="dropdown-item" href="javascript:;">Something else here</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="javascript:;">Separated link</a>
+                    </div>
+                  </li>
               <li @if($current=="projetos") class="nav-item active" @else class="nav-item" @endif>
                 <a class="nav-link" href="/projetos">
                   <i class="material-icons">dashboard</i>
