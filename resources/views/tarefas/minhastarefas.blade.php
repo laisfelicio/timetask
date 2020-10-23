@@ -1,4 +1,4 @@
-@extends('layouts.baseAt', ["current" => "minhasTarefas"])
+@extends('layouts.baseAt', ["current" => "tarefas"])
 
 @section('body')
 <div class = "card border">

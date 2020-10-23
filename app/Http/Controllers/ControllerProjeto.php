@@ -135,6 +135,7 @@ class ControllerProjeto extends Controller
     public function update(Request $request, $id)
     {
         //
+        
         if(Auth::user()->admin == 0){
             abort(404);
         }
@@ -158,6 +159,7 @@ class ControllerProjeto extends Controller
             $projeto->cliente_id = $request->input('cliente');
             $projeto->tempo_gasto = $projeto->tempo_gasto;
             $projeto->status_id = $request->input('status');
+            $projeto->data_prevista = $request->input('dataPrevista');
             $projeto->save();
         }
         return redirect('/projetos');

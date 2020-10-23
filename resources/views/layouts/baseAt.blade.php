@@ -39,80 +39,78 @@
                       <p>Perfil</p>
                     </a>
                   </li>
-                  <li class="nav-item dropdown">
+                  <li @if($current=="projetos") class="nav-item dropdown active" @else class="nav-item dropdown" @endif>
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">
                       <i class="material-icons">dashboard</i>
                       <p>Projetos</p>
                     </a>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="/projetos">Todos os projetos</a>
+
                       <a class="dropdown-item" href="/projetousuario/meusprojetos">Meus Projetos</a>
-                      <a class="dropdown-item" href="javascript:;">Something else here</a>
+                      @if(Auth::user()->admin == 1)
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="javascript:;">Separated link</a>
+                        <a class="dropdown-item" href="/projetos">Todos os projetos</a>
+                        <a class="dropdown-item" href="/projetos/novo">Cadastrar Projeto</a>
+                      @endif
                     </div>
                   </li>
-              <li @if($current=="projetos") class="nav-item active" @else class="nav-item" @endif>
-                <a class="nav-link" href="/projetos">
-                  <i class="material-icons">dashboard</i>
-                  <p>Projetos</p>
-                </a>
-              </li>
-              <li @if($current=="meusProjetos") class="nav-item active" @else class="nav-item" @endif>
-                <a class="nav-link" href="/projetousuario/meusprojetos">
-                  <i class="material-icons">dashboard</i>
-                  <p>Meus Projetos</p>
-                </a>
-              </li>
+
+                  <li @if($current=="tarefas") class="nav-item dropdown active" @else class="nav-item dropdown" @endif>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">
+                      <i class="material-icons">content_paste</i>
+                      <p>Tarefas</p>
+                    </a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/tarefausuario/minhastarefas">Minhas tarefas</a>
+                      @if(Auth::user()->admin == 1)
+                      <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/tarefas">Todas as tarefas</a>
+                        <a class="dropdown-item" href="/tarefas/novo">Cadastrar Tarefa</a>
+                      @endif
+                    </div>
+                  </li>
+                  <li @if($current=="clientes") class="nav-item dropdown active" @else class="nav-item dropdown" @endif>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">
+                      <i class="material-icons">group</i>
+                      <p>Clientes</p>
+                    </a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/clientes">Clientes</a>
+                      @if(Auth::user()->admin == 1)
+                      <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/clientes/novo">Cadastrar Cliente</a>
+                      @endif
+                    </div>
+                  </li>
+                  
+                  @if(Auth::user()->admin == 1)
+                    <li @if($current=="usuarios") class="nav-item dropdown active" @else class="nav-item dropdown" @endif>
+                      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">person</i>
+                        <p>Usuários</p>
+                      </a>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/usuarios">Usuários</a>
+                        <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="/usuarios/registrar">Cadastrar Usuário</a>
+                      </div>
+                    </li>
+                  @endif
               
-              <li @if($current=="tarefas") class="nav-item active" @else class="nav-item" @endif>
-                <a class="nav-link" href="/tarefas">
-                  <i class="material-icons">content_paste</i>
-                  <p>Tarefas</p>
-                </a>
-              </li>
-              <li @if($current=="minhasTarefas") class="nav-item active" @else class="nav-item" @endif>
-                <a class="nav-link" href="/tarefausuario/minhastarefas">
-                  <i class="material-icons">content_paste</i>
-                  <p>Minhas tarefas</p>
-                </a>
-              </li>
-              <li @if($current=="clientes") class="nav-item active" @else class="nav-item" @endif>
-                <a class="nav-link" href="/clientes">
-                  <i class="material-icons">content_paste</i>
-                  <p>Clientes</p>
-                </a>
-              </li>
-              @if(Auth::user()->admin == 1)
-                <li @if($current=="usuarios") class="nav-item active" @else class="nav-item" @endif>
-                    <a class="nav-link" href="/usuarios">
-                    <i class="material-icons">content_paste</i>
-                    <p>Usuários</p>
-                    </a>
+                <li @if($current=="kanban") class="nav-item active" @else class="nav-item" @endif>
+                  <a class="nav-link" href="/kanban">
+                    <i class="material-icons">border_all</i>
+                    <p>Quadro Kanban</p>
+                  </a>
                 </li>
-              @endif
-              @if(Auth::user()->admin == 1)
-                <li @if($current=="novoUsuario") class="nav-item active" @else class="nav-item" @endif>
-                    <a class="nav-link" href="/usuarios/registrar">
-                    <i class="material-icons">content_paste</i>
-                    <p>Cadastrar usuario</p>
-                    </a>
-                </li>
-             @endif
-              <li @if($current=="kanban") class="nav-item active" @else class="nav-item" @endif>
-                <a class="nav-link" href="/kanban">
-                  <i class="material-icons">content_paste</i>
-                  <p>Quadro Kanban</p>
-                </a>
-              </li>
-              @if(Auth::user()->admin == 1)
-                <li @if($current=="relatorios") class="nav-item active" @else class="nav-item" @endif>
-                    <a class="nav-link" href="/relatorio">
-                    <i class="material-icons">content_paste</i>
-                    <p>Relatorios</p>
-                    </a>
-                </li>
-            @endif
+                @if(Auth::user()->admin == 1)
+                  <li @if($current=="relatorios") class="nav-item active" @else class="nav-item" @endif>
+                      <a class="nav-link" href="/relatorio">
+                      <i class="material-icons">bar_chart</i>
+                      <p>Relatorios</p>
+                      </a>
+                  </li>
+                @endif
               
             </ul>
           </div>
