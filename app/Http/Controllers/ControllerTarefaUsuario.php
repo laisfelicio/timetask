@@ -56,6 +56,11 @@ class ControllerTarefaUsuario extends Controller
     public function store(Request $request)
     {
         //
+        $validatedData = $request->validate([
+            'idTarefa' => ['required'],
+            'usuario' => ['required', 'unique:tarefa_usuarios,user_id,NULL,id,tarefa_id,' . $request->input('idTarefa')],
+        ]);
+
         $tarefaUsu = new TarefaUsuario();
         $tarefaUsu->tarefa_id = $request->input('idTarefa');
         $tarefaUsu->user_id = $request->input('usuario');
@@ -192,6 +197,8 @@ class ControllerTarefaUsuario extends Controller
         $total_horas_projeto = $this->somaHoras($total,$projeto->tempo_gasto);
         $projeto->tempo_gasto = $total_horas_projeto;
         $projeto->save();
+        $tarefa->tempo_gasto = $this->somaHoras($total,$tarefa->tempo_gasto);
+        $tarefa->save();
 
         $tarefaUsu->tempo_gasto = $this->somaHoras($total,$tarefaUsu->tempo_gasto);
         $tarefaUsu->save();

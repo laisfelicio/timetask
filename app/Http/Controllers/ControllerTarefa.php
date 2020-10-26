@@ -9,6 +9,7 @@ use App\StatusProjeto;
 use App\TarefaUsuario;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 class ControllerTarefa extends Controller
 {
     /**
@@ -26,6 +27,11 @@ class ControllerTarefa extends Controller
     {
         //
         //$tarefas = Tarefa::all();
+
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
+
         date_default_timezone_set('America/Sao_Paulo');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
@@ -80,6 +86,7 @@ class ControllerTarefa extends Controller
         $tarefa->projeto_id = $request->input('projeto');
         $tarefa->status_id = 1;
         $tarefa->data_prevista = $request->input('dataPrevista');
+        $tarefa->tempo_gasto = "00:00:00";
         $tarefa->save();
         return redirect('/tarefas');
     }

@@ -28,7 +28,7 @@
                 <div class = "card border-light">
                     <div class = "card-body">
                         <label for = "tempoGasto"> Tempo Gasto </label>
-                        <input type = "text" class = "form-control" name = "tempoGasto" id = "tempoGasto"  value = "05:00:00" readonly> 
+                        <input type = "text" class = "form-control" name = "tempoGasto" id = "tempoGasto"  value = "{{$tarefa->tempo_gasto}}" readonly> 
                     </div>
                 </div>
             </div>

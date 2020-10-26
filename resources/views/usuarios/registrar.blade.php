@@ -9,14 +9,27 @@
             <div class = "form-group">
                 <label for = "nomeUsuario"> Nome do usuario </label>
                 <input type = "text" class = "form-control" name = "nomeUsuario" id = "nomeUsuario">
+            
+                @error('nomeUsuario')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>   
             <div class = "form-group">
                 <label for = "emailUsuario"> E-mail </label>
                 <input type = "email" class = "form-control" name = "emailUsuario" id = "emailUsuario">
-            </div>  
+            
+                @error('emailUsuario')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
+            </div> 
+
             <div class = "form-group">
                 <label for = "senhaUsuario"> Senha </label>
                 <input type = "password" class = "form-control" name = "senhaUsuario" id = "senhaUsuario">
+            
+                @error('senhaUsuario')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>  
             <div class = "form-group">
                 <input type="checkbox" name="admin" value="sim"> <label>Administrador</label>

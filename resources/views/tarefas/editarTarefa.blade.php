@@ -8,10 +8,18 @@
             <div class = "form-group">
                 <label for = "nomeTarefa"> Nome da tarefa </label>
                 <input type = "text" class = "form-control" name = "nomeTarefa" id = "nomeTarefa"  value = "{{$tarefa->nome}}">
+            
+                @error('nomeTarefa')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
             <div class = "form-group">
                 <label for = "descTarefa"> Descrição da tarefa </label>
                 <input type = "text" class = "form-control" name = "descTarefa" id = "descTarefa" value = "{{$tarefa->descricao}}">
+           
+                @error('descTarefa')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="projeto">Projeto</label>
@@ -29,7 +37,7 @@
                 <label for="status">Status</label>
                 <select class="form-control" id="status" name = "status">
                   @foreach($statusTarefas as $status) 
-                    @if($status->id == $projeto->status_id)
+                    @if($status->id == $tarefa->status_id)
                         <option value = {{$status->id}} selected>{{$status->nome}}</option>
                     @else
                         <option value = {{$status->id}}>{{$status->nome}}</option>
@@ -40,10 +48,18 @@
             <div class = "form-group">
                 <label for = "tempoPrevisto"> Tempo estimado </label>
                 <input type = "text" class = "form-control" name = "tempoPrevisto" id = "tempoPrevisto" value = "{{$tarefa->tempo_previsto}}">
+            
+                @error('tempoPrevisto')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
             <div class = "form-group">
                 <label for = "dataPrevista"> Data prevista de entrega </label>
                 <input type = "date" class = "form-control" name = "dataPrevista" id = "dataPrevista" value = "{{$tarefa->data_prevista}}">
+            
+                @error('dataPrevista')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
             <button type = "submit" class = "btn btn-primary btn-sm"> Salvar </button>
             <button type = "cancel" class = "btn btn-danger btn-sm"> Cancelar </button>

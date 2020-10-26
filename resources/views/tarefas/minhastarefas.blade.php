@@ -47,4 +47,5 @@
     <div class = "card-footer">
         <a href = "/tarefas/novo" class = "btn btn-sm btn-primary" role = "button"> Nova Tarefa </a>
 </div>
+</div>
 @endsection

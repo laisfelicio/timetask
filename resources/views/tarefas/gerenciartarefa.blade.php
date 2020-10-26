@@ -76,7 +76,7 @@
             <hr style="border-top: 1px solid black;">
             <div class="row">
                 <div class="col-sm-6">
-                    <h5><b>Outros usuários</b></h5>
+                    <h5><b>Histórico geral</b></h5>
                     <div class="card scroll">
                       <div class="card-body">
                         @if(count($tarefasUsuarios) > 1)
@@ -85,11 +85,11 @@
                                     <th> Código </th>
                                     <th> Nome </th>
                                     <th> Tempo Trabalhado </th>
-                                    <th> Ultimo start <th>
+                                    <th> Iniciado pela ultima vez em  <th>
                                 </thead>
                                 <tbody>
                                     @foreach($tarefasUsuarios as $tarefaUsuario)
-                                        @if($tarefaUsuario->user_id != Auth::user()->id)
+                                        
                                             <tr>
                                             <td> {{$tarefaUsuario->user_id}} </td>
                                             <td> {{$tarefaUsuario->nomeUsuario}} </td>
@@ -100,56 +100,7 @@
                                                 <td> {{$tarefaUsuario->ultimo_start}} </td>
                                             @endif
                                             </tr>
-                                            <tr>
-                                                <td> {{$tarefaUsuario->user_id}} </td>
-                                                <td> {{$tarefaUsuario->nomeUsuario}} </td>
-                                                <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                                <td> {{$tarefaUsuario->ultimo_start}} </td>
-                                                </tr>
-                                                <tr>
-                                                    <td> {{$tarefaUsuario->user_id}} </td>
-                                                    <td> {{$tarefaUsuario->nomeUsuario}} </td>
-                                                    <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                                    <td> {{$tarefaUsuario->ultimo_start}} </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td> {{$tarefaUsuario->user_id}} </td>
-                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
-                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
-                                                        </tr>
-                                                        <td> {{$tarefaUsuario->user_id}} </td>
-                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
-                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
-                                                        </tr>
-                                                        <td> {{$tarefaUsuario->user_id}} </td>
-                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
-                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
-                                                        </tr>
-                                                        <td> {{$tarefaUsuario->user_id}} </td>
-                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
-                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
-                                                        </tr>
-                                                        <td> {{$tarefaUsuario->user_id}} </td>
-                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
-                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
-                                                        </tr>
-                                                        <td> {{$tarefaUsuario->user_id}} </td>
-                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
-                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
-                                                        </tr>
-                                                        <td> {{$tarefaUsuario->user_id}} </td>
-                                                        <td> {{$tarefaUsuario->nomeUsuario}} </td>
-                                                        <td> {{$tarefaUsuario->tempo_gasto}} </td>
-                                                        <td> {{$tarefaUsuario->ultimo_start}} </td>
-                                                        </tr>
-
-                                        @endif
+                                       
                                     @endforeach
                                 </tbody>
                             </table>

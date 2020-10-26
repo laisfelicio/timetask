@@ -8,10 +8,18 @@
             <div class = "form-group">
                 <label for = "nomeProjeto"> Nome do Projeto </label>
                 <input type = "text" class = "form-control" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$projeto->nome}}">
+            
+                @error('nomeProjeto')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
             <div class = "form-group">
                 <label for = "descProjeto"> Descrição do Projeto </label>
                 <input type = "text" class = "form-control" name = "descProjeto" id = "descProjeto" value = "{{$projeto->descricao}}">
+           
+                @error('descProjeto')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="cliente">Cliente</label>
@@ -24,6 +32,9 @@
                     @endif
                   @endforeach
                 </select>
+                @error('cliente')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="status">Status</label>
@@ -36,10 +47,18 @@
                     @endif
                   @endforeach
                 </select>
+
+                @error('status')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
             <div class = "form-group">
                 <label for = "dataPrevista"> Data prevista de entrega </label>
                 <input type = "date" class = "form-control" name = "dataPrevista" id = "dataPrevista" value = "{{$projeto->data_prevista}}">
+            
+                @error('dataPrevista')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
         
             <button type = "submit" class = "btn btn-primary btn-sm"> Salvar </button>

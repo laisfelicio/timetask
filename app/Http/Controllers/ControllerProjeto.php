@@ -26,6 +26,9 @@ class ControllerProjeto extends Controller
     {
         //
         
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
         $projetos = Projeto::all();
         $projetos = $this->filtrar($projetos);
         
@@ -81,6 +84,13 @@ class ControllerProjeto extends Controller
     public function store(Request $request)
     {
         //
+        $validatedData = $request->validate([
+            'nomeProjeto' => 'required|max:255',
+            'descProjeto' => 'required|max:255',
+            'cliente' => 'required|exists:clientes,id',
+            'dataPrevista' => 'required'
+        ]);
+
         $proj = new Projeto();
         $proj->nome = $request->input('nomeProjeto');
         $proj->descricao = $request->input('descProjeto');
@@ -139,6 +149,15 @@ class ControllerProjeto extends Controller
         if(Auth::user()->admin == 0){
             abort(404);
         }
+
+        $validatedData = $request->validate([
+            'nomeProjeto' => 'required|max:255',
+            'descProjeto' => 'required|max:255',
+            'cliente' => 'required|exists:clientes,id',
+            'dataPrevista' => 'required',
+            'status' => 'required|exists:status_projetos,id' 
+        ]);
+
         $projeto = Projeto::find($id);
             if(isset($projeto)){
             date_default_timezone_set('America/Sao_Paulo');

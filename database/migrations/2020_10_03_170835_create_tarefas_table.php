@@ -21,7 +21,8 @@ class CreateTarefasTable extends Migration
             $table->string('descricao');
             $table->time('tempo_previsto');
             $table->date('data_prevista');
-            $table->dateTime('data_finalizacao');
+            $table->dateTime('data_finalizacao')->nullable();
+            $table->time('tempo_gasto')->nullale();
             $table->integer('finalizado')->default(0);
             $table->integer('status_id')->unsigned();
             $table->foreign('status_id')->references('id')->on('status_tarefas');

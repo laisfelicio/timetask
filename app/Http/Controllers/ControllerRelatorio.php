@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Projeto;
+use App\Tarefa;
+use Illuminate\Support\Facades\DB;
 class ControllerRelatorio extends Controller
 {
     /**
@@ -13,15 +15,36 @@ class ControllerRelatorio extends Controller
      */
     public function index()
     {
-        //
-        $user_info = Projeto::groupBy('status_id')
+        //PROJETO/STATUS
+        $projetoStatus = Projeto::groupBy('status_id')
         ->selectRaw('count(*) as total, status_id')
         ->get();
-        $totais = $user_info->pluck('total');
-        $status = $user_info->pluck('status');
+        $totaisProjetos = $projetoStatus->pluck('total');
+        $statusProjetos = $projetoStatus->pluck('status');
+
+        //TAREFAS/STATUS
+
+        $tarefaStatus = Tarefa::groupBy('status_id')
+        ->selectRaw('count(*) as total, status_id')
+        ->get();
+        $totaisTarefas = $tarefaStatus->pluck('total');
+        $statusTarefas = $tarefaStatus->pluck('status');
+
+        //TESTE
+        $entreguesMes = DB::table('tarefas')
+                     ->select(DB::raw("count(*) as total, DATE_FORMAT(data_finalizacao, '%m-%Y') as data"))
+                     ->where('finalizado', '=', 1)
+                     ->groupBy("data")
+                     ->get();
+        $totaisEntregues = $entreguesMes->pluck('total');
+        $meses = $entreguesMes->pluck('data');
+
         
-        $batata = "batatinha";
-        return view('relatorios.relatorio', compact('batata', 'totais', 'status'));
+
+
+        return view('relatorios.relatorio', 
+                compact('totaisProjetos', 'statusProjetos', 'statusTarefas', 'totaisTarefas', 
+                    'totaisEntregues', 'meses'));
     }
 
     /**

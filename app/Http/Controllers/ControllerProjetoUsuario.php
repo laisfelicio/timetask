@@ -49,6 +49,12 @@ class ControllerProjetoUsuario extends Controller
     public function store(Request $request)
     {
         //
+        $validatedData = $request->validate([
+            'idProjeto' => ['required'],
+            'usuario' => ['required', 'unique:projeto_usuarios,user_id,NULL,id,projeto_id,' . $request->input('idProjeto')],
+        ]);
+
+
         date_default_timezone_set('America/Sao_Paulo');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');

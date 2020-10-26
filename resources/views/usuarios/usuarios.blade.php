@@ -31,4 +31,5 @@
     <div class = "card-footer">
         <a href = "/usuarios/registrar" class = "btn btn-sm btn-primary" role = "button"> Novo Usuário </a>
 </div>
+</div>
 @endsection
