@@ -33,7 +33,9 @@
     <div class = "card-footer">
         @if(Auth::user()->admin == 1)
             <a href = "/clientes/novo" class = "btn btn-sm btn-primary" role = "button"> Novo cliente </a>
+            <a href = "/clientes/download" class = "btn btn-sm btn-info" role = "button"> Baixar planilha </a>
         @endif
     </div>
+    
 </div>
 @endsection

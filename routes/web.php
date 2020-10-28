@@ -34,6 +34,7 @@ Route::post('/clientes', 'ControllerCliente@store');
 Route::get('/clientes/apagar/{id}', 'ControllerCliente@destroy');
 Route::get('/clientes/editar/{id}', 'ControllerCliente@edit');
 Route::post('/clientes/{id}', 'ControllerCliente@update');
+Route::get('/clientes/download', 'ControllerCliente@downloadRelatorio');
 
 
 Route::get('/projetos', 'ControllerProjeto@index');
@@ -42,6 +43,7 @@ Route::post('/projetos', 'ControllerProjeto@store');
 Route::get('/projetos/apagar/{id}', 'ControllerProjeto@destroy');
 Route::get('/projetos/editar/{id}', 'ControllerProjeto@edit');
 Route::post('/projetos/{id}', 'ControllerProjeto@update');
+
 
 
 Route::get('/tarefas', 'ControllerTarefa@index');

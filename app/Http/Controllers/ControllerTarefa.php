@@ -8,8 +8,11 @@ use App\Projeto;
 use App\StatusProjeto;
 use App\TarefaUsuario;
 use App\User;
+use App\Cliente;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 class ControllerTarefa extends Controller
 {
     /**
@@ -166,4 +169,7 @@ class ControllerTarefa extends Controller
             $taUsu->delete();
         }
     }
+
+
+  
 }

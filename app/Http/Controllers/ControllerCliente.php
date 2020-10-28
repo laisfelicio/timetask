@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Cliente;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ClientesExport;
 class ControllerCliente extends Controller
 {
     /**
@@ -124,4 +126,10 @@ class ControllerCliente extends Controller
         return redirect("/clientes");
        
     }
+
+    public function downloadRelatorio(){
+        dd(request());
+        return Excel::download(new ClientesExport, 'clientes.xlsx');
+        
+     }
 }
