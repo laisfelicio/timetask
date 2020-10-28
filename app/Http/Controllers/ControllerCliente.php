@@ -7,6 +7,7 @@ use App\Cliente;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ClientesExport;
+use PDF;
 class ControllerCliente extends Controller
 {
     /**
@@ -127,9 +128,42 @@ class ControllerCliente extends Controller
        
     }
 
-    public function downloadRelatorio(){
-        dd(request());
-        return Excel::download(new ClientesExport, 'clientes.xlsx');
+    public function downloadRelatorio(Request $request){
+     
+     //$dados = (Collect(json_decode(rawurldecode($request->clientes))));
+     $dados = (Collect(json_decode($request->clientes)));
+     
+   
+
+     $html = '<h1> Relatório - Clientes </h1>';
+     $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+         <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+             <td>ID</td>
+             <td>NOME</td>
+         </tr>';
+
+    foreach($dados as $dado){
+            $html = $html.'<tr>';
+            $html = $html.'<td> '.$dado->id . '</td> ';
+            $html = $html.'<td> '.$dado->nome . '</td> ';
+            $html = $html.'</tr>';
+    }   
+
+    $html = $html. '
+        </table>';     
+    
         
+       
+    PDF::SetTitle('Hello World');
+    PDF::AddPage();
+    PDF::writeHTML($html, true, false, true, false, '');
+
+    PDF::Output('hello_world.pdf');
+        
+    PDF::SetTitle('Hello World');
+    PDF::AddPage();
+    PDF::writeHTML($html, true, false, true, false, '');
+    PDF::Output('hello_world.pdf');
+
      }
 }

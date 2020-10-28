@@ -30,10 +30,15 @@
         </table>
         @endif
     </div>
+   
     <div class = "card-footer">
         @if(Auth::user()->admin == 1)
-            <a href = "/clientes/novo" class = "btn btn-sm btn-primary" role = "button"> Novo cliente </a>
-            <a href = "/clientes/download" class = "btn btn-sm btn-info" role = "button"> Baixar planilha </a>
+            <a href = "clientes/novo" class = "btn btn-sm btn-primary" role = "button"> Novo cliente </a>
+            <form method = "POST" action="{{ route('clientes.download') }}" >
+                @csrf
+                <input type = "hidden" name = "clientes" value='<?= $clientes ?>'></input>
+                <button type = "submit" class = "btn btn-primary btn-sm"> Download </button>
+            </form>
         @endif
     </div>
     

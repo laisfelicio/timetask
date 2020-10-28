@@ -81,6 +81,11 @@
         @if(Auth::user()->admin == 1)
             <a href = "/projetos/novo" class = "btn btn-sm btn-primary" role = "button"> Novo Projeto </a>
         @endif
+        <form method = "POST" action="{{ route('projetos.download') }}" >
+            @csrf
+            <input type = "hidden" name = "projetos" value='<?= $projetos ?>'></input>
+            <button type = "submit" class = "btn btn-info btn-sm"> Download Relatório</button>
+        </form>
     </div>
 </div>
 @endsection

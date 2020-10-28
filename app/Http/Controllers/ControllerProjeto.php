@@ -9,6 +9,7 @@ use App\ProjetoUsuario;
 use App\StatusProjeto;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 class ControllerProjeto extends Controller
 {
     /**
@@ -203,6 +204,44 @@ class ControllerProjeto extends Controller
         return redirect("/projetos");
     }
 
+    public function downloadRelatorio(Request $request){
+     
+        //$dados = (Collect(json_decode(rawurldecode($request->clientes))));
+        $dados = (Collect(json_decode($request->projetos)));
+   
+        $html = '<h1> Relatório - Projetos </h1>';
+        $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+            <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                <td>ID</td>
+                <td>NOME PROJETO</td>
+                <td>DESCRICAO</td>
+                <td>CLIENTE</td>
+                <td>TEMPO GASTO</td>
+                <td>DATA PREVISTA</td>
+            </tr>';
+   
+       foreach($dados as $dado){
+               $html = $html.'<tr>';
+               $html = $html.'<td> '.$dado->id . '</td> ';
+               $html = $html.'<td> '.$dado->nome . '</td> ';
+               $html = $html.'<td> '.$dado->descricao . '</td> ';
+               $html = $html.'<td> '.$dado->cliente . '</td> ';
+               $html = $html.'<td> '.$dado->tempo_gasto . '</td> ';
+               $html = $html.'<td> '.$dado->data_prevista . '</td> ';
+               $html = $html.'</tr>';
+       }   
+   
+       $html = $html. '
+           </table>';     
+
+       PDF::SetTitle('Relatório - Projetos');
+       PDF::AddPage();
+       PDF::writeHTML($html, true, false, true, false, '');
+   
+       PDF::Output('relatorio_projeto.pdf');
+           
+   
+    }
    
    
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18fb6f60275243c7af1199cdcef07a34",
+    "content-hash": "5d2fc0f303f2dd1e7e494c14bad2a932",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -520,6 +520,58 @@
                 "validator"
             ],
             "time": "2020-09-26T15:48:38+00:00"
+        },
+        {
+            "name": "elibyy/tcpdf-laravel",
+            "version": "8.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elibyy/tcpdf-laravel.git",
+                "reference": "2ec283c7b157cd31c91abe42fa1c9d801d9df6cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elibyy/tcpdf-laravel/zipball/2ec283c7b157cd31c91abe42fa1c9d801d9df6cf",
+                "reference": "2ec283c7b157cd31c91abe42fa1c9d801d9df6cf",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "tecnickcom/tcpdf": "6.2.*|6.3.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Elibyy\\TCPDF\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "PDF": "Elibyy\\TCPDF\\Facades\\TCPDF"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Elibyy\\TCPDF\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "eli y",
+                    "email": "elibyy@gmail.com"
+                }
+            ],
+            "description": "tcpdf support for Laravel 6, 7, 8",
+            "keywords": [
+                "TCPDF",
+                "laravel",
+                "pdf"
+            ],
+            "time": "2020-09-09T17:03:16+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -1209,6 +1261,84 @@
                 }
             ],
             "time": "2020-09-13T14:44:46+00:00"
+        },
+        {
+            "name": "league/csv",
+            "version": "9.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/csv.git",
+                "reference": "634322df4aed210fdfbb7c94e434dc860da733d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/634322df4aed210fdfbb7c94e434dc860da733d9",
+                "reference": "634322df4aed210fdfbb7c94e434dc860da733d9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^7.2.5"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.0",
+                "phpstan/phpstan-phpunit": "^0.12.0",
+                "phpstan/phpstan-strict-rules": "^0.12.0",
+                "phpunit/phpunit": "^8.5"
+            },
+            "suggest": {
+                "ext-dom": "Required to use the XMLConverter and or the HTMLConverter classes",
+                "ext-iconv": "Needed to ease transcoding CSV using iconv stream filters"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CSV data manipulation made easy in PHP",
+            "homepage": "http://csv.thephpleague.com",
+            "keywords": [
+                "convert",
+                "csv",
+                "export",
+                "filter",
+                "import",
+                "read",
+                "transform",
+                "write"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/nyamsprod",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-09-05T08:40:12+00:00"
         },
         {
             "name": "league/flysystem",
@@ -5091,6 +5221,68 @@
             "time": "2020-09-18T14:27:32+00:00"
         },
         {
+            "name": "tecnickcom/tcpdf",
+            "version": "6.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tecnickcom/TCPDF.git",
+                "reference": "19a535eaa7fb1c1cac499109deeb1a7a201b4549"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/19a535eaa7fb1c1cac499109deeb1a7a201b4549",
+                "reference": "19a535eaa7fb1c1cac499109deeb1a7a201b4549",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "time": "2020-02-14T14:20:12+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.3",
             "source": {
@@ -5138,6 +5330,62 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2020-07-13T06:12:54+00:00"
+        },
+        {
+            "name": "usmanhalalit/laracsv",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/usmanhalalit/laracsv.git",
+                "reference": "98016abe4c55e7ed3c97a3e0b930cbac58374f57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/usmanhalalit/laracsv/zipball/98016abe4c55e7ed3c97a3e0b930cbac58374f57",
+                "reference": "98016abe4c55e7ed3c97a3e0b930cbac58374f57",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": ">=5.2",
+                "league/csv": "^9.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "^1.8",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laracsv\\": "src/Laracsv/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Muhammad Usman",
+                    "email": "hi@usman.it",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel package to easily generate CSV files from Eloquent model.",
+            "homepage": "https://github.com/usmanhalalit/laracsv",
+            "keywords": [
+                "csv",
+                "eloquent",
+                "export",
+                "laravel"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/usmanhalalit",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-06-19T09:31:32+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
