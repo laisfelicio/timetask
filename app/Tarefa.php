@@ -30,4 +30,6 @@ class Tarefa extends Model
         }
         return '';
      }
+
+     
 }

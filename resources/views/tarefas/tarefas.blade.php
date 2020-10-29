@@ -41,5 +41,11 @@
     </div>
     <div class = "card-footer">
         <a href = "/tarefas/novo" class = "btn btn-sm btn-primary" role = "button"> Nova Tarefa </a>
+        <form method = "POST" action="{{ route('tarefas.download') }}" >
+            @csrf
+            <input type = "hidden" name = "tarefas" value='<?= $tarefas ?>'></input>
+            <button type = "submit" class = "btn btn-info btn-sm"> Download Relatório</button>
+        </form>
+    </div>
 </div>
 @endsection

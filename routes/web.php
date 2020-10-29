@@ -55,6 +55,7 @@ Route::post('/tarefas/{id}', 'ControllerTarefa@update');
 Route::get('/tarefas/alocar/{id}', 'ControllerTarefa@alocar');
 Route::post('/tarefas/salvaalocacao/{id}', 'ControllerTarefa@salvaAlocacao');
 Route::get('/tarefas/info/{id}', 'ControllerTarefa@info');
+Route::post('/tarefas/files/download', 'ControllerTarefa@downloadRelatorio')->name('tarefas.download');
 
 Route::get('/statustarefa', 'ControllerStatusTarefa@index');
 Route::get('/statustarefa/novo', 'ControllerStatusTarefa@create');
@@ -88,4 +89,7 @@ Route::get('/usuarios', 'ControllerUsuario@index');
 Route::post('/usuarios/{id}', 'ControllerUsuario@update');
 Route::get('/usuarios/editar/{id}', 'ControllerUsuario@edit');
 Route::get('/usuarios/apagar/{id}', 'ControllerUsuario@destroy');
+Route::post('/usuarios/files/download', 'ControllerUsuario@downloadRelatorio')->name('usuarios.download');
+
+
 

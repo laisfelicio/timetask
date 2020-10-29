@@ -30,6 +30,11 @@
     </div>
     <div class = "card-footer">
         <a href = "/usuarios/registrar" class = "btn btn-sm btn-primary" role = "button"> Novo Usuário </a>
-</div>
+        <form method = "POST" action="{{ route('usuarios.download') }}" >
+            @csrf
+            <input type = "hidden" name = "usuarios" value='<?= $usuarios ?>'></input>
+            <button type = "submit" class = "btn btn-info btn-sm"> Download Relatório</button>
+        </form>
+    </div>
 </div>
 @endsection

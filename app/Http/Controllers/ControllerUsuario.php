@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use PDF;
+
 class ControllerUsuario extends Controller
 {
     /**
@@ -138,5 +140,46 @@ class ControllerUsuario extends Controller
             $usuario->delete();
         }
         return redirect("/usuarios");
+    }
+
+    public function downloadRelatorio(Request $request){
+     
+        //$dados = (Collect(json_decode(rawurldecode($request->clientes))));
+        $dados = (Collect(json_decode($request->usuarios)));
+   
+        
+        $html = '<h1> Relatório - Usuários </h1>';
+        $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+            <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                <td>ID</td>
+                <td>NOME</td>
+                <td>EMAIL</td>
+                <td>ADMIN?</td>
+            </tr>';
+   
+       foreach($dados as $dado){
+               $html = $html.'<tr>';
+               $html = $html.'<td> '.$dado->id . '</td> ';
+               $html = $html.'<td> '.$dado->name . '</td> ';
+               $html = $html.'<td> '.$dado->email . '</td> ';
+               if($dado->admin == 1){
+                $html = $html.'<td> '.'SIM'. '</td> ';
+               }
+               else{
+                $html = $html.'<td> '.'NAO'. '</td> ';
+               }
+               $html = $html.'</tr>';
+       }   
+   
+       $html = $html. '
+           </table>';     
+
+       PDF::SetTitle('Relatório - Usuários');
+       PDF::AddPage();
+       PDF::writeHTML($html, true, false, true, false, '');
+   
+       PDF::Output('relatorio_usuario.pdf');
+           
+   
     }
 }
