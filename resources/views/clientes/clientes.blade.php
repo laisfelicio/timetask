@@ -37,7 +37,7 @@
             <form method = "POST" action="{{ route('clientes.download') }}" >
                 @csrf
                 <input type = "hidden" name = "clientes" value='<?= $clientes ?>'></input>
-                <button type = "submit" class = "btn btn-primary btn-sm"> Download </button>
+                <button type = "submit" class = "btn btn-info btn-sm"> Download Relatório</button>
             </form>
         @endif
     </div>

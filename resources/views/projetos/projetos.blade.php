@@ -67,7 +67,7 @@
                     </td>
                     <td>
                         
-                        @if($dataAtual > $proj->data_prevista)
+                        @if($dataAtual > $proj->data_prevista && $proj->status_id != 4)
                             <i class="material-icons" style = "color: #ff0000;">warning</i>
                         @endif
                     </td>

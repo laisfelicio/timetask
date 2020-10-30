@@ -14,7 +14,7 @@
                 @enderror
             </div>
             <div class = "form-group">
-                <label for = "descTarefa"> Descrição do Projeto </label>
+                <label for = "descTarefa"> Descrição </label>
                 <input type = "text" class = "form-control" name = "descTarefa" id = "descTarefa" value = "{{old('descTarefa')}}">
             
                 @error('descTarefa')

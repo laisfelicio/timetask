@@ -34,7 +34,7 @@
                     </td>
                     <td>
                         
-                        @if($dataAtual > $tarefa->dataPrevista)
+                        @if($dataAtual > $tarefa->dataPrevista && $tarefa->status_id != 4)
                             <i class="material-icons" style = "color: #ff0000;">warning</i>
                         @endif
                     </td>

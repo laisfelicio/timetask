@@ -135,13 +135,26 @@ class ControllerTarefa extends Controller
     public function update(Request $request, $id)
     {
         //
+        date_default_timezone_set('America/Sao_Paulo');
+        setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
+        $dataHora = Carbon::now();
         $tarefa = Tarefa::find($id);
         if(isset($tarefa)){
+            if($request->status == 4){
+                $tarefa->finalizado = 1;
+                $tarefa->data_finalizacao = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+            }
+            else{
+                $tarefa->finalizado = 0;
+                $tarefa->data_finalizacao =null;
+            }
             $tarefa->nome = $request->input('nomeTarefa');
             $tarefa->descricao = $request->input('descTarefa');
             $tarefa->projeto_id = $request->input('projeto');
             $tarefa->status_id = $request->input('status');
             $tarefa->data_prevista = $request->input('dataPrevista');
+            $tarefa->tempo_previsto = $request->input('tempoPrevisto');
             $tarefa->save();
         }
         return redirect('/tarefas');
