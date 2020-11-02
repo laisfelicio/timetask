@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Projeto;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -36,4 +36,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function projetos(){
+        return $this->belongsToMany('App\Projeto', 'projeto_usuarios', 'user_id', 'projeto_id');
+    }
+
+
 }

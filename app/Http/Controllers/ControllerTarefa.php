@@ -250,7 +250,7 @@ class ControllerTarefa extends Controller
 
                  $usuarios = TarefaUsuario::where('tarefa_id', $dado->id)->get();
 
-$html = $html.'<h2> Usuários </h2>';
+                $html = $html.'<h2> Usuários </h2>';
 
                 
                 $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
@@ -258,14 +258,16 @@ $html = $html.'<h2> Usuários </h2>';
                 <td colspan="2">USUARIO</td>
                 <td colspan="2">TEMPO GASTO</td>
                 </tr>';
-                foreach($usuarios as $usuario){
-                    $html = $html.'<tr>';
-                    $html = $html.'<td colspan="2"> '.$usuario->nomeUsuario . '</td> ';
-                    $html = $html.'<td colspan="2"> '.$usuario->tempo_gasto . '</td> ';
+                if(count($usuarios) > 0){
+                    foreach($usuarios as $usuario){
+                        $html = $html.'<tr>';
+                        $html = $html.'<td colspan="2"> '.$usuario->nomeUsuario . '</td> ';
+                        $html = $html.'<td colspan="2"> '.$usuario->tempo_gasto . '</td> ';
 
-                    $html = $html.'</tr>';
- 
+                        $html = $html.'</tr>';
+    
 
+                    }
                 }
 
                 $html = $html. '

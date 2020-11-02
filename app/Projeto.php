@@ -29,4 +29,8 @@ class Projeto extends Model
         }
         return '';
      }
+
+     public function users(){
+         return $this->belongsToMany('App\User', 'projeto_usuarios', 'projeto_id', 'user_id');
+     }
 }

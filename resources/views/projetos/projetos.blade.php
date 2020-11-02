@@ -6,6 +6,7 @@
     <div class = "card-body">
         <h5 class = "card-title"> Projetos </h5>
         @if(count($projetos) > 0)
+
         <p>
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
               OPÇÕES DE FILTRO
@@ -23,7 +24,7 @@
                             @endforeach
                             </select>
                         </div>
-
+        
                         <div class="form-group">
                             <label for="clienteProjeto">Cliente</label>
                             <select class="form-control" id="clienteProjeto" name = "clienteProjeto">
@@ -33,7 +34,7 @@
                             @endforeach
                             </select>
                         </div>
-
+        
                         <button type = "submit" class = "btn btn-primary btn-sm"> Filtrar </button>
                     </form>
                 </div>

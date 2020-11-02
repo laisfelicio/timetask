@@ -4,12 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use date;
 class ProjetoUsuario extends Model
 {
     //
     use SoftDeletes;
     protected $appends = ['nomeProjeto', 'nomeUsuario', 'emailUsuario', 'idUsuario', 
-                           'clienteProjeto', 'statusProjeto'];
+                           'clienteProjeto', 'statusProjeto', 'descricaoProjeto', 
+                           'dataPrevistaProjeto', 'dataFinalizacaoProjeto', 'projetoFinalizado'];
 
     public function getNomeProjetoAttribute(): string
      {
@@ -17,6 +19,47 @@ class ProjetoUsuario extends Model
 
         if ($projeto) {
             return $projeto->nome;
+        }
+        return '';
+     }
+
+     public function getDescricaoProjetoAttribute(): string
+     {
+        $projeto = Projeto::find($this->projeto_id);
+
+        if ($projeto) {
+            return $projeto->descricao;
+        }
+        return '';
+     }
+
+     public function getProjetoFinalizadoAttribute(): string
+     {
+        $projeto = Projeto::find($this->projeto_id);
+
+        if ($projeto) {
+            return $projeto->finalizado;
+        }
+        return '';
+     }
+
+
+     public function getDataPrevistaProjetoAttribute()
+     {
+        $projeto = Projeto::find($this->projeto_id);
+
+        if ($projeto) {
+            return $projeto->data_prevista;
+        }
+        return '';
+     }
+
+     public function getDataFinalizacaoProjetoAttribute()
+     {
+        $projeto = Projeto::find($this->projeto_id);
+
+        if ($projeto) {
+            return $projeto->data_finalizacao;
         }
         return '';
      }
