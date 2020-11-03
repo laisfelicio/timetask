@@ -64,11 +64,10 @@ class ControllerProjetoUsuario extends Controller
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataAtual = Carbon::now();
         $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
-        $projUsu = new ProjetoUsuario();
-        $projUsu->projeto_id = $request->input('idProjeto');
-        $projUsu->user_id = $request->input('usuario');
-        $projUsu->tempo_total = "00:00:00";
-        $projUsu->save();
+
+        $projeto = Projeto::findOrFail($request->idProjeto);
+        $user = User::findOrFail($request->usuario);
+        $user->projetos()->attach($projeto);
         return redirect('/projetousuario/info/'.$request->input('idProjeto'));
     }
 
@@ -86,9 +85,9 @@ class ControllerProjetoUsuario extends Controller
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataAtual = Carbon::now();
         $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
-        $alocados= ProjetoUsuario::where('projeto_id', $id)->get();
         $projeto = Projeto::find($id);
-        $tarefas = Tarefa::where('projeto_id', $id)->get();
+        $alocados= $projeto->users;
+        $tarefas = $projeto->tarefas;
         return view('projetos.info', compact('alocados', 'projeto', 'tarefas', 'dataAtual'));
     }
 
@@ -121,33 +120,31 @@ class ControllerProjetoUsuario extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($idProjeto, $idUsuario)
     {
         //
         
-        $projUsu = ProjetoUsuario::find($id);
-        $projetoId = $projUsu->projeto_id;
-        if(isset($projUsu)){
-            $projUsu->delete();
-        }
-        return redirect("/projetousuario/info/".$projetoId);
+        $projeto = Projeto::findOrFail($idProjeto);
+        $user = User::findOrFail($idUsuario);
+        $user->projetos()->detach($projeto);
+        return redirect("/projetousuario/info/".$idProjeto);
         
     }
 
     public function filtrar($projetos){
 
-        dd($projetos);
+        
         $projetosFiltrados = $projetos;
 
         
         if(request()->has('clienteProjeto') && !empty(request('clienteProjeto'))){
             
-            $projetosFiltrados = $projetosFiltrados->where('clienteProjeto', request('clienteProjeto'));
+            $projetosFiltrados = $projetosFiltrados->where('cliente_id', request('clienteProjeto'));
           
         }
 
         if(request()->has('statusProjeto') && !empty(request('statusProjeto'))){
-            $projetosFiltrados = $projetosFiltrados->where('statusProjeto', request('statusProjeto'));
+            $projetosFiltrados = $projetosFiltrados->where('status_id', request('statusProjeto'));
         }
 
         return $projetosFiltrados;
@@ -165,7 +162,7 @@ class ControllerProjetoUsuario extends Controller
         $clientes = Cliente::all();
         $usuarioId = Auth::user()->id;
         $projetos = Auth::user()->projetos;
-        
+        $projetos = $this->filtrar($projetos);
         return view('projetos.meusprojetos', compact('projetos', 'statusProjetos', 'dataAtual', 'clientes'));
 
     }
@@ -191,10 +188,10 @@ class ControllerProjetoUsuario extends Controller
                 </tr>';
                 $html = $html.'<tr>';
                 $html = $html.'<td> '.$dado->id . '</td> ';
-                $html = $html.'<td colspan="2"> '.$dado->nomeProjeto . '</td> ';
-                $html = $html.'<td colspan="2"> '.$dado->clienteProjeto . '</td> ';
-                $html = $html.'<td colspan="2"> '.$dado->descricaoProjeto . '</td> ';
-                $html = $html.'<td colspan="2"> '.$dado->dataPrevistaProjeto . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->nome . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->cliente->nome . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->descricao . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->data_prevista . '</td> ';
 
                 $html = $html.'</tr>';
                 $html = $html. '
@@ -208,10 +205,10 @@ class ControllerProjetoUsuario extends Controller
                 <td colspan="2">DATA FINALIZAÇÃO</td>
                 </tr>';
                 $html = $html.'<tr>';
-                $html = $html.'<td colspan="2"> '.$dado->statusProjeto . '</td> ';
-                if(isset($dado->projetoFinalizado) && $dado->projetoFinalizado == 1){
+                $html = $html.'<td colspan="2"> '.$dado->status->nome . '</td> ';
+                if(isset($dado->finalizado) && $dado->finalizado == 1){
                     $html = $html.'<td colspan="2"> '.'SIM' . '</td> ';
-                    $html = $html.'<td colspan="2"> '.$dado->dataFinalizacaoProjeto. '</td> ';
+                    $html = $html.'<td colspan="2"> '.$dado->data_finalizacao. '</td> ';
                 }
                 else{
                     $html = $html.'<td colspan="2"> '.'NAO' . '</td> ';
@@ -234,8 +231,9 @@ class ControllerProjetoUsuario extends Controller
                 </tr>';
                 if(count($usuarios) > 0){
                     foreach($usuarios as $usuario){
+                        $user = User::findOrFail($usuario->user_id);
                         $html = $html.'<tr>';
-                        $html = $html.'<td colspan="2"> '.$usuario->nomeUsuario . '</td> ';
+                        $html = $html.'<td colspan="2"> '.$user->name . '</td> ';
                         $html = $html.'<td colspan="2"> '.$usuario->tempo_total . '</td> ';
 
                         $html = $html.'</tr>';

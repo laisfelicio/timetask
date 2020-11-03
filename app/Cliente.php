@@ -9,4 +9,8 @@ class Cliente extends Model
 {
     //
     use SoftDeletes;
+
+    public function projetos(){
+        return $this->hasMany('App\Projeto');
+    }
 }

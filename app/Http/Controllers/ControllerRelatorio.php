@@ -20,7 +20,7 @@ class ControllerRelatorio extends Controller
         ->selectRaw('count(*) as total, status_id')
         ->get();
         $totaisProjetos = $projetoStatus->pluck('total');
-        $statusProjetos = $projetoStatus->pluck('status');
+        $statusProjetos = $projetoStatus->pluck('status')->pluck('nome');
 
         //TAREFAS/STATUS
 
@@ -28,7 +28,7 @@ class ControllerRelatorio extends Controller
         ->selectRaw('count(*) as total, status_id')
         ->get();
         $totaisTarefas = $tarefaStatus->pluck('total');
-        $statusTarefas = $tarefaStatus->pluck('status');
+        $statusTarefas = $tarefaStatus->pluck('status')->pluck('nome');
 
         //TESTE
         $entreguesMes = DB::table('tarefas')

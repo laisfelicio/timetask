@@ -7,7 +7,7 @@
         <label for = "nomeProjeto"> Nome da tarefa </label>
         <input type = "text" class = "form-control" name = "nomeTarefa" id = "nomeTarefa"  value = "{{$tarefa->nome}}" readonly>
         <label for = "nomeProjeto"> Projeto </label>
-        <input type = "text" class = "form-control" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$projeto->nome}}" readonly>
+        <input type = "text" class = "form-control" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$tarefa->projeto->nome}}" readonly>
         <label for = "descricaoTarefa"> Descrição </label>
         <input type = "text" class = "form-control" name = "descricaoTarefa" id = "descricaoTarefa"  value = "{{$tarefa->descricao}}" readonly> 
         
@@ -39,7 +39,7 @@
                 <h5> Usuários alocados nessa tarefa </h5>
                 <div class = "card">
                     <div class = "card-body">
-                        @if(count($alocados) > 0)
+                        @if(count($tarefa->users) > 0)
                             <table class = "table table-ordered table hover">
                                 <thead>
                                     <th> Código Usuário</th>
@@ -48,11 +48,11 @@
                                     <th> Ações </th>
                                 </thead>
                                 <tbody>
-                                    @foreach($alocados as $usu)
+                                    @foreach($tarefa->users as $usu)
                                     <tr>
-                                        <td>{{$usu->idUsuario}}</td>
-                                        <td>{{$usu->nomeUsuario}}</td>
-                                        <td>{{$usu->emailUsuario}}</td>
+                                        <td>{{$usu->id}}</td>
+                                        <td>{{$usu->name}}</td>
+                                        <td>{{$usu->email}}</td>
                                         <td>
                                             <a href = "/tarefausuario/apagar/alocacao/{{$usu->id}}" class = "btn btn-sm btn-danger"> Desalocar </a>
                                         </td>
@@ -70,6 +70,6 @@
 
     </div>
     <div class = "card-footer">
-        <a href = "/tarefausuario/{{$projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary" role = "button"> Alocar novos usuários </a>
+        <a href = "/tarefausuario/{{$tarefa->projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary" role = "button"> Alocar novos usuários </a>
     </div>
 @endsection

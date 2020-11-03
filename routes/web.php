@@ -67,7 +67,7 @@ Route::post('/statustarefa/{id}', 'ControllerStatusTarefa@update');
 Route::get('/projetousuario/alocar/{id}', 'ControllerProjetoUsuario@index');
 Route::get('/projetousuario/info/{id}', 'ControllerProjetoUsuario@show');
 Route::post('/projetousuario', 'ControllerProjetoUsuario@store');
-Route::get('/projetousuario/apagar/{id}', 'ControllerProjetoUsuario@destroy');
+Route::get('/projetousuario/apagar/{idProjeto}/{idUsuario}', 'ControllerProjetoUsuario@destroy');
 Route::get('/projetousuario/meusprojetos', 'ControllerProjetoUsuario@getProjetoUsuario');
 Route::post('/projetousuario/files/download', 'ControllerProjetoUsuario@downloadRelatorio')->name('meusprojetos.download');
 

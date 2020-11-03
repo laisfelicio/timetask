@@ -22,6 +22,7 @@
                             @foreach($statusProjetos as $status) 
                                 <option value = {{$status->id}}>{{$status->nome}}</option>
                             @endforeach
+                                <option value = "">TODOS</option>
                             </select>
                         </div>
         
@@ -32,6 +33,15 @@
                             @foreach($clientes as $cliente) 
                                 <option value = {{$cliente->id}}>{{$cliente->nome}}</option>
                             @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clienteProjeto">Em atraso?</label>
+                            <select class="form-control" id="clienteProjeto" name = "clienteProjeto">
+                                <option value = "">Todos</option>
+                                <option value = "SIM">Sim</option>
+                                <option value = "NAO">Não</option>
                             </select>
                         </div>
         
@@ -54,8 +64,8 @@
                 <tr>
                     <td>{{$proj->id}}</td>
                     <td>{{$proj->nome}}</td>
-                    <td>{{$proj->cliente}}</td>
-                    <td>{{$proj->status}}</td>
+                    <td>{{$proj->cliente->nome}}</td>
+                    <td>{{$proj->status->nome}}</td>
                     <td>
                         @if(Auth::user()->admin == 1)
                             <a href = "/projetos/editar/{{$proj->id}}" class = "btn btn-sm btn-primary"> Editar </a>

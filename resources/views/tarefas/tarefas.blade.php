@@ -19,8 +19,8 @@
                 <tr>
                     <td>{{$tarefa->id}}</td>
                     <td>{{$tarefa->nome}}</td>
-                    <td>{{$tarefa->projeto}}</td>
-                    <td>{{$tarefa->status}}</td>
+                    <td>{{$tarefa->projeto->nome}}</td>
+                    <td>{{$tarefa->status->nome}}</td>
                     <td>
                         <a href = "/tarefas/editar/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Editar </a>
                         <a href = "/tarefausuario/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>

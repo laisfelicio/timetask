@@ -17,7 +17,7 @@
                                 <input type = "text" class = "form-control input-lg" name = "nomeTarefa" id = "nomeTarefa"  value = "{{$tarefa->nome}}">
                             </div>
                             <div class = "form-group">
-                                <input type = "text" class = "form-control border-light" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$projeto->nome}}" readonly>
+                                <input type = "text" class = "form-control border-light" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$tarefa->projeto->nome}}" readonly>
                             </div>
                         </div>
                     </div>
@@ -167,7 +167,7 @@
         </form>
         <hr style="border-top: 1px solid black;">
 
-        @foreach($comentarios as $comentario)
+        @foreach($tarefa->comentarios as $comentario)
             <div class = "row">
                 <div class="col-sm-12">
                     <div class = "card bg-comentario" style = "color: #000000">

@@ -33,7 +33,8 @@ class ControllerTarefaUsuario extends Controller
         //
         $projeto = Projeto::find($idProjeto);
         $tarefa = Tarefa::find($idTarefa);
-        $usuarios= ProjetoUsuario::where('projeto_id', $idProjeto)->get();
+        $usuarios= $projeto->users;
+        
         return view('tarefas.alocarusuario', compact('projeto', 'usuarios', 'tarefa'));
     }
 
@@ -80,10 +81,8 @@ class ControllerTarefaUsuario extends Controller
     public function show($idProjeto, $idTarefa)
     {
         //
-        $alocados= TarefaUsuario::where('tarefa_id', $idTarefa)->get();
-        $projeto = Projeto::find($idProjeto);
-        $tarefa = Tarefa::find($idTarefa);
-        return view('tarefas.info', compact('alocados', 'projeto', 'tarefa'));
+        $tarefa = Tarefa::findOrFail($idTarefa);
+        return view('tarefas.info', compact( 'tarefa'));
     }
 
     /**
@@ -139,7 +138,7 @@ class ControllerTarefaUsuario extends Controller
         $dataAtual = Carbon::now();
         $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $usuarioId = Auth::user()->id;
-        $tarefas = TarefaUsuario::where('user_id', $usuarioId)->get();
+        $tarefas = Auth::user()->tarefas;
         
         return view('tarefas.minhastarefas', compact('tarefas', 'dataAtual'));
 
@@ -156,10 +155,10 @@ class ControllerTarefaUsuario extends Controller
         $tarefasUsuarios = TarefaUsuario::where('tarefa_id', $tarefaId)->get();
         $infoUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', Auth::user()->id)->first();
         $statusTarefa = StatusTarefa::all();
-        $comentarios = Comentario::where('tarefa_id', $tarefaId)->get();
+       
         
 
-        return view ('tarefas.gerenciartarefa', compact('alocado', 'comentarios', 'statusTarefa', 'tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
+        return view ('tarefas.gerenciartarefa', compact('alocado', 'statusTarefa', 'tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
     }
 
     public function startTimer($tarefaId){

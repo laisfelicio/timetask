@@ -9,7 +9,7 @@
         <label for = "descricaoProjeto"> Descrição </label>
         <input type = "text" class = "form-control" name = "descricaoProjeto" id = "descricaoProjeto"  value = "{{$projeto->descricao}}" readonly> 
         <label for = "clienteProjeto"> Cliente </label>
-        <input type = "text" class = "form-control" name = "clienteProjeto" id = "clienteProjeto"  value = "{{$projeto->cliente}}" readonly> 
+        <input type = "text" class = "form-control" name = "clienteProjeto" id = "clienteProjeto"  value = "{{$projeto->cliente->nome}}" readonly> 
                   
         <hr style="border-top: 1px solid black;">
         <div class = "row">
@@ -48,11 +48,11 @@
                                 <tbody>
                                     @foreach($alocados as $usu)
                                     <tr>
-                                        <td>{{$usu->idUsuario}}</td>
-                                        <td>{{$usu->nomeUsuario}}</td>
-                                        <td>{{$usu->emailUsuario}}</td>
+                                        <td>{{$usu->id}}</td>
+                                        <td>{{$usu->name}}</td>
+                                        <td>{{$usu->email}}</td>
                                         <td>
-                                            <a href = "/projetousuario/apagar/{{$usu->id}}" class = "btn btn-sm btn-danger"> Desalocar </a>
+                                            <a href = "/projetousuario/apagar/{{$projeto->id}}/{{$usu->id}}" class = "btn btn-sm btn-danger"> Desalocar </a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -69,7 +69,7 @@
                 <h5><b>Tarefas </b> </h5>
                 <div class = "card">
                     <div class = "card-body">
-                        @if(count($alocados) > 0)
+                        @if(count($tarefas) > 0)
                             <table class = "table table-ordered table hover">
                                 <thead>
                                     <th> Código </th>
@@ -83,11 +83,11 @@
                                     <tr>
                                         <td>{{$tarefa->id}}</td>
                                         <td>{{$tarefa->nome}}</td>
-                                        <td>{{$tarefa->status}}</td>
+                                        <td>{{$tarefa->status->nome}}</td>
                                         <td>
                                             <a href = "/tarefas/editar/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Editar </a>
                                             <a href = "/tarefausuario/{{$projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
-                                            <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> + Info </a>
+                                            <a href = "/tarefausuario/info/{{$tarefa->projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> + Info </a>
                                             <a href = "/tarefas/apagar/{{$tarefa->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
                                         </td>
                                         <td> 

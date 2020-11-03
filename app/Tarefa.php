@@ -9,27 +9,27 @@ class Tarefa extends Model
 {
     //
     use SoftDeletes;
-    protected $appends = ['projeto', 'status'];
 
-    public function getProjetoAttribute(): string
-     {
-        $projeto = Projeto::find($this->projeto_id);
-
-        if ($projeto) {
-            return $projeto->nome;
-        }
-        return '';
+    public function status(){
+        return $this->belongsTo('App\StatusTarefa');
      }
 
-     public function getStatusAttribute(): string
-     {
-        $status = StatusTarefa::find($this->status_id);
-
-        if ($status) {
-            return $status->nome;
-        }
-        return '';
+     public function cliente(){
+        return $this->belongsTo('App\Cliente');
      }
+
+     public function users(){
+        return $this->belongsToMany('App\User', 'tarefa_usuarios', 'tarefa_id', 'user_id');
+    }
+
+    public function projeto(){
+        return $this->belongsTo('App\Projeto');
+    }
+
+    public function comentarios(){
+        return $this->hasMany('App\Comentario');
+    }
+
 
      
 }

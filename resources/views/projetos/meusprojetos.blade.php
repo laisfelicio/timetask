@@ -51,21 +51,21 @@
                 <tr>
                     <td>{{$projeto->id}}</td>
                     <td>{{$projeto->nome}}</td>
-                    <td>{{$projeto->cliente}}</td>
-                    <td>{{$projeto->status}}</td>
+                    <td>{{$projeto->cliente->nome}}</td>
+                    <td>{{$projeto->status->nome}}</td>
                     <td>
                         @if(Auth::user()->admin == 1)
-                            <a href = "/projetos/editar/{{$projeto->projeto_id}}" class = "btn btn-sm btn-primary"> Editar </a>
+                            <a href = "/projetos/editar/{{$projeto->id}}" class = "btn btn-sm btn-primary"> Editar </a>
                         @endif
-                         <a href = "/projetousuario/alocar/{{$projeto->projeto_id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
-                        <a href = "/projetousuario/info/{{$projeto->projeto_id}}" class = "btn btn-sm btn-primary"> + Info </a>
+                         <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
+                        <a href = "/projetousuario/info/{{$projeto->id}}" class = "btn btn-sm btn-primary"> + Info </a>
                         @if(Auth::user()->admin == 1)
-                             <a href = "/projetos/apagar/{{$projeto->projeto_id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                             <a href = "/projetos/apagar/{{$projeto->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
                         @endif
                     </td>
                     <td>
                         
-                        @if($dataAtual > $projeto->dataPrevistaProjeto && $projeto->statusProjeto != 4)
+                        @if($dataAtual > $projeto->data_prevista && $projeto->status_id != 4)
                             <i class="material-icons" style = "color: #ff0000;">warning</i>
                         @endif
                     </td>

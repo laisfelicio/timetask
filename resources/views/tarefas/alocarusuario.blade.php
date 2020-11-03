@@ -1,6 +1,7 @@
 @extends('layouts.baseAt', ["current" => "tarefas"])
 
 @section('body')
+
 <div class = "card border">
     <div class = "card-body">
         <form action = "/tarefausuario" method="POST">
@@ -18,8 +19,9 @@
             <div class="form-group">
                 <label for="usuario">Usuário</label><br>
                 <select class="form-control" id="usuario" name = "usuario">
+                    
                   @foreach($usuarios as $usuario) 
-                    <option value = {{$usuario->user_id}}>{{$usuario->nomeUsuario}}</option>
+                    <option value = {{$usuario->id}}>{{$usuario->name}}</option>
                   @endforeach
                 </select>
             </div>

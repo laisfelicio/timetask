@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use PDF;
 use App\Tarefa;
+use App\User;
+use App\TarefaUsuario;
 class ControllerProjeto extends Controller
 {
     /**
@@ -198,12 +200,29 @@ class ControllerProjeto extends Controller
             abort(404);
         }
         $projeto = Projeto::find($id);
+        $this->deletaDependentes($id);
         if(isset($projeto)){
             $projeto->delete();
         }
         return redirect("/projetos");
     }
 
+    public function deletaDependentes($idProjeto){
+
+        $tarefasProjeto = Tarefa::where('projeto_id', $idProjeto)->get();
+        foreach($tarefasProjeto as $tarefa){
+            $tarefaUsuario = TarefaUsuario::where('tarefa_id', $tarefa->id)->get();
+            foreach($tarefaUsuario as $tarUsu){
+                $tarUsu->delete();
+            }
+            $tarefa->delete();
+        }
+
+        $projetoUsuario = ProjetoUsuario::where('projeto_id', $idProjeto)->get();
+        foreach($projetoUsuario as $projUsu){
+            $projUsu->delete();
+        }
+    }
     public function downloadRelatorio(Request $request){
      
         //$dados = (Collect(json_decode(rawurldecode($request->clientes))));
@@ -225,7 +244,7 @@ class ControllerProjeto extends Controller
                 $html = $html.'<tr>';
                 $html = $html.'<td> '.$dado->id . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->nome . '</td> ';
-                $html = $html.'<td colspan="2"> '.$dado->cliente . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->cliente->nome . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->descricao . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->data_prevista . '</td> ';
 
@@ -241,7 +260,7 @@ class ControllerProjeto extends Controller
                 <td colspan="2">DATA FINALIZAÇÃO</td>
                 </tr>';
                 $html = $html.'<tr>';
-                $html = $html.'<td colspan="2"> '.$dado->status . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->status->nome . '</td> ';
                 if(isset($dado->finalizado) && $dado->finalizado == 1){
                     $html = $html.'<td colspan="2"> '.'SIM' . '</td> ';
                     $html = $html.'<td colspan="2"> '.$dado->data_finalizacao . '</td> ';
@@ -255,7 +274,8 @@ class ControllerProjeto extends Controller
                 $html = $html. '
                 </table> <br> <hr>'; 
 
-                 $usuarios = ProjetoUsuario::where('projeto_id', $dado->id)->get();
+                
+                $usuarios = ProjetoUsuario::where('projeto_id', $dado->id)->get();
 
                 $html = $html.'<h2> Usuários </h2>';
 
@@ -267,8 +287,10 @@ class ControllerProjeto extends Controller
                 </tr>';
                 if(count($usuarios) > 0){
                     foreach($usuarios as $usuario){
+                       
+                        $user = User::findOrFail($usuario->user_id);
                         $html = $html.'<tr>';
-                        $html = $html.'<td colspan="2"> '.$usuario->nomeUsuario . '</td> ';
+                        $html = $html.'<td colspan="2"> '.$user->name . '</td> ';
                         $html = $html.'<td colspan="2"> '.$usuario->tempo_total . '</td> ';
 
                         $html = $html.'</tr>';
