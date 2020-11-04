@@ -135,7 +135,7 @@ class ControllerTarefa extends Controller
     public function update(Request $request, $id)
     {
         //
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataHora = Carbon::now();

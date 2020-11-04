@@ -59,7 +59,7 @@ class ControllerProjetoUsuario extends Controller
         ]);
 
 
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataAtual = Carbon::now();
@@ -80,7 +80,7 @@ class ControllerProjetoUsuario extends Controller
     public function show($id)
     {
         //
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataAtual = Carbon::now();
@@ -153,7 +153,7 @@ class ControllerProjetoUsuario extends Controller
 
     public function getProjetoUsuario(){
         
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataAtual = Carbon::now();

@@ -45,5 +45,7 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Tarefa', 'tarefa_usuarios', 'user_id', 'tarefa_id');
     }
 
+ 
+
 
 }

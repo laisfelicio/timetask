@@ -14,6 +14,9 @@ use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use DateTimeZone;
+use App\Historico;
+use Carbon\CarbonPeriod;
 
 class ControllerTarefaUsuario extends Controller
 {
@@ -132,7 +135,7 @@ class ControllerTarefaUsuario extends Controller
 
     public function getTarefasUsuario(){
         
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataAtual = Carbon::now();
@@ -164,26 +167,98 @@ class ControllerTarefaUsuario extends Controller
     public function startTimer($tarefaId){
         $usuarioId = Auth::user()->id;
         $tarefaUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', $usuarioId)->first();
-        date_default_timezone_set('America/Sao_Paulo');
+        $tarefa = Tarefa::findOrFail($tarefaId);
+        date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataHora = Carbon::now();
         
         $tarefaUsu->ultimo_start = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+        $this->historicoStart($tarefa, $dataHora);
+
         $tarefaUsu->save();
 
         return redirect("/gerenciarTarefa/".$tarefaId);
     }
+    
+    public function historicoStart(Tarefa $tarefa, $dataHora){
 
+        
+        $historico = new Historico();
+        $historico->tarefa_id = $tarefa->id;
+        $historico->user_id = Auth::user()->id;
+        $historico->start = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+        $historico->dia = Carbon::parse($dataHora)->format('yy-m-d');
+        $historico->save();
+            
+        
+    }
+
+    public function historicoStop(Tarefa $tarefa, $dataHora){
+        /*$historicosNulos =  Historico::where('user_id', $tarefa->id)->where('tarefa_id', Auth::user()->id)->where('stop', null)->get();
+        if(count($historicosNulos) > 0){
+            foreach($historicosNulos as $hist){
+                if($hist->dia < Carbon::parse($dataHora)->format('yy-m-d')){
+                    $hist->stop = $hist->dia.'00:00:00';
+                    $hist->save();
+                }
+                else{
+
+                }
+            }
+        }*/
+
+        $historicoNulo =  Historico::where('user_id', Auth::user()->id)
+                        ->where('tarefa_id', $tarefa->id)
+                        ->where('stop', NULL)
+                        ->orderBy('id', 'ASC')->get()->first();
+
+        if($historicoNulo->dia < Carbon::parse($dataHora)->format('yy-m-d')){
+            $historicoNulo->stop = $historicoNulo->dia.' 23:59:59';
+            $historicoNulo->save();
+            $periodo = CarbonPeriod::create($historicoNulo->dia, Carbon::parse($dataHora)->format('yy-m-d'));
+            $count = count($periodo);
+            foreach ($periodo as $key => $data) {
+                if($key > 0 && $key < $count -1){
+                    
+                    $historico = new Historico();
+                    $historico->user_id = Auth::user()->id;
+                    $historico->tarefa_id = $tarefa->id;
+                    $historico->dia = $data->format('Y-m-d');
+                    $historico->start = $data->format('Y-m-d').' 00:00:00';
+                    $historico->stop = $data->format('Y-m-d').' 23:59:59';
+                    $historico->save();
+                }
+            }
+
+            $historicoHoje = new Historico();
+            $historicoHoje->dia = Carbon::parse($dataHora)->format('yy-m-d');
+            $historicoHoje->start = Carbon::parse($dataHora)->format('yy-m-d').' 00:00:00';
+            $historicoHoje->stop = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+            $historicoHoje->user_id = Auth::user()->id;
+            $historicoHoje->tarefa_id = $tarefa->id;
+            $historicoHoje->save();
+        }
+        else
+        {
+            $historicoNulo->stop = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+            $historicoNulo->save();
+        }
+
+        
+   
+    }
     public function stopTimer($tarefaId){
         $usuarioId = Auth::user()->id;
         $tarefaUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', $usuarioId)->first();
-        date_default_timezone_set('America/Sao_Paulo');
+        $tarefa = Tarefa::findOrFail($tarefaId);
+        date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataHora = Carbon::now();
         
       
+        $this->historicoStop($tarefa, $dataHora);
         $tarefaUsu->ultimo_stop = Carbon::parse($dataHora)->format('y-m-d H:i:s');
         $tarefaUsu->save();
 
@@ -235,7 +310,7 @@ class ControllerTarefaUsuario extends Controller
     }
 
     public function gerenciar(Request $request){
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataHora = Carbon::now();

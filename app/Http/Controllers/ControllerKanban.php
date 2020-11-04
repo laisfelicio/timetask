@@ -21,7 +21,7 @@ class ControllerKanban extends Controller
     public function index()
     {
         //
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         $dataAtual = Carbon::now();

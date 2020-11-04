@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjetoUsuariosTable extends Migration
+class CreateHistoricosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateProjetoUsuariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('projeto_usuarios', function (Blueprint $table) {
+        Schema::create('historicos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('projeto_id')->unsigned();
-            $table->foreign('projeto_id')->references('id')->on('projetos')->onDelete('cascade');
+            $table->integer('tarefa_id')->unsigned();
+            $table->foreign('tarefa_id')->references('id')->on('tarefas')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->time('tempo_total')->default('00:00:00');
-            $table->softDeletes();
+            $table->date('dia')->nullable();
+            $table->dateTime('start')->nullable();
+            $table->dateTime('stop')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class CreateProjetoUsuariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projeto_usuarios');
+        Schema::dropIfExists('historicos');
     }
 }
