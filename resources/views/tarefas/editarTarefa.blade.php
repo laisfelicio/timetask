@@ -47,7 +47,7 @@
             </div>
             <div class = "form-group">
                 <label for = "tempoPrevisto"> Tempo estimado </label>
-                <input type = "text" class = "form-control" name = "tempoPrevisto" id = "tempoPrevisto" value = "{{$tarefa->tempo_previsto}}">
+                <input type = "time" class = "form-control" name = "tempoPrevisto" id = "tempoPrevisto" value = "{{$tarefa->tempo_previsto}}">
             
                 @error('tempoPrevisto')
                     <p class = "text-danger"> {{$message}} </p>

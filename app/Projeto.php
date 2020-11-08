@@ -11,7 +11,7 @@ class Projeto extends Model
 
     
      public function users(){
-         return $this->belongsToMany('App\User', 'projeto_usuarios');
+         return $this->belongsToMany('App\User', 'projeto_usuarios', 'projeto_id', 'user_id');
      }
 
      public function cliente(){

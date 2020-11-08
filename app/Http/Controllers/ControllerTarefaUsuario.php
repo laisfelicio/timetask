@@ -190,8 +190,6 @@ class ControllerTarefaUsuario extends Controller
         $historico->start = Carbon::parse($dataHora)->format('y-m-d H:i:s');
         $historico->dia = Carbon::parse($dataHora)->format('yy-m-d');
         $historico->save();
-            
-        
     }
 
     public function historicoStop(Tarefa $tarefa, $dataHora){

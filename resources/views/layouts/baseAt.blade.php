@@ -39,6 +39,12 @@
                       <p>Perfil</p>
                     </a>
                   </li>
+                  <li @if($current=="timesheet") class="nav-item active" @else class="nav-item" @endif>
+                    <a class="nav-link" href="/timesheet">
+                      <i class="material-icons">alarm</i>
+                      <p>Registro de horas</p>
+                    </a>
+                  </li>
                   <li @if($current=="projetos") class="nav-item dropdown active" @else class="nav-item dropdown" @endif>
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">
                       <i class="material-icons">dashboard</i>

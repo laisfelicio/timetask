@@ -92,5 +92,9 @@ Route::get('/usuarios/editar/{id}', 'ControllerUsuario@edit');
 Route::get('/usuarios/apagar/{id}', 'ControllerUsuario@destroy');
 Route::post('/usuarios/files/download', 'ControllerUsuario@downloadRelatorio')->name('usuarios.download');
 
+Route::get('/timesheet', 'ControllerHistorico@index');
+Route::get('/editarTimeSheet/{id}', 'ControllerHistorico@edit');
+Route::post('/timesheet/{id}', 'ControllerHistorico@update');
+
 
 
