@@ -62,6 +62,9 @@ class ControllerProjeto extends Controller
             $projetosFiltrados = $projetosFiltrados->where('status_id', request('statusProjeto'));
         }
 
+        if(request()->has('atraso') && !empty(request('atraso'))){
+            $projetosFiltrados = $projetosFiltrados->where('emAtraso', 1)->where('finalizado', 0);
+        }
         return $projetosFiltrados;
 
     }
@@ -163,7 +166,7 @@ class ControllerProjeto extends Controller
 
         $projeto = Projeto::find($id);
             if(isset($projeto)){
-            date_default_timezone_set('America/Recifeo');
+            date_default_timezone_set('America/Recife');
             setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
             setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
             $dataHora = Carbon::now();

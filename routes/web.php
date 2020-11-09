@@ -79,6 +79,7 @@ Route::get('/tarefausuario/minhastarefas', 'ControllerTarefaUsuario@getTarefasUs
 Route::get('/gerenciarTarefa/{id}', 'ControllerTarefaUsuario@detalhesTarefa');
 Route::get('/comecatimer/{id}', 'ControllerTarefaUsuario@startTimer');
 Route::get('/stoptimer/{id}', 'ControllerTarefaUsuario@stopTimer');
+Route::post('/tarefausuario/files/download', 'ControllerTarefaUsuario@downloadRelatorio')->name('minhastarefas.download');
 
 
 Route::get('/kanban', 'ControllerKanban@index');
@@ -95,6 +96,7 @@ Route::post('/usuarios/files/download', 'ControllerUsuario@downloadRelatorio')->
 Route::get('/timesheet', 'ControllerHistorico@index');
 Route::get('/editarTimeSheet/{id}', 'ControllerHistorico@edit');
 Route::post('/timesheet/{id}', 'ControllerHistorico@update');
-
-
+Route::get('/timesheet/novo', 'ControllerHistorico@create');
+Route::post('/timesheet', 'ControllerHistorico@store');
+Route::post('/timesheet/files/download', 'ControllerHistorico@downloadRelatorio')->name('timesheet.download');
 

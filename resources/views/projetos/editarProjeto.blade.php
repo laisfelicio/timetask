@@ -1,7 +1,14 @@
-@extends('layouts.baseAt', ["current" => "projetos"])
+@extends('layouts.baseAt', ["current" => "projetos", "titulo" => "Projetos"])
 
 @section('body')
+
+
 <div class = "card border">
+    <div class="card-header card-header-text card-header-rose">
+        <div class="card-text">
+          <h4 class="card-title">Editar projeto</h4>
+        </div>
+    </div>
     <div class = "card-body">
         <form action = "/projetos/{{$projeto->id}}" method="POST">
             @csrf
@@ -61,9 +68,10 @@
                 @enderror
             </div>
         
-            <button type = "submit" class = "btn btn-primary btn-sm"> Salvar </button>
-            <button type = "cancel" class = "btn btn-danger btn-sm"> Cancelar </button>
+            <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Salvar </button>
+            <button type = "cancel" class = "btn btn-danger btn-sm btn-round"> Cancelar </button>
         </form>
     </div>
 </div>
+
 @endsection

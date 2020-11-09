@@ -1,9 +1,13 @@
-@extends('layouts.baseAt', ["current" => "usuarios"])
+@extends('layouts.baseAt', ["current" => "usuarios", "titulo" => "Usuários"])
 
 @section('body')
 <div class = "card border">
+    <div class="card-header card-header-text card-header-rose">
+        <div class="card-text">
+          <h4 class="card-title">Registrar usuário</h4>
+        </div>
+    </div>
     <div class = "card-body">
-        <h5> Registrar usuário </h5>
         <form action = "/usuarios" method="POST">
             @csrf
             <div class = "form-group">
@@ -34,8 +38,8 @@
             <div class = "form-group">
                 <input type="checkbox" name="admin" value="sim"> <label>Administrador</label>
             </div>
-            <button type = "submit" class = "btn btn-primary btn-sm"> Salvar </button>
-            <button type = "cancel" class = "btn btn-danger btn-sm"> Cancelar </button>
+            <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Salvar </button>
+            <button type = "cancel" class = "btn btn-danger btn-sm btn-round"> Cancelar </button>
         </form>
     </div>
 </div>

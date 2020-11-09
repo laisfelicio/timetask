@@ -1,9 +1,13 @@
-@extends('layouts.baseAt', ["current" => "tarefas"])
+@extends('layouts.baseAt', ["current" => "tarefas", "titulo" => "Tarefas"])
 
 @section('body')
 <div class = "card">
+    <div class="card-header card-header-text card-header-rose">
+        <div class="card-text">
+          <h4 class="card-title">Gerenciar tarefa</h4>
+        </div>
+    </div>
     <div class = "card-body">
-        <h5 class = "card-title"> Gerenciar Tarefa </h5>
         <hr style="border-top: 1px solid black;">
         <br>
         <form action = "/gerenciarTarefa" method="POST">
@@ -54,13 +58,13 @@
 
                     <div class = "form-group">
                         @if($infoUsu->ultimo_start <= $infoUsu->ultimo_stop)
-                            <a href = "/comecatimer/{{$tarefa->id}}" class="btn btn-success"> 
+                            <a href = "/comecatimer/{{$tarefa->id}}" class="btn btn-success btn-round"> 
                                 <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
                                 </svg>
                             </a>
                         @else
-                            <a href = "/stoptimer/{{$tarefa->id}}" class="btn btn-danger"> 
+                            <a href = "/stoptimer/{{$tarefa->id}}" class="btn btn-danger btn-round"> 
                                 <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-pause-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
                                 </svg>
@@ -143,7 +147,7 @@
                     </div>
                   </div>
             </div>
-            <button type = "submit" class = "btn btn-primary btn-lg"> Salvar Alterações</button>
+            <button type = "submit" class = "btn btn-primary btn-lg btn-round"> Salvar Alterações</button>
         </form>
         
         <hr style="border-top: 1px solid black;">
@@ -163,7 +167,7 @@
                     </div>
                 </div>
             </div>
-            <button type = "submit" class = "btn btn-primary"> Adicionar comentário</button>
+            <button type = "submit" class = "btn btn-primary btn-round"> Adicionar comentário</button>
         </form>
         <hr style="border-top: 1px solid black;">
 

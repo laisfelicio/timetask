@@ -1,7 +1,12 @@
-@extends('layouts.baseAt', ["current" => "usuarios"])
+@extends('layouts.baseAt', ["current" => "usuarios", "titulo" => "Usuários"])
 
 @section('body')
 <div class = "card border">
+    <div class="card-header card-header-text card-header-rose">
+        <div class="card-text">
+          <h4 class="card-title">Editar usuário</h4>
+        </div>
+    </div>
     <div class = "card-body">
         <form action = "/usuarios/{{$usuario->id}}" method="POST">
             @csrf
@@ -17,8 +22,8 @@
                 <label for = "senhaUsuario"> Senha </label>
                 <input type = "password" class = "form-control" name = "senhaUsuario" id = "senhaUsuario" value = {{$usuario->password}}>
             </div>  
-            <button type = "submit" class = "btn btn-primary btn-sm"> Salvar </button>
-            <button type = "cancel" class = "btn btn-danger btn-sm"> Cancelar </button>
+            <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Salvar </button>
+            <button type = "cancel" class = "btn btn-danger btn-sm btn-round"> Cancelar </button>
         </form>
     </div>
 </div>

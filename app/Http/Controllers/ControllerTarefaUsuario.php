@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use DateTimeZone;
 use App\Historico;
 use Carbon\CarbonPeriod;
+use PDF;
 
 class ControllerTarefaUsuario extends Controller
 {
@@ -142,11 +143,36 @@ class ControllerTarefaUsuario extends Controller
         $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $usuarioId = Auth::user()->id;
         $tarefas = Auth::user()->tarefas;
-        
-        return view('tarefas.minhastarefas', compact('tarefas', 'dataAtual'));
+        $tarefas = $this->filtrar($tarefas);
+        $statusTarefas = StatusTarefa::all();
+        $projetos = Projeto::all();
+        return view('tarefas.minhastarefas', compact('tarefas', 'dataAtual', 'statusTarefas', 'projetos'));
 
     }
     
+    public function filtrar($tarefas){
+
+        $dadosFiltrados = $tarefas;
+
+        
+        if(request()->has('projeto') && !empty(request('projeto'))){
+            
+            $dadosFiltrados = $dadosFiltrados->where('projeto_id', request('projeto'));
+          
+        }
+
+        if(request()->has('statusTarefa') && !empty(request('statusTarefa'))){
+            $dadosFiltrados = $dadosFiltrados->where('status_id', request('statusTarefa'));
+        }
+
+        if(request()->has('atraso') && !empty(request('atraso'))){
+            $dadosFiltrados = $dadosFiltrados->where('emAtraso', request('atraso'))->where('finalizado', 0);
+
+        }
+        return $dadosFiltrados;
+
+    }
+
     public function detalhesTarefa($tarefaId){
         $alocado = TarefaUsuario::where('tarefa_id', $tarefaId)->
                                   where('user_id', Auth::user()->id)->get();
@@ -327,5 +353,112 @@ class ControllerTarefaUsuario extends Controller
         $tarefa->save();
         return redirect("/gerenciarTarefa/".$request->idTarefa);
     }
+
+    public function downloadRelatorio(Request $request){
+     
+        
+        //$dados = (Collect(json_decode(rawurldecode($request->clientes))));
+        $dados = (Collect(json_decode($request->tarefas)));
+   
+        
+        $html = '<h1> Relatório - Tarefas </h1>';
+        
+   
+       foreach($dados as $dado){
+                $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+                <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                <td>ID</td>
+                <td colspan="2">NOME</td>
+                <td colspan="2">PROJETO</td>
+                <td colspan="2">DESCRICAO</td>
+                </tr>';
+                $html = $html.'<tr>';
+                $html = $html.'<td> '.$dado->id . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->nome . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->projeto->nome . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->descricao . '</td> ';
+
+                $html = $html.'</tr>';
+                $html = $html. '
+                </table> <br> <hr>'; 
+
+                $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+                <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                <td colspan="2">DATA PREVISTA</td>
+                <td colspan="2">TEMPO PREVISTO</td>
+                <td colspan="2">TEMPO GASTO</td>
+                </tr>';
+                $html = $html.'<tr>';
+                $html = $html.'<td colspan="2"> '.$dado->data_prevista . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->tempo_previsto . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->tempo_gasto . '</td> ';
+
+                $html = $html.'</tr>';
+                $html = $html. '
+                </table> <br> <hr>'; 
+
+                $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+                <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                <td colspan="2">STATUS</td>
+                <td colspan="2">FINALIZADO?</td>
+                <td colspan="2">DATA FINALIZAÇÃO</td>
+                </tr>';
+                $html = $html.'<tr>';
+                $html = $html.'<td colspan="2"> '.$dado->status->nome . '</td> ';
+                if(isset($dado->finalizado) && $dado->finalizado == 1){
+                    $html = $html.'<td colspan="2"> '.'SIM' . '</td> ';
+                    $html = $html.'<td colspan="2"> '.$dado->data_finalizacao . '</td> ';
+                }
+                else{
+                    $html = $html.'<td colspan="2"> '.'NAO' . '</td> ';
+                    $html = $html.'<td colspan="2"> '.'-' . '</td> ';
+                }
+
+                $html = $html.'</tr>';
+                $html = $html. '
+                </table> <br> <hr>'; 
+
+                $usuarios = TarefaUsuario::where('tarefa_id', $dado->id)->get();
+
+                $html = $html.'<h2> Usuários </h2>';
+                
+                $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+                <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                <td colspan="2">USUARIO</td>
+                <td colspan="2">TEMPO GASTO</td>
+                </tr>';
+                if(count($usuarios) > 0){
+                    foreach($usuarios as $usuario){
+                        $user = User::findOrFail($usuario->user_id);
+                        $html = $html.'<tr>';
+                        $html = $html.'<td colspan="2"> '.$user->name . '</td> ';
+                        $html = $html.'<td colspan="2"> '.$usuario->tempo_gasto . '</td> ';
+
+                        $html = $html.'</tr>';
+    
+
+                    }
+                }
+
+                $html = $html. '
+                </table> <br> <hr>';    
+ 
+               PDF::AddPage();
+               
+               PDF::writeHTML($html, true, false, true, false, '');
+               $html = "";
+       }   
+   
+         
+       
+       PDF::SetTitle('Relatório - Tarefas');
+       PDF::AddPage();
+       
+   
+       PDF::Output('relatorio_tarefa.pdf');
+           
+   
+    }
+
     
 }

@@ -9,7 +9,7 @@ use App\StatusProjeto;
 use App\TarefaUsuario;
 use App\User;
 use App\Cliente;
-
+use App\StatusTarefa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -42,7 +42,33 @@ class ControllerTarefa extends Controller
         $dataAtual = Carbon::now();
         $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
         $tarefas = Tarefa::all();
-        return view('tarefas.tarefas', compact('tarefas', 'dataAtual'));
+        $tarefas = $this->filtrar($tarefas);
+        $statusTarefas = StatusTarefa::all();
+        $projetos = Projeto::all();
+        return view('tarefas.tarefas', compact('tarefas', 'dataAtual', 'projetos', 'statusTarefas'));
+    }
+
+    public function filtrar($tarefas){
+
+        $dadosFiltrados = $tarefas;
+
+        
+        if(request()->has('projeto') && !empty(request('projeto'))){
+            
+            $dadosFiltrados = $dadosFiltrados->where('projeto_id', request('projeto'));
+          
+        }
+
+        if(request()->has('statusTarefa') && !empty(request('statusTarefa'))){
+            $dadosFiltrados = $dadosFiltrados->where('status_id', request('statusTarefa'));
+        }
+
+        if(request()->has('atraso') && !empty(request('atraso'))){
+            $dadosFiltrados = $dadosFiltrados->where('emAtraso', request('atraso'))->where('finalizado', 0);
+
+        }
+        return $dadosFiltrados;
+
     }
 
     public function alocar($id){
@@ -157,6 +183,10 @@ class ControllerTarefa extends Controller
             $tarefa->tempo_previsto = $request->input('tempoPrevisto');
             $tarefa->save();
         }
+
+        if($tarefa->users->find(Auth::user()->id)->exists)
+            return redirect('/tarefausuario/minhastarefas');
+
         return redirect('/tarefas');
     }
 
@@ -205,7 +235,7 @@ class ControllerTarefa extends Controller
                 $html = $html.'<tr>';
                 $html = $html.'<td> '.$dado->id . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->nome . '</td> ';
-                $html = $html.'<td colspan="2"> '.$dado->projeto . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->projeto->nome . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->descricao . '</td> ';
 
                 $html = $html.'</tr>';
@@ -234,7 +264,7 @@ class ControllerTarefa extends Controller
                 <td colspan="2">DATA FINALIZAÇÃO</td>
                 </tr>';
                 $html = $html.'<tr>';
-                $html = $html.'<td colspan="2"> '.$dado->status . '</td> ';
+                $html = $html.'<td colspan="2"> '.$dado->status->nome . '</td> ';
                 if(isset($dado->finalizado) && $dado->finalizado == 1){
                     $html = $html.'<td colspan="2"> '.'SIM' . '</td> ';
                     $html = $html.'<td colspan="2"> '.$dado->data_finalizacao . '</td> ';
@@ -248,10 +278,9 @@ class ControllerTarefa extends Controller
                 $html = $html. '
                 </table> <br> <hr>'; 
 
-                 $usuarios = TarefaUsuario::where('tarefa_id', $dado->id)->get();
+                $usuarios = TarefaUsuario::where('tarefa_id', $dado->id)->get();
 
                 $html = $html.'<h2> Usuários </h2>';
-
                 
                 $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
                 <tr style="background-color:#D9A5F3;color:#FFFFFF;">
@@ -260,8 +289,9 @@ class ControllerTarefa extends Controller
                 </tr>';
                 if(count($usuarios) > 0){
                     foreach($usuarios as $usuario){
+                        $user = User::findOrFail($usuario->user_id);
                         $html = $html.'<tr>';
-                        $html = $html.'<td colspan="2"> '.$usuario->nomeUsuario . '</td> ';
+                        $html = $html.'<td colspan="2"> '.$user->name . '</td> ';
                         $html = $html.'<td colspan="2"> '.$usuario->tempo_gasto . '</td> ';
 
                         $html = $html.'</tr>';

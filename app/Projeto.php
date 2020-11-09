@@ -4,9 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 class Projeto extends Model
 {
     //
+    protected $appends = ['emAtraso'];
     use SoftDeletes;
 
     
@@ -24,5 +26,16 @@ class Projeto extends Model
 
      public function tarefas(){
         return $this->hasMany('App\Tarefa');
+     }
+
+     public function getEmAtrasoAttribute(){
+         $dataAtual = Carbon::now();
+         $dataAtual = Carbon::parse($dataAtual)->format('yy-m-d');
+         if($this->data_prevista < $dataAtual){
+            return 1;
+         }
+         else{
+            return 0;
+         }
      }
 }

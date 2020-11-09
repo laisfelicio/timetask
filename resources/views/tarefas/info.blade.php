@@ -1,7 +1,12 @@
-@extends('layouts.baseAt', ["current" => "tarefas"])
+@extends('layouts.baseAt', ["current" => "tarefas", "titulo" => "Tarefas"])
 
 @section('body')
 <div class = "card border">
+    <div class="card-header card-header-text card-header-rose">
+        <div class="card-text">
+          <h4 class="card-title">+ Info</h4>
+        </div>
+    </div>
     <div class = "card-body">
         <h5 class = "card-title"> Informações sobre a tarefa </h5>
         <label for = "nomeProjeto"> Nome da tarefa </label>
@@ -54,7 +59,7 @@
                                         <td>{{$usu->name}}</td>
                                         <td>{{$usu->email}}</td>
                                         <td>
-                                            <a href = "/tarefausuario/apagar/alocacao/{{$usu->id}}" class = "btn btn-sm btn-danger"> Desalocar </a>
+                                            <a href = "/tarefausuario/apagar/alocacao/{{$usu->id}}" class = "btn btn-sm btn-danger btn-round"> Desalocar </a>
                                         </td>
                                     </tr>
                                     @endforeach

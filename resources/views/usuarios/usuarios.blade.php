@@ -1,9 +1,13 @@
-@extends('layouts.baseAt', ["current" => "usuarios"])
+@extends('layouts.baseAt', ["current" => "usuarios", "titulo" => "Usuários"])
 
 @section('body')
 <div class = "card border">
+    <div class="card-header card-header-text card-header-rose">
+        <div class="card-text">
+          <h4 class="card-title">Usuários</h4>
+        </div>
+    </div>
     <div class = "card-body">
-        <h5 class = "card-title"> Usuários </h5>
         @if(count($usuarios) > 0)
         <table class = "table table-ordered table hover">
             <thead>
@@ -19,8 +23,8 @@
                     <td>{{$usuario->name}}</td>
                     <td>{{$usuario->email}}</td>
                     <td>
-                        <a href = "/usuarios/editar/{{$usuario->id}}" class = "btn btn-sm btn-primary"> Editar </a>
-                        <a href = "/usuarios/apagar/{{$usuario->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                        <a href = "/usuarios/editar/{{$usuario->id}}" class = "btn btn-sm btn-primary btn-round"> Editar </a>
+                        <a href = "/usuarios/apagar/{{$usuario->id}}" class = "btn btn-sm btn-danger btn-round"> Apagar </a>
                     </td>
                 </tr>
                 @endforeach

@@ -1,7 +1,12 @@
-@extends('layouts.baseAt', ["current" => "kanban"])
+@extends('layouts.baseAt', ["current" => "kanban", "titulo" => "Kanban"])
 
 @section('body')
 <div class = "card border">
+    <div class="card-header card-header-text card-header-rose">
+        <div class="card-text">
+          <h4 class="card-title">Kanban</h4>
+        </div>
+    </div>
     <div class = "card-body">
         <h5 class = "card-title"> Quadro Kanban </h5>
         <hr style="border-top: 1px solid black;">

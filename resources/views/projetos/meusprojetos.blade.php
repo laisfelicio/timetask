@@ -1,12 +1,16 @@
-@extends('layouts.baseAt', ["current" => "projetos"])
+@extends('layouts.baseAt', ["current" => "projetos", "titulo" => "Projetos"])
 
 @section('body')
 <div class = "card border">
+    <div class="card-header card-header-text card-header-rose">
+        <div class="card-text">
+          <h4 class="card-title">+ Info</h4>
+        </div>
+    </div>
     <div class = "card-body">
-        <h5 class = "card-title"> Meus Projetos </h5>
         @if(count($projetos) > 0)
         <p>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-primary btn-round" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
               OPÇÕES DE FILTRO
             </button>
         </p>
@@ -33,7 +37,7 @@
                             </select>
                         </div>
         
-                        <button type = "submit" class = "btn btn-primary btn-sm"> Filtrar </button>
+                        <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Filtrar </button>
                     </form>
                 </div>
             </div>
@@ -55,12 +59,12 @@
                     <td>{{$projeto->status->nome}}</td>
                     <td>
                         @if(Auth::user()->admin == 1)
-                            <a href = "/projetos/editar/{{$projeto->id}}" class = "btn btn-sm btn-primary"> Editar </a>
+                            <a href = "/projetos/editar/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round"> Editar </a>
                         @endif
-                         <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
-                        <a href = "/projetousuario/info/{{$projeto->id}}" class = "btn btn-sm btn-primary"> + Info </a>
+                         <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round"> Alocar usuário </a>
+                        <a href = "/projetousuario/info/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round"> + Info </a>
                         @if(Auth::user()->admin == 1)
-                             <a href = "/projetos/apagar/{{$projeto->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                             <a href = "/projetos/apagar/{{$projeto->id}}" class = "btn btn-sm btn-danger btn-round"> Apagar </a>
                         @endif
                     </td>
                     <td>

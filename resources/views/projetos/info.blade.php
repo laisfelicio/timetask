@@ -1,7 +1,13 @@
-@extends('layouts.baseAt', ["current" => "projetos"])
+@extends('layouts.baseAt', ["current" => "projetos", "titulo" => "Projeto - Informações"])
 
 @section('body')
+
 <div class = "card border">
+    <div class="card-header card-header-text card-header-rose">
+        <div class="card-text">
+          <h4 class="card-title">+ Info</h4>
+        </div>
+    </div>
     <div class = "card-body">
         <h5 class = "card-title"> Informações sobre o projeto </h5>
         <label for = "nomeProjeto"> Nome do Projeto </label>
@@ -52,7 +58,7 @@
                                         <td>{{$usu->name}}</td>
                                         <td>{{$usu->email}}</td>
                                         <td>
-                                            <a href = "/projetousuario/apagar/{{$projeto->id}}/{{$usu->id}}" class = "btn btn-sm btn-danger"> Desalocar </a>
+                                            <a href = "/projetousuario/apagar/{{$projeto->id}}/{{$usu->id}}" class = "btn btn-sm btn-danger btn-round"> Desalocar </a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -85,10 +91,10 @@
                                         <td>{{$tarefa->nome}}</td>
                                         <td>{{$tarefa->status->nome}}</td>
                                         <td>
-                                            <a href = "/tarefas/editar/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Editar </a>
-                                            <a href = "/tarefausuario/{{$projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> Alocar usuário </a>
-                                            <a href = "/tarefausuario/info/{{$tarefa->projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary"> + Info </a>
-                                            <a href = "/tarefas/apagar/{{$tarefa->id}}" class = "btn btn-sm btn-danger"> Apagar </a>
+                                            <a href = "/tarefas/editar/{{$tarefa->id}}" class = "btn btn-sm btn-primary btn-round"> Editar </a>
+                                            <a href = "/tarefausuario/{{$projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary btn-round"> Alocar usuário </a>
+                                            <a href = "/tarefausuario/info/{{$tarefa->projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary btn-round"> + Info </a>
+                                            <a href = "/tarefas/apagar/{{$tarefa->id}}" class = "btn btn-sm btn-danger btn-round"> Apagar </a>
                                         </td>
                                         <td> 
                                             @if($dataAtual > $tarefa->data_prevista)
@@ -108,6 +114,6 @@
 
     </div>
     <div class = "card-footer">
-        <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary" role = "button"> Alocar novos usuários </a>
+        <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round" role = "button"> Alocar novos usuários </a>
 </div>
 @endsection
