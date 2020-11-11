@@ -23,10 +23,11 @@
                         <div class="form-group">
                             <label for="statusProjeto">Status</label>
                             <select class="form-control" id="statusProjeto" name = "statusProjeto">
-                            @foreach($statusProjetos as $status) 
+                                <option value = "">TODOS</option>
+                                @foreach($statusProjetos as $status) 
                                 <option value = {{$status->id}}>{{$status->nome}}</option>
                             @endforeach
-                                <option value = "">TODOS</option>
+                                
                             </select>
                         </div>
         

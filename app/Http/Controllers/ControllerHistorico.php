@@ -18,9 +18,35 @@ class ControllerHistorico extends Controller
     public function index()
     {
         //
-        $historicos = Historico::where('user_id', Auth::user()->id)->orderBy('dia', 'ASC')->get();
-        return view('historico.meuhistorico', compact('historicos'));
+        $historicos = Historico::where('user_id', Auth::user()->id);
+        $historicos = $this->filtrar($historicos);
+        $projetos = Auth::user()->projetos;
+        $tarefas = Auth::user()->tarefas;
+        return view('historico.meuhistorico', compact('historicos', 'projetos', 'tarefas'));
 
+    }
+
+    public function filtrar($historicos){
+        
+        $historicosFiltrados = $historicos;
+        if(request()->has('dataInicio') && !empty(request('dataInicio'))){
+            
+            $historicosFiltrados = $historicosFiltrados->whereDate('dia', '>=', request('dataInicio'));
+        }
+
+        if(request()->has('dataFim') && !empty(request('dataFim'))){
+            
+            $historicosFiltrados = $historicosFiltrados->whereDate('dia', '<=', request('dataFim'));
+        }
+
+
+        if(request()->has('tarefa') && !empty(request('tarefa'))){
+            $historicosFiltrados = $historicosFiltrados->where('tarefa_id', request('tarefa'));
+        }
+
+        
+        return $historicosFiltrados->orderBy('dia', 'ASC')->get();
+        
     }
 
     /**

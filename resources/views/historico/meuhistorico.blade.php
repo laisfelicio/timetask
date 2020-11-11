@@ -10,6 +10,41 @@
     <div class = "card-body">
         <h5 class = "card-title"> Histórico de atividades </h5>
         @if(count($historicos) > 0)
+        <p>
+            <button class="btn btn-primary btn-round" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              OPÇÕES DE FILTRO
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class = "card">
+                <div class = "card-body">
+                    <form method = "GET" action = "/timesheet">
+        
+                        <div class="form-group">
+                            <label for="tarefa">Tarefa</label>
+                            <select class="form-control" id="tarefa" name = "tarefa">
+                            <option value = "">TODOS</option>
+                            @foreach($tarefas as $tarefa) 
+                                <option value = {{$tarefa->id}}>{{$tarefa->nome}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dataInicio">Data Inicial </label>
+                            <input type = "date" id = "dataInicio" name = "dataInicio" class = "form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dataFim">Data Final </label>
+                            <input type = "date" id = "dataFim" name = "dataFim" class = "form-control">
+                        </div>
+        
+                        <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Filtrar </button>
+                    </form>
+                </div>
+            </div>
+        </div>
         <table class = "table table-ordered table hover">
             <thead>
                 <th> Código Tarefa</th>

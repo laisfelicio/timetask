@@ -147,6 +147,11 @@ class ControllerProjetoUsuario extends Controller
             $projetosFiltrados = $projetosFiltrados->where('status_id', request('statusProjeto'));
         }
 
+
+        if(request()->has('atraso') && !empty(request('atraso'))){
+            $projetosFiltrados = $projetosFiltrados->where('emAtraso', 1)->where('finalizado', 0);
+        }
+        
         return $projetosFiltrados;
 
     }

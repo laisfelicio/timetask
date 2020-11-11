@@ -27,6 +27,7 @@ class Tarefa extends Model
         return $this->belongsTo('App\Projeto');
     }
 
+
     public function comentarios(){
         return $this->hasMany('App\Comentario');
     }
@@ -42,6 +43,9 @@ class Tarefa extends Model
         }
     }
 
+    public function historicos(){
+        return $this->hasMany('App\Historico');
+    }
 
 
      

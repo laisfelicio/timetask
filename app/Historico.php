@@ -38,4 +38,10 @@ class Historico extends Model
         return $horaFim;
     }
 
+    public function tarefa(){
+        return $this->belongsTo('App\Tarefa')->withTrashed();
+    }
+
+
+
 }

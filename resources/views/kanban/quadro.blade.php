@@ -8,8 +8,6 @@
         </div>
     </div>
     <div class = "card-body">
-        <h5 class = "card-title"> Quadro Kanban </h5>
-        <hr style="border-top: 1px solid black;">
         <br>
         <div class = "row">
             <div class="col-sm-3">
@@ -18,8 +16,7 @@
                     <br>
                     @foreach($abertas as $tarefa)
                         <div class = "card border-info mb-1">
-                            <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-primary btn-fab btn-fab-mini btn-round"> <i class="material-icons">add</i> </a>
-
+                            <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn-fab btn-fab-mini btn-round"> <i class="material-icons">info</i> </a>
                             <div class = "card-header">{{$tarefa->nome}}
                                 @if($dataAtual > $tarefa->data_prevista)
                                     <i class="material-icons" style = "color: #ff0000;">warning</i>
@@ -40,7 +37,7 @@
                     <br>
                     @foreach($exec as $tarefa)
                     <div class = "card border-secondary mb-1">
-                        <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-primary btn-fab btn-fab-mini btn-round"> <i class="material-icons">add</i> </a>
+                        <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn-fab btn-fab-mini btn-round"> <i class="material-icons">info</i> </a>
 
                         <div class = "card-header">{{$tarefa->nome}}
                             @if($dataAtual > $tarefa->data_prevista)
@@ -62,7 +59,7 @@
                     <br>
                     @foreach($homolog as $tarefa)
                     <div class = "card border-warning mb-1">
-                        <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-primary btn-fab btn-fab-mini btn-round"> <i class="material-icons">add</i> </a>
+                        <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn-fab btn-fab-mini btn-round"> <i class="material-icons">info</i> </a>
 
                         <div class = "card-header">{{$tarefa->nome}}
                             @if($dataAtual > $tarefa->data_prevista)
@@ -84,7 +81,7 @@
                     <br>
                     @foreach($finalizadas as $tarefa)
                     <div class = "card border-success mb-1">
-                        <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn btn-primary btn-fab btn-fab-mini btn-round"> <i class="material-icons">add</i> </a>
+                        <a href = "/tarefausuario/info/{{$tarefa->projeto_id}}/{{$tarefa->id}}" class = "btn-fab btn-fab-mini btn-round"> <i class="material-icons outlined">info</i> </a>
 
                         <div class = "card-header">{{$tarefa->nome}}
                             @if($dataAtual > $tarefa->data_prevista)

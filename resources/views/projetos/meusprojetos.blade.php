@@ -21,7 +21,8 @@
                         <div class="form-group">
                             <label for="statusProjeto">Status</label>
                             <select class="form-control" id="statusProjeto" name = "statusProjeto">
-                            @foreach($statusProjetos as $status) 
+                                <option value = "">TODOS</option>
+                                @foreach($statusProjetos as $status) 
                                 <option value = {{$status->id}}>{{$status->nome}}</option>
                             @endforeach
                             </select>
@@ -34,6 +35,15 @@
                             @foreach($clientes as $cliente) 
                                 <option value = {{$cliente->id}}>{{$cliente->nome}}</option>
                             @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="atraso">Em atraso?</label>
+                            <select class="form-control" id="atraso" name = "atraso">
+                                <option value = "">Todos</option>
+                                <option value = "SIM">Sim</option>
+                                <option value = "NAO">Não</option>
                             </select>
                         </div>
         
