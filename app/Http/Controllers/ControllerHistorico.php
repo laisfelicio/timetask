@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use PDF;
 use App\Tarefa;
+use App\Projeto;
 class ControllerHistorico extends Controller
 {
     /**
@@ -112,7 +113,51 @@ class ControllerHistorico extends Controller
     public function update(Request $request, $id)
     {
         //
+        $fim = Carbon::parse($request->horaInicio);
+        $inicio = Carbon::parse($request->horaFim);
+        $totalAtualizado = $inicio->diffInHours($fim) . ':' . $inicio->diff($fim)->format('%I:%S');
+        $totalAtualizado = Carbon::parse($totalAtualizado)->format('H:i:s');
         $historico = Historico::findOrFail($id);
+        $totalAtual = Carbon::parse($historico->horas)->format('H:i:s');
+
+        if($totalAtual > $totalAtualizado){
+            $t1 = Carbon::parse($historico->horas);
+            
+            $diferenca = $t1->diffInHours($totalAtualizado) . ':' . $t1->diff($totalAtualizado)->format('%I:%S');
+            $diferenca = Carbon::parse($diferenca);
+            $projeto = Projeto::find($historico->tarefa->projeto_id);
+            $tempoGasto = Carbon::parse($projeto->tempo_gasto);
+            $projeto->tempo_gasto = ($diferenca->diffInHours($tempoGasto) . ':' . $diferenca->diff($tempoGasto)->format('%I:%S'));
+            $projeto->save();
+
+            $tarefa = $historico->tarefa;
+            $tempoGasto = Carbon::parse($tarefa->tempo_gasto);
+            $tarefa->tempo_gasto = ($diferenca->diffInHours($tempoGasto) . ':' . $diferenca->diff($tempoGasto)->format('%I:%S'));
+            $tarefa->save();
+            
+        }
+        else
+        {
+            if($totalAtual < $totalAtualizado)
+            {
+                $t1 = Carbon::parse($historico->horas);
+            
+                $diferenca = $t1->diffInHours($totalAtualizado) . ':' . $t1->diff($totalAtualizado)->format('%I:%S');
+                
+                $projeto = Projeto::find($historico->tarefa->projeto_id);
+                $projeto->tempo_gasto = $this->somaHoras($projeto->tempo_gasto, $diferenca);
+                $projeto->save();
+    
+                $tarefa = $historico->tarefa;
+                $tarefa->tempo_gasto = $this->somaHoras($tarefa->tempo_gasto, $diferenca);
+                $tarefa->save();
+
+            }
+            else{
+                return redirect('/timesheet');
+            }
+        }
+        
         $dia = Carbon::parse($request->dia)->format('yy-m-d');
         if(isset($historico)){
             $historico->start = $dia." ".Carbon::parse($request->horaInicio)->format('H:i:s');
@@ -121,6 +166,30 @@ class ControllerHistorico extends Controller
         }
         return redirect('/timesheet');
        
+    }
+
+    public function somaHoras($antiga, $nova){
+        
+        $tempo1 = explode(":", $antiga);
+        $tempo2 = explode(":", $nova);
+        
+
+        
+        $totalSecs = 0;
+        $totalSecs += $tempo1[0] * 3600;
+        $totalSecs += $tempo1[1] * 60;
+        $totalSecs += $tempo1[2];
+        $totalSecs += $tempo2[0] * 3600;
+        $totalSecs += $tempo2[1] * 60;
+        $totalSecs += $tempo2[2];
+
+        $hora = intdiv($totalSecs,3600);
+        $hora = str_pad($hora, 3, "0", STR_PAD_LEFT);
+        $min = intdiv(($totalSecs%3600),60);
+        $min = str_pad($min, 2, "0", STR_PAD_LEFT);
+        $sec = ($totalSecs%3600)%60;
+        $sec = str_pad($sec, 2, "0", STR_PAD_LEFT);
+        return $hora.":".$min.":".$sec;
     }
 
     /**
