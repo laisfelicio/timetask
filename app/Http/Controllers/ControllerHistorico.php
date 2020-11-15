@@ -9,6 +9,8 @@ use Illuminate\Support\Carbon;
 use PDF;
 use App\Tarefa;
 use App\Projeto;
+use App\TarefaUsuario;
+use App\ProjetoUsuario;
 class ControllerHistorico extends Controller
 {
     /**
@@ -76,6 +78,31 @@ class ControllerHistorico extends Controller
         $historico->tarefa_id = $request->tarefa;
         $historico->user_id = Auth::user()->id;
         $historico->save();
+
+        $fim = Carbon::parse($dia." ".Carbon::parse($historico->start)->format('H:i:s'));
+        $inicio = Carbon::parse($dia." ".Carbon::parse($historico->stop)->format('H:i:s'));
+        $qtdHoras = $inicio->diffInHours($fim) . ':' . $inicio->diff($fim)->format('%I:%S');
+        $tarefa = Tarefa::findOrFail($request->tarefa);
+        $projeto = Projeto::find($tarefa->projeto_id);
+        $projeto->tempo_gasto = $this->somaHoras($projeto->tempo_gasto, $qtdHoras);
+        $projeto->save();
+
+        
+        $tarefa->tempo_gasto = $this->somaHoras($tarefa->tempo_gasto, $qtdHoras);
+        $tarefa->save();
+
+        $tarefaUsuario = TarefaUsuario::where('user_id', Auth::user()->id)
+                        ->where('tarefa_id', $tarefa->id)->get()->first();
+        $tarefaUsuario->tempo_gasto = $this->somaHoras($tarefaUsuario->tempo_gasto, $qtdHoras);
+        
+        $tarefaUsuario->save();
+        $projetoUsuario = ProjetoUsuario::where('user_id', Auth::user()->id)
+                        ->where('projeto_id', $tarefa->projeto_id)->get()->first();
+        
+        $projetoUsuario->tempo_total = $this->somaHoras($projetoUsuario->tempo_total, $qtdHoras);
+        
+        $projetoUsuario->save();
+        
         return redirect('/timesheet');
     }
 
@@ -124,16 +151,23 @@ class ControllerHistorico extends Controller
             $t1 = Carbon::parse($historico->horas);
             
             $diferenca = $t1->diffInHours($totalAtualizado) . ':' . $t1->diff($totalAtualizado)->format('%I:%S');
-            $diferenca = Carbon::parse($diferenca);
-            $projeto = Projeto::find($historico->tarefa->projeto_id);
-            $tempoGasto = Carbon::parse($projeto->tempo_gasto);
-            $projeto->tempo_gasto = ($diferenca->diffInHours($tempoGasto) . ':' . $diferenca->diff($tempoGasto)->format('%I:%S'));
+            $projeto = Projeto::find($historico->tarefa->projeto_id);     
+            $projeto->tempo_gasto = $this->subtraiHoras($projeto->tempo_gasto, $diferenca);
             $projeto->save();
 
             $tarefa = $historico->tarefa;
-            $tempoGasto = Carbon::parse($tarefa->tempo_gasto);
-            $tarefa->tempo_gasto = ($diferenca->diffInHours($tempoGasto) . ':' . $diferenca->diff($tempoGasto)->format('%I:%S'));
+            $tarefa->tempo_gasto = $this->subtraiHoras($tarefa->tempo_gasto, $diferenca);
             $tarefa->save();
+
+            $tarefaUsuario = TarefaUsuario::where('user_id', Auth::user()->id)
+                        ->where('tarefa_id', $tarefa->id)->get()->first();
+            $tarefaUsuario->tempo_gasto = $this->subtraiHoras($tarefaUsuario->tempo_gasto, $diferenca);
+
+            $projetoUsuario = ProjetoUsuario::where('user_id', Auth::user()->id)
+                        ->where('projeto_id', $tarefa->projeto_id)->get()->first();
+            $tempoGasto = Carbon::parse($projetoUsuario->tempo_total);
+            $projetoUsuario->tempo_total = $this->subtraiHoras($projetoUsuario->tempo_total, $diferenca);
+            $projetoUsuario->save();
             
         }
         else
@@ -151,6 +185,17 @@ class ControllerHistorico extends Controller
                 $tarefa = $historico->tarefa;
                 $tarefa->tempo_gasto = $this->somaHoras($tarefa->tempo_gasto, $diferenca);
                 $tarefa->save();
+
+                $tarefaUsuario = TarefaUsuario::where('user_id', Auth::user()->id)
+                            ->where('tarefa_id', $tarefa->id)->get()->first();
+                $tempoGasto = Carbon::parse($tarefaUsuario->tempo_gasto);
+                $tarefaUsuario->tempo_gasto = $this->somaHoras($tarefaUsuario->tempo_gasto, $diferenca);
+                $tarefaUsuario->save();
+                $projetoUsuario = ProjetoUsuario::where('user_id', Auth::user()->id)
+                            ->where('projeto_id', $tarefa->projeto_id)->get()->first();
+                $tempoGasto = Carbon::parse($projetoUsuario->tempo_total);
+                $projetoUsuario->tempo_total = $this->somaHoras($projetoUsuario->tempo_gasto, $diferenca);
+                $projetoUsuario->save();
 
             }
             else{
@@ -192,6 +237,38 @@ class ControllerHistorico extends Controller
         return $hora.":".$min.":".$sec;
     }
 
+    public function subtraiHoras($horaMaior, $horaMenor){
+        var_dump($horaMaior);
+        echo ("HORA MENOR = ".$horaMenor);
+        $maior = explode(":", $horaMaior);
+        $menor = explode(":", $horaMenor);
+
+        $maiorSecs = 0;
+        $maiorSecs += $maior[0] * 3600;
+        $maiorSecs += $maior[1] * 60;
+        $maiorSecs += $maior[2]; 
+
+        $menorSecs = 0;
+        $menorSecs += $menor[0] * 3600;
+        $menorSecs += $menor[1] * 60;
+        $menorSecs += $menor[2]; 
+
+        $total = $maiorSecs - $menorSecs;
+        $hora = intdiv($total,3600);
+        $hora = str_pad($hora, 3, "0", STR_PAD_LEFT);
+        $min = intdiv(($total%3600),60);
+        $min = str_pad($min, 2, "0", STR_PAD_LEFT);
+        $sec = ($total%3600)%60;
+        $sec = str_pad($sec, 2, "0", STR_PAD_LEFT);
+
+        dd($hora.":".$min.":".$sec);
+        return $hora.":".$min.":".$sec;
+        
+
+        
+
+
+    }
     /**
      * Remove the specified resource from storage.
      *
