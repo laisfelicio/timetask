@@ -1,10 +1,10 @@
-@extends('layouts.baseAt', ["current" => "relatorios", "titulo" => "Relatórios"])
+@extends('layouts.baseAt', ["current" => "graficos", "titulo" => "Gráficos"])
 
 @section('body')
 <div class = "card border">
     <div class="card-header card-header-text card-header-rose">
         <div class="card-text">
-          <h4 class="card-title">Relatórios</h4>
+          <h4 class="card-title">Gráficos</h4>
         </div>
     </div>
     <div class = "card-body">

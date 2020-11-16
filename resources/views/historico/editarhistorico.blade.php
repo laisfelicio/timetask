@@ -12,11 +12,11 @@
             @csrf
             <div class = "form-group">
                 <label for = "nomeUsuario"> Nome da tarefa </label><br>
-                <input type = "text" class = "form-control" name = "nomeTarefa" id = "nomeTarefa" value = {{$historico->nomeTarefa}} readonly>
+                <input type = "text" class = "form-control" name = "nomeTarefa" id = "nomeTarefa" value = "{{$historico->nomeTarefa}}" readonly>
             </div><br>
             <div class = "form-group">
                 <label for = "dia"> Data </label><br>
-                <input type = "text" class = "form-control" name = "dia" id = "dia" value = {{$historico->dia->format('d/m/Y')}} readonly>
+                <input type = "text" class = "form-control" name = "dia" id = "dia" value = "{{$historico->dia->format('d/m/Y')}}" readonly>
             </div><br>  
             <div class = "form-group">
                 <label for = "tempo"> Hora Início </label>

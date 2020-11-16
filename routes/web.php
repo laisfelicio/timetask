@@ -26,7 +26,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/relatorio', 'ControllerRelatorio@index');
+Route::get('/graficos', 'ControllerGrafico@index');
+Route::get('/relatorios', 'ControllerRelatorio@index');
+Route::get('/relatoriospdf/usuariosHoras', 'ControllerRelatorio@indexUsuarioHora');
+Route::get('/relatoriospdf/usuariosHoras/download', 'ControllerRelatorio@downloadUsuarioHora');
+Route::get('/relatoriospdf/projetohoras', 'ControllerRelatorio@indexProjetoHora');
+Route::get('/relatoriospdf/projetohoras/download', 'ControllerRelatorio@downloadProjetoHora');
 
 Route::get('/clientes', 'ControllerCliente@index');
 Route::get('/clientes/novo', 'ControllerCliente@create');

@@ -162,10 +162,10 @@ class ControllerHistorico extends Controller
             $tarefaUsuario = TarefaUsuario::where('user_id', Auth::user()->id)
                         ->where('tarefa_id', $tarefa->id)->get()->first();
             $tarefaUsuario->tempo_gasto = $this->subtraiHoras($tarefaUsuario->tempo_gasto, $diferenca);
+            $tarefaUsuario->save();
 
             $projetoUsuario = ProjetoUsuario::where('user_id', Auth::user()->id)
                         ->where('projeto_id', $tarefa->projeto_id)->get()->first();
-            $tempoGasto = Carbon::parse($projetoUsuario->tempo_total);
             $projetoUsuario->tempo_total = $this->subtraiHoras($projetoUsuario->tempo_total, $diferenca);
             $projetoUsuario->save();
             
@@ -188,13 +188,12 @@ class ControllerHistorico extends Controller
 
                 $tarefaUsuario = TarefaUsuario::where('user_id', Auth::user()->id)
                             ->where('tarefa_id', $tarefa->id)->get()->first();
-                $tempoGasto = Carbon::parse($tarefaUsuario->tempo_gasto);
                 $tarefaUsuario->tempo_gasto = $this->somaHoras($tarefaUsuario->tempo_gasto, $diferenca);
                 $tarefaUsuario->save();
+
                 $projetoUsuario = ProjetoUsuario::where('user_id', Auth::user()->id)
                             ->where('projeto_id', $tarefa->projeto_id)->get()->first();
-                $tempoGasto = Carbon::parse($projetoUsuario->tempo_total);
-                $projetoUsuario->tempo_total = $this->somaHoras($projetoUsuario->tempo_gasto, $diferenca);
+                $projetoUsuario->tempo_total = $this->somaHoras($projetoUsuario->tempo_total, $diferenca);
                 $projetoUsuario->save();
 
             }
@@ -202,8 +201,7 @@ class ControllerHistorico extends Controller
                 return redirect('/timesheet');
             }
         }
-        
-        $dia = Carbon::parse($request->dia)->format('yy-m-d');
+        $dia = Carbon::createFromFormat('d/m/Y', $request->dia)->format('yy-m-d');
         if(isset($historico)){
             $historico->start = $dia." ".Carbon::parse($request->horaInicio)->format('H:i:s');
             $historico->stop = $dia." ".Carbon::parse($request->horaFim)->format('H:i:s');
@@ -238,8 +236,8 @@ class ControllerHistorico extends Controller
     }
 
     public function subtraiHoras($horaMaior, $horaMenor){
-        var_dump($horaMaior);
-        echo ("HORA MENOR = ".$horaMenor);
+        
+       
         $maior = explode(":", $horaMaior);
         $menor = explode(":", $horaMenor);
 
@@ -261,7 +259,7 @@ class ControllerHistorico extends Controller
         $sec = ($total%3600)%60;
         $sec = str_pad($sec, 2, "0", STR_PAD_LEFT);
 
-        dd($hora.":".$min.":".$sec);
+        
         return $hora.":".$min.":".$sec;
         
 

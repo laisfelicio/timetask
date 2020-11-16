@@ -42,6 +42,10 @@ class Historico extends Model
         return $this->belongsTo('App\Tarefa')->withTrashed();
     }
 
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
 
 
 }
