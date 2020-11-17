@@ -95,89 +95,7 @@ class ControllerRelatorio extends Controller
         return view('relatorios.usuarioshoras', compact('usuarios'));
     }
 
-    public function downloadUsuarioHora(Request $request){
-        
-        $historicos =Historico::where('id', '>', 0);
-        $historicos = $this->filtrar($historicos);
-      
-        
-        PDF::AddPage();
 
-   
-        $somaHoras = "00:00:00";
-        $idUser = 0;
-        $idUserAnt = 0;
-        $html = "";
-       foreach($historicos as $key => $historico){
-                if($key == 0){
-                    $html = $html.'<h1> Relatório - Usuários x Hora </h1>';
-                    $html = $html.'<h3> <b> Usuário: '.$historico->user->name.'</b></h3>';
-                    $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
-                            <tr style="background-color:#D9A5F3;color:#FFFFFF;">
-                            <td colspan="1">ID TAREFA</td>
-                            <td colspan="2">TAREFA</td>
-                            <td colspan="2">USUARIO</td>
-                            <td colspan="2">DIA</td>
-                            <td colspan="2">HORAS</td>
-                            </tr>';
-                    $somaHoras = $this->somaHoras($somaHoras, $historico->horas);
-                    $idUserAnt = $historico->user_id;
-                    $html = $html.'<tr>';
-                    $html = $html.'<td colspan="1"> '.$historico->tarefa_id . '</td> ';
-                    $html = $html.'<td colspan="2"> '.$historico->tarefa->nome . '</td> ';
-                    $html = $html.'<td colspan="2"> '.$historico->user->name . '</td> ';
-                    $dia = Carbon::parse($historico->dia)->format('d/m/Y');
-                    $html = $html.'<td colspan="2"> '.$dia . '</td> ';
-                    $html = $html.'<td colspan="2"> '.$historico->horas . '</td> ';
-
-                    $html = $html.'</tr>';
-                    
-                    
-                }
-                else{
-                    if($idUserAnt <> $historico->user_id){
-                        $html = $html. '
-                        </table> <br> <hr>'; 
-                        $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
-                        $somaHoras = "00:00:00";
-                        $idUserAnt = $historico->user_id;
-                        PDF::writeHTML($html, true, false, true, false, '');
-                        PDF::AddPage();
-                        $html = "";
-                        $html = $html.'<h1> Relatório - Usuários x Hora </h1>';
-                        $html = $html.'<h3> <b> Usuário: '.$historico->user->name.'</b></h3>';
-                        $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
-                                <tr style="background-color:#D9A5F3;color:#FFFFFF;">
-                                <td colspan="1">ID TAREFA</td>
-                                <td colspan="2">TAREFA</td>
-                                <td colspan="2">USUARIO</td>
-                                <td colspan="2">DIA</td>
-                                <td colspan="2">HORAS</td>
-                                </tr>';
-                   
-                    }
-                    else{
-                        $somaHoras = $this->somaHoras($somaHoras, $historico->horas);
-                        $html = $html.'<tr>';
-                        $html = $html.'<td colspan="1"> '.$historico->tarefa_id . '</td> ';
-                        $html = $html.'<td colspan="2"> '.$historico->tarefa->nome . '</td> ';
-                        $html = $html.'<td colspan="2"> '.$historico->user->name . '</td> ';
-                        $dia = Carbon::parse($historico->dia)->format('d/m/Y');
-                        $html = $html.'<td colspan="2"> '.$dia . '</td> ';
-                        $html = $html.'<td colspan="2"> '.$historico->horas . '</td> ';
-                        $html = $html.'</tr>';
-                    }
-                }        
-               
-       }   
- 
-       
-       PDF::SetTitle('Relatório - Horas');
-       
-   
-       PDF::Output('relatorio_horas.pdf');
-
-    }
 
     public function somaHoras($antiga, $nova){
         
@@ -232,13 +150,19 @@ class ControllerRelatorio extends Controller
     public function filtrarProjetos($historico){
 
         $historicosFiltrados = $historico;
+        
 
+        $historicosFiltrados = $historicosFiltrados
+                                    ->whereHas('tarefa', function ($q) { 
+                                        $q->orderBy('projeto_id', 'ASC');
+                                    });
+            
         
         if(request()->has('projeto') && !empty(request('projeto'))){
             
             $historicosFiltrados = $historicosFiltrados
                                     ->whereHas('tarefa', function ($q) { 
-                                        $q->where('projeto_id', request('projeto'));
+                                        $q->where('projeto_id', request('projeto'))->orderBy('projeto_id', 'ASC');
                                     });
         }
 
@@ -252,66 +176,255 @@ class ControllerRelatorio extends Controller
             $historicosFiltrados = $historicosFiltrados->whereDate('dia', '<=', request('dataFim'));
         }
 
-        return $historicosFiltrados->orderBy('user_id', 'ASC')->orderBy('dia', 'ASC')->get();
+
+        return $historicosFiltrados->get();
+
+    }
+
+
+
+    public function downloadUsuarioHora(Request $request){
+        
+        $historicos =Historico::where('id', '>', 0);
+        $historicos = $this->filtrar($historicos);
+      
+        
+        PDF::AddPage();
+
+   
+        $somaHoras = "00:00:00";
+        $idUser = 0;
+        $idUserAnt = 0;
+        $html = "";
+        $count = count($historicos);
+
+       foreach($historicos as $key => $historico){
+                if($key == 0){
+                    $html = $html.'<h1> Relatório - Usuários x Hora </h1>';
+                    $html = $html.'<h3> <b> Usuário: '.$historico->user->name.'</b></h3>';
+                    $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+                            <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                            <td colspan="1">ID TAREFA</td>
+                            <td colspan="2">TAREFA</td>
+                            <td colspan="2">USUARIO</td>
+                            <td colspan="2">DIA</td>
+                            <td colspan="2">HORAS</td>
+                            </tr>';
+                    $somaHoras = $this->somaHoras($somaHoras, $historico->horas);
+                    $idUserAnt = $historico->user_id;
+                    $html = $html.'<tr>';
+                    $html = $html.'<td colspan="1"> '.$historico->tarefa_id . '</td> ';
+                    $html = $html.'<td colspan="2"> '.$historico->tarefa->nome . '</td> ';
+                    $html = $html.'<td colspan="2"> '.$historico->user->name . '</td> ';
+                    $dia = Carbon::parse($historico->dia)->format('d/m/Y');
+                    $html = $html.'<td colspan="2"> '.$dia . '</td> ';
+                    $html = $html.'<td colspan="2"> '.$historico->horas . '</td> ';
+
+                    $html = $html.'</tr>';
+
+                    if($key == $count - 1){
+                        $html = $html. '
+                        </table> <br> <hr>'; 
+                        $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
+                        PDF::writeHTML($html, true, false, true, false, '');
+                    }
+                    
+                    
+                }
+                else{
+
+                    
+                        if($idUserAnt <> $historico->user_id){
+                            $html = $html. '
+                            </table> <br> <hr>'; 
+                            $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
+                            $somaHoras = "00:00:00";
+                            $idUserAnt = $historico->user_id;
+                            PDF::writeHTML($html, true, false, true, false, '');
+                            PDF::AddPage();
+                            $html = "";
+                            $html = $html.'<h1> Relatório - Usuários x Hora </h1>';
+                            $html = $html.'<h3> <b> Usuário: '.$historico->user->name.'</b></h3>';
+                            $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+                                    <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                                    <td colspan="1">ID TAREFA</td>
+                                    <td colspan="2">TAREFA</td>
+                                    <td colspan="2">USUARIO</td>
+                                    <td colspan="2">DIA</td>
+                                    <td colspan="2">HORAS</td>
+                                    </tr>';
+                                $somaHoras = $this->somaHoras($somaHoras, $historico->horas);
+                                $html = $html.'<tr>';
+                                $html = $html.'<td colspan="1"> '.$historico->tarefa_id . '</td> ';
+                                $html = $html.'<td colspan="2"> '.$historico->tarefa->nome . '</td> ';
+                                $html = $html.'<td colspan="2"> '.$historico->user->name . '</td> ';
+                                $dia = Carbon::parse($historico->dia)->format('d/m/Y');
+                                $html = $html.'<td colspan="2"> '.$dia . '</td> ';
+                                $html = $html.'<td colspan="2"> '.$historico->horas . '</td> ';
+                                $html = $html.'</tr>';
+
+                                if($key == $count - 1){
+                                    $html = $html. '
+                                    </table> <br> <hr>'; 
+                                    $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
+                                    PDF::writeHTML($html, true, false, true, false, '');
+                                }
+                    
+                        }
+                        else{
+                            $somaHoras = $this->somaHoras($somaHoras, $historico->horas);
+                            $html = $html.'<tr>';
+                            $html = $html.'<td colspan="1"> '.$historico->tarefa_id . '</td> ';
+                            $html = $html.'<td colspan="2"> '.$historico->tarefa->nome . '</td> ';
+                            $html = $html.'<td colspan="2"> '.$historico->user->name . '</td> ';
+                            $dia = Carbon::parse($historico->dia)->format('d/m/Y');
+                            $html = $html.'<td colspan="2"> '.$dia . '</td> ';
+                            $html = $html.'<td colspan="2"> '.$historico->horas . '</td> ';
+                            $html = $html.'</tr>';
+
+                            if($key == $count - 1){
+                                $html = $html. '
+                                </table> <br> <hr>'; 
+                                $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
+                                PDF::writeHTML($html, true, false, true, false, '');
+                            }
+                        }
+                    
+                }        
+               
+       }   
+ 
+       
+       PDF::SetTitle('Relatório - Horas');
+       
+   
+       PDF::Output('relatorio_horas.pdf');
+
+    }
+    public function downloadProjetoHora(Request $request){
+        
+        $historicos = Historico::where('id', '>', 0);
+        $historicos = $this->filtrarProjetos($historicos);
+
+
+
+
+                
+        PDF::AddPage();
+
+   
+        $somaHoras = "00:00:00";
+        $idProjAnt = 0;
+        $html = "";
+        $count = count($historicos);
+       foreach($historicos as $key => $historico){
+
+                if($key == 0){
+                    $html = $html.'<h1> Relatório - Projetos x Hora </h1>';
+                    $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+                            <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                            <td colspan="1">ID</td>
+                            <td colspan="2">PROJETO</td>
+                            <td colspan="2">DIA</td>
+                            <td colspan="2">HORAS</td>
+                            </tr>';
+                    $somaHoras = $this->somaHoras($somaHoras, $historico->horas);
+                    $idProjAnt = $historico->tarefa->projeto_id;
+                    $html = $html.'<tr>';
+                    $html = $html.'<td colspan="1"> '.$historico->tarefa->projeto_id . '</td> ';
+                    $html = $html.'<td colspan="2"> '.$historico->tarefa->projeto->nome . '</td> ';
+                    $dia = Carbon::parse($historico->dia)->format('d/m/Y');
+                    $html = $html.'<td colspan="2"> '.$dia . '</td> ';
+                    $html = $html.'<td colspan="2"> '.$historico->horas . '</td> ';
+
+                    $html = $html.'</tr>';      
+                    
+                    if($key == $count - 1){
+                        $html = $html. '
+                        </table> <br> <hr>'; 
+                        $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
+                        PDF::writeHTML($html, true, false, true, false, '');
+                    }
+                }
+                else{
+
+                    
+                        if($idProjAnt <> $historico->tarefa->projeto_id){
+
+    
+                            $html = $html. '
+                            </table> <br> <hr>'; 
+                            $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
+
+                            $somaHoras = "00:00:00";
+                            $idProjAnt = $historico->tarefa->projeto_id;
+
+                            PDF::writeHTML($html, true, false, true, false, '');
+                            PDF::AddPage();
+                            $html = "";
+                            $html = $html.'<h1> Relatório - Projetos x Hora </h1>';
+                            $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
+                                    <tr style="background-color:#D9A5F3;color:#FFFFFF;">
+                                    <td colspan="1">ID</td>
+                                    <td colspan="2">PROJETO</td>
+                                    <td colspan="2">DIA</td>
+                                    <td colspan="2">HORAS</td>
+                                    </tr>';
+
+                            $somaHoras = $this->somaHoras($somaHoras, $historico->horas);
+                            
+                            
+                            $html = $html.'<tr>';
+                            $html = $html.'<td colspan="1"> '.$historico->tarefa->projeto_id . '</td> ';
+                            $html = $html.'<td colspan="2"> '.$historico->tarefa->projeto->nome . '</td> ';
+                            $dia = Carbon::parse($historico->dia)->format('d/m/Y');
+                            $html = $html.'<td colspan="2"> '.$dia . '</td> ';
+                            $html = $html.'<td colspan="2"> '.$historico->horas . '</td> ';
+
+                            $html = $html.'</tr>';  
+
+                            if($key == $count - 1){
+                                $html = $html. '
+                                </table> <br> <hr>'; 
+                                $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
+                                PDF::writeHTML($html, true, false, true, false, '');
+                            }
+                                    
+                        }
+                        else{
+                            $somaHoras = $this->somaHoras($somaHoras, $historico->horas);
+                            $idProjAnt = $historico->tarefa->projeto_id;
+                            $html = $html.'<tr>';
+                            $html = $html.'<td colspan="1"> '.$historico->tarefa->projeto_id . '</td> ';
+                            $html = $html.'<td colspan="2"> '.$historico->tarefa->projeto->nome . '</td> ';
+                            $dia = Carbon::parse($historico->dia)->format('d/m/Y');
+                            $html = $html.'<td colspan="2"> '.$dia . '</td> ';
+                            $html = $html.'<td colspan="2"> '.$historico->horas . '</td> ';
+
+                            $html = $html.'</tr>';     
+                            
+                            if($key == $count - 1){
+                                $html = $html. '
+                                </table> <br> <hr>'; 
+                                $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
+                                PDF::writeHTML($html, true, false, true, false, '');
+                            }
+                        }
+                    
+                }
+               
+       }   
+   
+       PDF::SetTitle('Relatório - Projetos x Horas');
+       PDF::AddPage();
+       
+   
+       PDF::Output('relatorio_projetos_horas.pdf');
 
     }
 
     public function indexProjetoHora(){
         $projetos = Projeto::all();
         return view('relatorios.projetohoras', compact('projetos'));
-    }
-
-    public function downloadProjetoHora(Request $request){
-        
-        $historico = Historico::where('id', '>', 0);
-        $historico = $this->filtrarProjetos($historico);
-
-        
-        PDF::AddPage();
-        $html = '<h1> Relatório - Projetos x Hora </h1>';
-        $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
-                <tr style="background-color:#D9A5F3;color:#FFFFFF;">
-                <td colspan="1">ID TAREFA</td>
-                <td colspan="2">TAREFA</td>
-                <td colspan="2">USUARIO</td>
-                <td colspan="2">DIA</td>
-                <td colspan="2">HORAS</td>
-                </tr>';
-   
-        $somaHoras = "00:00:00";
-       foreach($historicos as $historico){
-                
-                $somaHoras = $this->somaHoras($somaHoras, $historico->horas);
-                $html = $html.'<tr>';
-                $html = $html.'<td colspan="1"> '.$historico->tarefa_id . '</td> ';
-                $html = $html.'<td colspan="2"> '.$historico->tarefa->nome . '</td> ';
-                $html = $html.'<td colspan="2"> '.$historico->user->name . '</td> ';
-                $dia = Carbon::parse($historico->dia)->format('d/m/Y');
-                $html = $html.'<td colspan="2"> '.$dia . '</td> ';
-                $html = $html.'<td colspan="2"> '.$historico->horas . '</td> ';
-
-                $html = $html.'</tr>';
-               
-
- 
-               
-               
-               
-       }   
-   
-       $html = $html. '
-       </table> <br> <hr>'; 
-
-       $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
-       PDF::writeHTML($html, true, false, true, false, '');
-               $html = "";
-         
-       
-       PDF::SetTitle('Relatório - Horas');
-       PDF::AddPage();
-       
-   
-       PDF::Output('relatorio_horas.pdf');
-
     }
 }
