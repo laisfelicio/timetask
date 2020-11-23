@@ -47,6 +47,12 @@ class ControllerHistorico extends Controller
             $historicosFiltrados = $historicosFiltrados->where('tarefa_id', request('tarefa'));
         }
 
+        if(request()->has('projeto') && !empty(request('projeto'))){
+            $historicosFiltrados = $historicosFiltrados->whereHas('tarefa', function($q) {
+                $q->where('projeto_id', request('projeto'));
+            });
+        }
+
         
         return $historicosFiltrados->orderBy('dia', 'ASC')->get();
         

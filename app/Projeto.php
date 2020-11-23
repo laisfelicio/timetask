@@ -38,4 +38,8 @@ class Projeto extends Model
             return 0;
          }
      }
+
+     public function tarefasTrashed(){
+      return $this->hasMany('App\Tarefa')->withTrashed();
+  }
 }

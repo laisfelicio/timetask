@@ -48,4 +48,6 @@ class Historico extends Model
 
 
 
+
+
 }

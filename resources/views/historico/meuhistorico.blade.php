@@ -20,8 +20,36 @@
                 <div class = "card-body">
                     <form method = "GET" action = "/timesheet">
         
+                        <div class="form-check form-check-radio form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="opcaoFiltro" id="opcaoTarefa" value="tarefa" checked>
+                                Filtrar por tarefa
+                                <span class="circle">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-radio form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="opcaoFiltro" id="opcaoProjeto" value="projeto">
+                                Filtrar por projeto
+                                <span class="circle">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                        </div>
+
                         <div class="form-group">
-                            <label for="tarefa">Tarefa</label>
+                            <label for="projeto" id = "labelProjeto">Projeto</label>
+                            <select class="form-control" id="projeto" name = "projeto">
+                            <option value = "">TODOS</option>
+                            @foreach($projetos as $projeto) 
+                                <option value = {{$projeto->id}}>{{$projeto->nome}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tarefa" id = "labelTarefa">Tarefa</label>
                             <select class="form-control" id="tarefa" name = "tarefa">
                             <option value = "">TODOS</option>
                             @foreach($tarefas as $tarefa) 
@@ -29,12 +57,10 @@
                             @endforeach
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label for="dataInicio">Data Inicial </label>
                             <input type = "date" id = "dataInicio" name = "dataInicio" class = "form-control">
                         </div>
-
                         <div class="form-group">
                             <label for="dataFim">Data Final </label>
                             <input type = "date" id = "dataFim" name = "dataFim" class = "form-control">
@@ -82,4 +108,28 @@
     </div>
     
 </div>
+@endsection
+
+
+@section('javascript')
+    <script>
+        $('input[name="opcaoFiltro"]').click(function(e) {
+            if(e.target.value === 'tarefa') {
+              $('#labelTarefa').show();
+              $('#tarefa').show();
+              $('#labelProjeto').hide();
+              $('#projeto').hide();
+            } else {
+              $('#labelTarefa').hide();
+              $('#tarefa').hide();
+              $('#labelProjeto').show();
+              $('#projeto').show();
+            }
+          })
+          
+          $('#labelTarefa').show();
+          $('#tarefa').show();
+          $('#labelProjeto').hide();
+          $('#projeto').hide();
+    </script>
 @endsection

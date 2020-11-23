@@ -27,6 +27,16 @@
                   <a href = "/relatoriospdf/projetohoras" class = "btn btn-sm btn-primary" role = "button"> Consultar </a>
                 </div>
             </div>
+
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title"><b>Usuários/Projetos X Horas</b></h4>
+                <p class="card-text">Quantas horas cada usuário trabalhou em um determinado período separado por projeto</p>
+              </div>
+              <div class="card-footer">
+                <a href = "/relatoriospdf/usuariosprojetohoras" class = "btn btn-sm btn-primary" role = "button"> Consultar </a>
+              </div>
+          </div>
         </div>
 
         

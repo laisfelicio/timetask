@@ -32,6 +32,8 @@ Route::get('/relatoriospdf/usuariosHoras', 'ControllerRelatorio@indexUsuarioHora
 Route::get('/relatoriospdf/usuariosHoras/download', 'ControllerRelatorio@downloadUsuarioHora');
 Route::get('/relatoriospdf/projetohoras', 'ControllerRelatorio@indexProjetoHora');
 Route::get('/relatoriospdf/projetohoras/download', 'ControllerRelatorio@downloadProjetoHora');
+Route::get('/relatoriospdf/usuariosprojetohoras', 'ControllerRelatorio@indexUsuarioProjetoHora');
+Route::get('/relatoriospdf/usuariosprojetohoras/download', 'ControllerRelatorio@downloadUsuarioProjetoHora');
 
 Route::get('/clientes', 'ControllerCliente@index');
 Route::get('/clientes/novo', 'ControllerCliente@create');
