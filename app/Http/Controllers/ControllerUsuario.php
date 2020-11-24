@@ -77,9 +77,11 @@ class ControllerUsuario extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $usuario = User::where('id', Auth::user()->id)->first();
+        return view('usuarios.perfil', compact('usuario'));
+
     }
 
     /**
@@ -121,6 +123,8 @@ class ControllerUsuario extends Controller
             $usuario->password = Hash::make($request->input('senhaUsuario'));
             $usuario->save();
         }
+
+ 
         return redirect('/usuarios');
     }
 

@@ -289,7 +289,7 @@ class ControllerHistorico extends Controller
         
         //$dados = (Collect(json_decode(rawurldecode($request->clientes))));
         $dados = (Collect(json_decode($request->historicos)));
-        
+        $somaHoras = "00:00:00";
         PDF::AddPage();
         $html = '<h1> Relatório - Horários </h1>';
         $html = $html. '<table cellspacing="0" cellpadding="1" border="1">   
@@ -301,7 +301,7 @@ class ControllerHistorico extends Controller
                 </tr>';
    
        foreach($dados as $dado){
-                
+                $somaHoras = $this->somaHoras($somaHoras, $dado->horas);
                 $html = $html.'<tr>';
                 $html = $html.'<td colspan="1"> '.$dado->tarefa_id . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->nomeTarefa . '</td> ';
@@ -309,25 +309,17 @@ class ControllerHistorico extends Controller
                 $html = $html.'<td colspan="2"> '.$dia . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->horas . '</td> ';
 
-                $html = $html.'</tr>';
-               
-
- 
-               
-               
-               
+                $html = $html.'</tr>';        
        }   
    
        $html = $html. '
        </table> <br> <hr>'; 
+       $html = $html. 'TOTAL DE HORAS = '.$somaHoras;
        PDF::writeHTML($html, true, false, true, false, '');
                $html = "";
          
        
        PDF::SetTitle('Relatório - Horas');
-       PDF::AddPage();
-       
-   
        PDF::Output('relatorio_horas.pdf');
    
     }

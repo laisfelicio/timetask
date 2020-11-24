@@ -36,7 +36,7 @@
             </div>
             <div class = "form-group">
                 <label for = "tempoPrevisto"> Tempo estimado </label>
-                <input type = "time" class = "form-control" name = "tempoPrevisto" id = "tempoPrevisto" value = "{{old('tempoPrevisto')}}">
+                <input type = "time" class = "form-control" name = "tempoPrevisto" id = "tempoPrevisto" step="1" value = "{{old('tempoPrevisto')}}">
             
                 @error('tempoPrevisto')
                     <p class = "text-danger"> {{$message}} </p>

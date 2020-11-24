@@ -9,6 +9,16 @@
     </div>
     <div class = "card-body">
         <div class="card-deck">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title"><b>Projetos X Horas</b></h4>
+              <p class="card-text">Quantas horas você trabalhou em um determinado período separado por projeto</p>
+            </div>
+            <div class="card-footer">
+              <a href = "/relatoriospdf/userprojetohoras/" class = "btn btn-sm btn-primary" role = "button"> Consultar </a>
+            </div>
+          </div>
+            @if(Auth::user()->admin == 1)
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title"><b>Usuários X Horas</b></h4>
@@ -35,8 +45,10 @@
               </div>
               <div class="card-footer">
                 <a href = "/relatoriospdf/usuariosprojetohoras" class = "btn btn-sm btn-primary" role = "button"> Consultar </a>
-              </div>
+            </div>
+            @endif
           </div>
+
         </div>
 
         
