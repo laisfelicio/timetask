@@ -2,12 +2,13 @@
 
 @section('body')
 <div class = "card border">
-    <div class = "card-body">
         <div class="card-header card-header-text card-header-rose">
             <div class="card-text">
               <h4 class="card-title">Novo projeto</h4>
             </div>
         </div>
+    <div class = "card-body">
+
         <form action = "/projetos" method="POST">
             @csrf
             <div class = "form-group">

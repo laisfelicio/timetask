@@ -8,7 +8,7 @@
       <link rel="icon" type="image/png" href="/assets/img/favicon.png">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
       <title>
-        TimeTask
+        TaskingPlay
       </title>
       <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
       <!--     Fonts and icons     -->
@@ -29,7 +29,7 @@
             Tip 2: you can also add an image using data-image tag
         -->
           <div class="logo"><a href="" class="simple-text logo-normal">
-              TimeTask
+              TaskingPlay
             </a></div>
           <div class="sidebar-wrapper">
             <ul class="nav">

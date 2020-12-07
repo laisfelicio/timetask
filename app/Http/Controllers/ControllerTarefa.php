@@ -109,6 +109,15 @@ class ControllerTarefa extends Controller
     public function store(Request $request)
     {
         //
+
+        $validatedData = $request->validate([
+            'nomeTarefa' => 'required|max:255',
+            'descTarefa' => 'required|max:255',
+            'projeto' => 'required|exists:projetos,id',
+            'dataPrevista' => 'required'
+        ]);
+
+
         $tarefa = new Tarefa();
         $tarefa->nome = $request->input('nomeTarefa');
         $tarefa->descricao = $request->input('descTarefa');
@@ -184,7 +193,7 @@ class ControllerTarefa extends Controller
             $tarefa->save();
         }
 
-        if($tarefa->users->find(Auth::user()->id)->exists)
+        if(!is_null($tarefa->users->find(Auth::user()->id)))
             return redirect('/tarefausuario/minhastarefas');
 
         return redirect('/tarefas');

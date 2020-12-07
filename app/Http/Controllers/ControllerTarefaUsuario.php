@@ -182,6 +182,7 @@ class ControllerTarefaUsuario extends Controller
         $tarefa = Tarefa::find($tarefaId);
         $projeto = Projeto::find($tarefa->projeto_id);
         $tarefasUsuarios = TarefaUsuario::where('tarefa_id', $tarefaId)->get();
+        
         $infoUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', Auth::user()->id)->first();
         $statusTarefa = StatusTarefa::all();
        

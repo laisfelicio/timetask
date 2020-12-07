@@ -50,9 +50,9 @@
                     @if($tarefa->status_id != 4)
                     <h5><b>
                         @if($infoUsu->ultimo_start <= $infoUsu->ultimo_stop)
-                            Start timer
+                            Iniciar Trabalho
                         @else
-                            Stop timer
+                            Pausar Trabalho
                         @endif
                     </h5></b>    
 
