@@ -70,8 +70,8 @@
                     <td>
                         @if(Auth::user()->admin == 1)
                             <a href = "/projetos/editar/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round"> Editar </a>
+                            <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round"> Alocar usuário </a>
                         @endif
-                         <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round"> Alocar usuário </a>
                         <a href = "/projetousuario/info/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round"> + Info </a>
                         @if(Auth::user()->admin == 1)
                              <a href = "/projetos/apagar/{{$projeto->id}}" class = "btn btn-sm btn-danger btn-round"> Apagar </a>

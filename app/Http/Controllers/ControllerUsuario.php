@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\TarefaUsuario;
+use App\ProjetoUsuario;
 use PDF;
 
 class ControllerUsuario extends Controller
@@ -57,6 +59,25 @@ class ControllerUsuario extends Controller
             abort(404);
         }
 
+        $regras = [
+            'nomeUsuario' => 'required|max:255',
+            'emailUsuario' => 'required|email|max:255|unique:users,email,'.Auth::user()->id.'',
+            'senhaUsuario' => 'required|min:8|max:255'
+        ];
+
+        $mensagens = [
+            'nomeUsuario.required' => 'Digite o nome do usuário',
+            'nomeUsuario.max' => 'Tamanho máximo: 255',
+            'emailUsuario.required' => 'Digite o e-mail',
+            'emailUsuario.email' => 'Campo deve ser do tipo e-mail',
+            'emailUsuario.max' => 'Tamanho máximo: 255',
+            'senhaUsuario.required' => 'Digite a senha',
+            'senhaUsuario.min' => 'Senha deve ter no mínimo 8 caracteres',
+            'senhaUsuario.max' => 'Senha deve ter no máximo 255 caracteres',
+            'emailUsuario.unique' => 'E-mail já cadastrado'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
         $user = new User();
         $user->name = $request->input('nomeUsuario');
         $user->email = $request->input('emailUsuario');
@@ -116,6 +137,25 @@ class ControllerUsuario extends Controller
             abort(404);
         }
 
+        $regras = [
+            'nomeUsuario' => 'required|max:255',
+            'emailUsuario' => 'required|email|max:255|unique:users,email,'.Auth::user()->id.''
+        ];
+
+        $mensagens = [
+            'nomeUsuario.required' => 'Digite o nome do usuário',
+            'nomeUsuario.max' => 'Tamanho máximo: 255',
+            'emailUsuario.required' => 'Digite o e-mail',
+            'emailUsuario.email' => 'Campo deve ser do tipo e-mail',
+            'emailUsuario.max' => 'Tamanho máximo: 255',
+            'senhaUsuario.required' => 'Digite a senha',
+            'senhaUsuario.min' => 'Senha deve ter no mínimo 8 caracteres',
+            'senhaUsuario.max' => 'Senha deve ter no máximo 255 caracteres',
+            'emailUsuario.unique' => 'E-mail já cadastrado'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
+
         $usuario = User::find($id);
         if(isset($usuario)){
             $usuario->name = $request->input('nomeUsuario');
@@ -141,9 +181,23 @@ class ControllerUsuario extends Controller
         }
         $usuario = User::find($id);
         if(isset($usuario)){
+            $this->deletaDependentes($id);
             $usuario->delete();
         }
         return redirect("/usuarios");
+    }
+
+    public function deletaDependentes($idUsuario){
+
+        $tarefasUsuario = TarefaUsuario::where('user_id', $idUsuario)->get();
+        foreach($tarefasUsuario as $tarefa){
+                $tarefa->delete();
+        }
+
+        $projetoUsuario = ProjetoUsuario::where('user_id', $idUsuario)->get();
+        foreach($projetoUsuario as $projUsu){
+            $projUsu->delete();
+        }
     }
 
     public function downloadRelatorio(Request $request){

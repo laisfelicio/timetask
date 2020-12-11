@@ -108,14 +108,36 @@ class ControllerTarefa extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        
+        $regras = [
+            'nomeTarefa' => 'required|max:255',
+            'descTarefa' => 'required|max:255',
+            'projeto' => 'required|exists:projetos,id',
+            'tempoPrevisto' => 'required',
+            'dataPrevista' => 'required|date'
+        ];
 
-        $validatedData = $request->validate([
+        $mensagens = [
+            'nomeTarefa.required' => 'Preencha o nome da tarefa',
+            'nomeTarefa.max' => 'Tamanho máximo: 255',
+            'descTarefa.required' => 'Preencha a descrição',
+            'descTarefa.max' => 'Tamanho máximo: 255',
+            'projeto.required' => 'Preencha o projeto',
+            'projeto.exists' => 'Projeto não existe',
+            'tempoPrevisto.required' => 'Preencha o tempo previsto',
+            'dataPrevista.required' => 'Preencha a data prevista',
+            'dataPrevista.date' => 'Data prevista deve ser do tipo data'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
+
+        /*$validatedData = $request->validate([
             'nomeTarefa' => 'required|max:255',
             'descTarefa' => 'required|max:255',
             'projeto' => 'required|exists:projetos,id',
             'dataPrevista' => 'required'
-        ]);
+        ]);*/
 
 
         $tarefa = new Tarefa();
@@ -127,6 +149,19 @@ class ControllerTarefa extends Controller
         $tarefa->data_prevista = $request->input('dataPrevista');
         $tarefa->tempo_gasto = "00:00:00";
         $tarefa->save();
+
+        if(Auth::user()->admin == 0){
+            $tarefaUsu = new TarefaUsuario();
+            $tarefaUsu->tarefa_id = $tarefa->id;
+            $tarefaUsu->user_id = Auth::user()->id;
+            $tarefaUsu->tempo_gasto = "00:00:00";
+            $tarefaUsu->ultimo_start = "1920-01-01 01:00:00";
+            $tarefaUsu->ultimo_stop = "1920-01-01 01:00:00";
+            $tarefaUsu->save();
+            return redirect('/tarefausuario/minhastarefas');
+        }
+
+        
         return redirect('/tarefas');
     }
 

@@ -49,7 +49,9 @@
                                     <th> Código Usuário</th>
                                     <th> Nome </th>
                                     <th> Email </th>
-                                    <th> Ações </th>
+                                    @if(Auth::user()->admin == 1)
+                                        <th> Ações </th>
+                                    @endif
                                 </thead>
                                 <tbody>
                                     @foreach($alocados as $usu)
@@ -57,9 +59,11 @@
                                         <td>{{$usu->id}}</td>
                                         <td>{{$usu->name}}</td>
                                         <td>{{$usu->email}}</td>
-                                        <td>
-                                            <a href = "/projetousuario/apagar/{{$projeto->id}}/{{$usu->id}}" class = "btn btn-sm btn-danger btn-round"> Desalocar </a>
-                                        </td>
+                                        @if(Auth::user()->admin == 1)
+                                            <td>
+                                                <a href = "/projetousuario/apagar/{{$projeto->id}}/{{$usu->id}}" class = "btn btn-sm btn-danger btn-round"> Desalocar </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -81,7 +85,9 @@
                                     <th> Código </th>
                                     <th> Nome </th>
                                     <th> Status </th>
-                                    <th> Ações </th>
+                                    @if(Auth::user()->admin == 1)
+                                        <th> Ações </th>
+                                    @endif
                                     <th> </th>
                                 </thead>
                                 <tbody>
@@ -90,12 +96,14 @@
                                         <td>{{$tarefa->id}}</td>
                                         <td>{{$tarefa->nome}}</td>
                                         <td>{{$tarefa->status->nome}}</td>
-                                        <td>
-                                            <a href = "/tarefas/editar/{{$tarefa->id}}" class = "btn btn-sm btn-primary btn-round"> Editar </a>
-                                            <a href = "/tarefausuario/{{$projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary btn-round"> Alocar usuário </a>
-                                            <a href = "/tarefausuario/info/{{$tarefa->projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary btn-round"> + Info </a>
-                                            <a href = "/tarefas/apagar/{{$tarefa->id}}" class = "btn btn-sm btn-danger btn-round"> Apagar </a>
-                                        </td>
+                                        @if(Auth::user()->admin == 1)
+                                            <td>
+                                                <a href = "/tarefas/editar/{{$tarefa->id}}" class = "btn btn-sm btn-primary btn-round"> Editar </a>
+                                                <a href = "/tarefausuario/{{$projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary btn-round"> Alocar usuário </a>
+                                                <a href = "/tarefausuario/info/{{$tarefa->projeto->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-primary btn-round"> + Info </a>
+                                                <a href = "/tarefas/apagar/{{$tarefa->id}}" class = "btn btn-sm btn-danger btn-round"> Apagar </a>
+                                            </td>
+                                        @endif
                                         <td> 
                                             @if($dataAtual > $tarefa->data_prevista)
                                                 <i class="material-icons" style = "color: #ff0000;">warning</i>
@@ -114,6 +122,8 @@
 
     </div>
     <div class = "card-footer">
-        <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round" role = "button"> Alocar novos usuários </a>
-</div>
+        @if(Auth::user()->admin == 1)
+            <a href = "/projetousuario/alocar/{{$projeto->id}}" class = "btn btn-sm btn-primary btn-round" role = "button"> Alocar novos usuários </a>
+        @endif
+    </div>
 @endsection

@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Tarefa;
-use App\TarefaUsuario;
 use App\Projeto;
-use App\ProjetoUsuario;
 use App\Historico;
 use Illuminate\Http\Request;
 use PDF;
@@ -92,7 +89,7 @@ class ControllerRelatorio extends Controller
     }
 
     public function indexUsuarioHora(){
-        $usuarios = User::all();
+        $usuarios = User::withTrashed()->get();
         return view('relatorios.usuarioshoras', compact('usuarios'));
     }
 
@@ -306,7 +303,7 @@ class ControllerRelatorio extends Controller
         $somaHoras = "00:00:00";
         $html = "";
 
-        $projetos = Projeto::where('id', '>', 0);
+        $projetos = Projeto::withTrashed()->where('id', '>', 0);
         if(request()->has('projeto') && !empty(request('projeto'))){
             
             $projetos->where('id', request('projeto'))->first();
@@ -393,19 +390,19 @@ class ControllerRelatorio extends Controller
     }
 
     public function indexProjetoHora(){
-        $projetos = Projeto::all();
+        $projetos = Projeto::withTrashed()->get();
         return view('relatorios.projetohoras', compact('projetos'));
     }
 
     public function indexUsuarioProjetoHora(){
-        $usuarios = User::all();
-        $projetos = Projeto::all();
+        $usuarios = User::withTrashed()->get();
+        $projetos = Projeto::withTrashed()->get();
         return view('relatorios.usuarioprojetohoras', compact('usuarios', 'projetos'));
     }
 
     public function downloadUsuarioProjetoHora(Request $request){
-        $users = User::where('id', '>', 0);
-        $projetos = Projeto::where('id', '>', 0);
+        $users = User::withTrashed()->where('id', '>', 0);
+        $projetos = Projeto::withTrashed()->where('id', '>', 0);
 
         if(request()->has('usuario') && !empty(request('usuario'))){    
              
@@ -422,7 +419,7 @@ class ControllerRelatorio extends Controller
             $html = $html.'<h3><b><u>Usuário: ('.$user->id.") - ".$user->name.' - '.$user->email.'</h3></b></u>';
 
 
-            $projetos = $user->projetos;
+            $projetos = $user->projetosTrashed;
             if(request()->has('projeto') && !empty(request('projeto'))){
                 $idProjeto = request('projeto'); 
                 $projetos = $projetos->filter(function($projeto) use ($idProjeto){
@@ -504,13 +501,13 @@ class ControllerRelatorio extends Controller
     }
 
     public function indexUserProjHoras(){
-        $projetos = Auth::user()->projetos;
+        $projetos = Auth::user()->projetosTrashed;
         return view('relatorios.userprojhora', compact('projetos'));
     }
 
     public function downloadUserProjHoras(){
-        $users = User::where('id', Auth::user()->id);
-        $projetos = Projeto::where('id', '>', 0);
+        $users = User::withTrashed()->where('id', Auth::user()->id);
+        $projetos = Projeto::withTrashed()->where('id', '>', 0);
 
         $somaHoras = "00:00:00";
         $html = "";
@@ -522,7 +519,7 @@ class ControllerRelatorio extends Controller
             $html = $html.'<h3><b><u>Usuário: ('.$user->id.") - ".$user->name.' - '.$user->email.'</h3></b></u>';
 
 
-            $projetos = $user->projetos;
+            $projetos = $user->projetosTrashed;
             if(request()->has('projeto') && !empty(request('projeto'))){
                 $idProjeto = request('projeto'); 
                 $projetos = $projetos->filter(function($projeto) use ($idProjeto){

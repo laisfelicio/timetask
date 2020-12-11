@@ -93,7 +93,6 @@
                                 </thead>
                                 <tbody>
                                     @foreach($tarefasUsuarios as $tarefaUsuario)
-                                        
                                             <tr>
                                             <td> {{$tarefaUsuario->user_id}} </td>
                                             <td> {{$tarefaUsuario->nomeUsuario}} </td>
@@ -150,6 +149,34 @@
             <button type = "submit" class = "btn btn-primary btn-lg btn-round"> Salvar Alterações</button>
         </form>
         
+        <hr style="border-top: 1px solid black;">
+        <div class = "row">
+            <div class="col-sm-12">
+                <h5> Usuários alocados nessa tarefa </h5>
+                <div class = "card">
+                    <div class = "card-body">
+                        @if(count($tarefa->users) > 0)
+                            <table class = "table table-ordered table hover">
+                                <thead>
+                                    <th> Código Usuário</th>
+                                    <th> Nome </th>
+                                    <th> Email </th>
+                                </thead>
+                                <tbody>
+                                    @foreach($tarefa->users as $usu)
+                                    <tr>
+                                        <td>{{$usu->id}}</td>
+                                        <td>{{$usu->name}}</td>
+                                        <td>{{$usu->email}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
         <hr style="border-top: 1px solid black;">
         <br>
         <h5> Comentários </h5>

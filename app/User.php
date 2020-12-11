@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Projeto;
 class User extends Authenticatable
 {
     use Notifiable;
-
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -41,8 +42,16 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Projeto', 'projeto_usuarios', 'user_id', 'projeto_id');
     }
 
+    public function projetosTrashed(){
+        return $this->belongsToMany('App\Projeto', 'projeto_usuarios', 'user_id', 'projeto_id')->withTrashed();
+    }
+
     public function tarefas(){
         return $this->belongsToMany('App\Tarefa', 'tarefa_usuarios', 'user_id', 'tarefa_id');
+    }
+
+    public function tarefasTrashed(){
+        return $this->belongsToMany('App\Tarefa', 'tarefa_usuarios', 'user_id', 'tarefa_id')->withTrashed();
     }
 
  

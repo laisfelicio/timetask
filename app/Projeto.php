@@ -16,8 +16,16 @@ class Projeto extends Model
          return $this->belongsToMany('App\User', 'projeto_usuarios', 'projeto_id', 'user_id');
      }
 
+     public function usersTrashed(){
+      return $this->belongsToMany('App\User', 'projeto_usuarios', 'projeto_id', 'user_id')->withTrashed();
+  }
+
      public function cliente(){
-        return $this->belongsTo('App\Cliente');
+        return $this->belongsTo('App\Cliente')->withTrashed();
+     }
+
+     public function clienteTrashed(){
+        return $this->belongsTo('App\Cliente')->withTrashed();
      }
 
      public function status(){
@@ -27,6 +35,8 @@ class Projeto extends Model
      public function tarefas(){
         return $this->hasMany('App\Tarefa');
      }
+
+
 
      public function getEmAtrasoAttribute(){
          $dataAtual = Carbon::now();

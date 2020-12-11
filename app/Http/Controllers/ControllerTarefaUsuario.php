@@ -186,8 +186,7 @@ class ControllerTarefaUsuario extends Controller
         $infoUsu = TarefaUsuario::where('tarefa_id', $tarefaId)->where('user_id', Auth::user()->id)->first();
         $statusTarefa = StatusTarefa::all();
        
-        
-
+       
         return view ('tarefas.gerenciartarefa', compact('alocado', 'statusTarefa', 'tarefa', 'projeto', 'tarefasUsuarios', 'infoUsu'));
     }
 
