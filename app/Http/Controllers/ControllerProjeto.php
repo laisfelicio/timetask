@@ -228,6 +228,7 @@ class ControllerProjeto extends Controller
     }
     public function downloadRelatorio(Request $request){
      
+        
         //$dados = (Collect(json_decode(rawurldecode($request->clientes))));
         $dados = (Collect(json_decode($request->projetos)));
    
@@ -278,7 +279,7 @@ class ControllerProjeto extends Controller
                 </table> <br> <hr>'; 
 
                 
-                $usuarios = ProjetoUsuario::where('projeto_id', $dado->id)->get();
+                $usuarios = ProjetoUsuario::withTrashed()->where('projeto_id', $dado->id)->get();
 
                 $html = $html.'<h2> Usuários </h2>';
 
@@ -291,7 +292,7 @@ class ControllerProjeto extends Controller
                 if(count($usuarios) > 0){
                     foreach($usuarios as $usuario){
                        
-                        $user = User::findOrFail($usuario->user_id);
+                        $user = User::withTrashed()->where('id', $usuario->user_id)->first();
                         $html = $html.'<tr>';
                         $html = $html.'<td colspan="2"> '.$user->name . '</td> ';
                         $html = $html.'<td colspan="2"> '.$usuario->tempo_total . '</td> ';
@@ -314,6 +315,8 @@ class ControllerProjeto extends Controller
                 <tr style="background-color:#D9A5F3;color:#FFFFFF;">
                 <td colspan="2">ID</td>
                 <td colspan="2">NOME</td>
+                <td colspan="2">TEMPO PREVISTO</td>
+                <td colspan="2">TEMPO GASTO</td>
                 <td colspan="2">FINALIZADA?</td>
                 <td colspan="2">DATA FINALIZACAO</td>
                 </tr>';
@@ -322,6 +325,8 @@ class ControllerProjeto extends Controller
                         $html = $html.'<tr rowspan="1">';
                         $html = $html.'<td colspan="2"> '.$tarefa->id . '</td> ';
                         $html = $html.'<td colspan="2"> '.$tarefa->nome . '</td> ';
+                        $html = $html.'<td colspan="2"> '.$tarefa->tempo_previsto . '</td> ';
+                        $html = $html.'<td colspan="2"> '.$tarefa->tempo_gasto . '</td> ';
                         if(isset($tarefa->finalizado) && $tarefa->finalizado == 1){
                             $html = $html.'<td colspan="2"> '.'SIM' . '</td> ';
                             $html = $html.'<td colspan="2"> '.$tarefa->data_finalizacao . '</td> ';

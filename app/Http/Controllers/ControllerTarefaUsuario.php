@@ -61,10 +61,15 @@ class ControllerTarefaUsuario extends Controller
     public function store(Request $request)
     {
         //
-        $validatedData = $request->validate([
-            'idTarefa' => ['required'],
-            'usuario' => ['required', 'unique:tarefa_usuarios,user_id,NULL,id,tarefa_id,' . $request->input('idTarefa')],
-        ]);
+      
+
+        
+        $regras = [
+            'idTarefa' => 'required',
+            'usuario' => 'required|unique:tarefa_usuarios,user_id,NULL,id,tarefa_id,' . $request->input('idTarefa').',deleted_at,NULL'
+        ];
+
+        $validateData = $request->validate($regras);
 
         $tarefaUsu = new TarefaUsuario();
         $tarefaUsu->tarefa_id = $request->input('idTarefa');
@@ -118,13 +123,11 @@ class ControllerTarefaUsuario extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($rota, $id)
+    public function destroy($user, $tarefa)
     {
         //
-        var_dump($rota);
-        var_dump($id);
-        $tarefaUsuario = TarefaUsuario::find($id);
-        var_dump($tarefaUsuario);
+        
+        $tarefaUsuario = TarefaUsuario::where('user_id', $user)->where('tarefa_id', $tarefa)->first();
         $tarefaId = $tarefaUsuario->tarefa_id;
         $projetoId = Tarefa::find($tarefaId)->projeto_id;
 

@@ -84,7 +84,7 @@ Route::post('/projetousuario/files/download', 'ControllerProjetoUsuario@download
 Route::get('/tarefausuario/{idProjeto}/{idTarefa}', 'ControllerTarefaUsuario@index');
 Route::post('/tarefausuario', 'ControllerTarefaUsuario@store');
 Route::get('/tarefausuario/info/{idProjeto}/{idTarefa}', 'ControllerTarefaUsuario@show');
-Route::get('/tarefausuario/apagar/{alocacao}/{id}', 'ControllerTarefaUsuario@destroy');
+Route::get('/tarefausuario/apagar/{user}/{tarefa}', 'ControllerTarefaUsuario@destroy');
 Route::get('/tarefausuario/minhastarefas', 'ControllerTarefaUsuario@getTarefasUsuario');
 Route::get('/gerenciarTarefa/{id}', 'ControllerTarefaUsuario@detalhesTarefa');
 Route::get('/comecatimer/{id}', 'ControllerTarefaUsuario@startTimer');

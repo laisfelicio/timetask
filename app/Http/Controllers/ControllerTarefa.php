@@ -114,7 +114,9 @@ class ControllerTarefa extends Controller
             'nomeTarefa' => 'required|max:255',
             'descTarefa' => 'required|max:255',
             'projeto' => 'required|exists:projetos,id',
-            'tempoPrevisto' => 'required',
+            'horaPrevista' => 'required',
+            'minPrevisto' => 'required',
+            'secPrevisto' => 'required',
             'dataPrevista' => 'required|date'
         ];
 
@@ -125,13 +127,16 @@ class ControllerTarefa extends Controller
             'descTarefa.max' => 'Tamanho máximo: 255',
             'projeto.required' => 'Preencha o projeto',
             'projeto.exists' => 'Projeto não existe',
-            'tempoPrevisto.required' => 'Preencha o tempo previsto',
+            'horaPrevista.required' => 'Preencha o campo: hora',
+            'minPrevisto.required' => 'Preencha o campo: minuto',
+            'secPrevisto.required' => 'Preencha o campo: segundo',
             'dataPrevista.required' => 'Preencha a data prevista',
             'dataPrevista.date' => 'Data prevista deve ser do tipo data'
         ];
 
         $validateData = $request->validate($regras, $mensagens);
 
+    
         /*$validatedData = $request->validate([
             'nomeTarefa' => 'required|max:255',
             'descTarefa' => 'required|max:255',
@@ -143,7 +148,7 @@ class ControllerTarefa extends Controller
         $tarefa = new Tarefa();
         $tarefa->nome = $request->input('nomeTarefa');
         $tarefa->descricao = $request->input('descTarefa');
-        $tarefa->tempo_previsto = $request->input('tempoPrevisto');
+        $tarefa->tempo_previsto = request('horaPrevista').':'.request('minPrevisto').':'.request('secPrevisto');
         $tarefa->projeto_id = $request->input('projeto');
         $tarefa->status_id = 1;
         $tarefa->data_prevista = $request->input('dataPrevista');
@@ -189,8 +194,10 @@ class ControllerTarefa extends Controller
         $tarefa = Tarefa::find($id);
         $projetos = Projeto::all();
         $statusTarefas = StatusProjeto::all();
+        $temp = explode(':',$tarefa->tempo_previsto);
+        
         if(isset($tarefa)){
-            return view('tarefas.editarTarefa', compact('tarefa', 'projetos', 'statusTarefas'));
+            return view('tarefas.editarTarefa', compact('tarefa', 'projetos', 'statusTarefas', 'temp'));
         }
         return redirect('/tarefas');
     }
@@ -205,6 +212,31 @@ class ControllerTarefa extends Controller
     public function update(Request $request, $id)
     {
         //
+        $regras = [
+            'nomeTarefa' => 'required|max:255',
+            'descTarefa' => 'required|max:255',
+            'projeto' => 'required|exists:projetos,id',
+            'horaPrevista' => 'required',
+            'minPrevisto' => 'required',
+            'secPrevisto' => 'required',
+            'dataPrevista' => 'required|date'
+        ];
+
+        $mensagens = [
+            'nomeTarefa.required' => 'Preencha o nome da tarefa',
+            'nomeTarefa.max' => 'Tamanho máximo: 255',
+            'descTarefa.required' => 'Preencha a descrição',
+            'descTarefa.max' => 'Tamanho máximo: 255',
+            'projeto.required' => 'Preencha o projeto',
+            'projeto.exists' => 'Projeto não existe',
+            'horaPrevista.required' => 'Preencha o campo: hora',
+            'minPrevisto.required' => 'Preencha o campo: minuto',
+            'secPrevisto.required' => 'Preencha o campo: segundo',
+            'dataPrevista.required' => 'Preencha a data prevista',
+            'dataPrevista.date' => 'Data prevista deve ser do tipo data'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
         date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
@@ -224,7 +256,7 @@ class ControllerTarefa extends Controller
             $tarefa->projeto_id = $request->input('projeto');
             $tarefa->status_id = $request->input('status');
             $tarefa->data_prevista = $request->input('dataPrevista');
-            $tarefa->tempo_previsto = $request->input('tempoPrevisto');
+            $tarefa->tempo_previsto = request('horaPrevista').':'.request('minPrevisto').':'.request('secPrevisto');
             $tarefa->save();
         }
 

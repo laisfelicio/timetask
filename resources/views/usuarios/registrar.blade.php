@@ -12,7 +12,7 @@
             @csrf
             <div class = "form-group">
                 <label for = "nomeUsuario"> Nome do usuario </label>
-                <input type = "text" class = "form-control" name = "nomeUsuario" id = "nomeUsuario">
+                <input type = "text" class = "form-control" name = "nomeUsuario" id = "nomeUsuario" value = "{{old('nomeUsuario')}}">
             
                 @error('nomeUsuario')
                     <p class = "text-danger"> {{$message}} </p>
@@ -20,7 +20,7 @@
             </div>   
             <div class = "form-group">
                 <label for = "emailUsuario"> E-mail </label>
-                <input type = "email" class = "form-control" name = "emailUsuario" id = "emailUsuario">
+                <input type = "email" class = "form-control" name = "emailUsuario" id = "emailUsuario" value = "{{old('emailUsuario')}}">
             
                 @error('emailUsuario')
                     <p class = "text-danger"> {{$message}} </p>

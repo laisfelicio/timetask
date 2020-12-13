@@ -20,7 +20,7 @@ class Tarefa extends Model
      }
 
      public function users(){
-        return $this->belongsToMany('App\User', 'tarefa_usuarios', 'tarefa_id', 'user_id');
+        return $this->belongsToMany('App\User', 'tarefa_usuarios', 'tarefa_id', 'user_id')->whereNull('tarefa_usuarios.deleted_at');
     }
 
     public function projeto(){

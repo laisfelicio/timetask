@@ -52,11 +52,21 @@
             </div>
             <div class = "form-group">
                 <label for = "tempoPrevisto"> Tempo estimado </label>
-                <input type = "time" class = "form-control" name = "tempoPrevisto" id = "tempoPrevisto" step="1" value = "{{$tarefa->tempo_previsto}}">
-            
-                @error('tempoPrevisto')
-                    <p class = "text-danger"> {{$message}} </p>
-                @enderror
+                <div id = "tempoPrevisto">
+                    
+                    <input type="number" value = {{$temp[0]}} name = "horaPrevista" min="0" step="1" />:
+                    <input type="number" value = {{$temp[1]}} name = "minPrevisto" min="0" max="59" step="1" />: 
+                    <input type="number" value = {{$temp[2]}} name = "secPrevisto" min="0" max="59" step="1" />
+                    @error('horaPrevista')
+                        <p class = "text-danger"> {{$message}} </p>
+                    @enderror
+                    @error('minPrevisto')
+                        <p class = "text-danger"> {{$message}} </p>
+                    @enderror
+                    @error('secPrevisto')
+                        <p class = "text-danger"> {{$message}} </p>
+                    @enderror
+                </div>
             </div>
             <div class = "form-group">
                 <label for = "dataPrevista"> Data prevista de entrega </label>

@@ -52,6 +52,19 @@ class ControllerCliente extends Controller
         if(Auth::user()->admin == 0){
             abort(404);
         }
+
+        $regras = [
+            'nomeCliente' => 'required|max:255'
+        ];
+
+
+        $mensagens = [
+            'nomeCliente.required' => 'Digite o nome do cliente',
+            'nomeCliente.max' => 'Máximo de caracteres: 255'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
+
         $cliente = new Cliente();
         $cliente->nome = $request->input('nomeCliente');
         $cliente->save();
@@ -99,6 +112,18 @@ class ControllerCliente extends Controller
         if(Auth::user()->admin == 0){
             abort(404);
         }
+
+        $regras = [
+            'nomeCliente' => 'required|max:255'
+        ];
+
+
+        $mensagens = [
+            'nomeCliente.required' => 'Digite o nome do cliente',
+            'nomeCliente.max' => 'Máximo de caracteres: 255'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
 
         $cliente = Cliente::find($id);
         if(isset($cliente)){

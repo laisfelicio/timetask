@@ -24,7 +24,7 @@ class CreateTarefaUsuariosTable extends Migration
             $table->dateTime('ultimo_stop');
             $table->softDeletes();
             $table->timestamps();
-            $table->unique(array('tarefa_id', 'user_id'));
+            
         });
     }
 

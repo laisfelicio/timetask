@@ -59,7 +59,7 @@
                                         <td>{{$usu->name}}</td>
                                         <td>{{$usu->email}}</td>
                                         <td>
-                                            <a href = "/tarefausuario/apagar/alocacao/{{$usu->id}}" class = "btn btn-sm btn-danger btn-round"> Desalocar </a>
+                                            <a href = "/tarefausuario/apagar/{{$usu->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-danger btn-round"> Desalocar </a>
                                         </td>
                                     </tr>
                                     @endforeach

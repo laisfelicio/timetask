@@ -12,7 +12,11 @@
             @csrf
             <div class = "form-group">
                 <label for = "nomeCliente"> Nome do cliente </label>
-                <input type = "text" class = "form-control" name = "nomeCliente" id = "nomeCliente" placeHolder = "Cliente">
+                <input type = "text" class = "form-control" name = "nomeCliente" id = "nomeCliente" placeHolder = "Cliente" value = "{{old('nomeCliente')}}">
+                @error('nomeCliente')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
+            
             </div>
             <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Salvar </button>
             <button type = "cancel" class = "btn btn-danger btn-sm btn-round"> Cancelar </button>

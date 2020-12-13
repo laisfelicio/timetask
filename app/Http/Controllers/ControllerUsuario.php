@@ -61,7 +61,7 @@ class ControllerUsuario extends Controller
 
         $regras = [
             'nomeUsuario' => 'required|max:255',
-            'emailUsuario' => 'required|email|max:255|unique:users,email,'.Auth::user()->id.'',
+            'emailUsuario' => 'required|email|max:255|unique:users,email',
             'senhaUsuario' => 'required|min:8|max:255'
         ];
 
@@ -139,8 +139,10 @@ class ControllerUsuario extends Controller
 
         $regras = [
             'nomeUsuario' => 'required|max:255',
-            'emailUsuario' => 'required|email|max:255|unique:users,email,'.Auth::user()->id.''
+            'emailUsuario' => 'required|email|max:255|unique:users,email,'.Auth::user()->id.'',
+            'senhaUsuario' => 'required|min:8|max:255'
         ];
+
 
         $mensagens = [
             'nomeUsuario.required' => 'Digite o nome do usuário',
