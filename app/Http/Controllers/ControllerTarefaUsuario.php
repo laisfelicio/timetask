@@ -62,23 +62,37 @@ class ControllerTarefaUsuario extends Controller
     {
         //
       
-
-        
         $regras = [
-            'idTarefa' => 'required',
-            'usuario' => 'required|unique:tarefa_usuarios,user_id,NULL,id,tarefa_id,' . $request->input('idTarefa').',deleted_at,NULL'
+            'idTarefa' => 'required|exists:tarefas,id',
+            'usuario' => 'required|exists:users,id|unique:tarefa_usuarios,user_id,NULL,id,tarefa_id,' . $request->input('idTarefa').',deleted_at,NULL'
         ];
 
-        $validateData = $request->validate($regras);
+        $mensagens = [
+            'idTarefa.required' => 'Preencha a tarefa',
+            'idTarefa.exists' => 'Tarefa não existe',
+            'usuario.required' => 'Informe o usuário',
+            'usuario.unique' => 'Usuário já alocado',
+            'usuario.exists' => 'Usuário não existe'
+        ];
+        $validateData = $request->validate($regras, $mensagens);
 
-        $tarefaUsu = new TarefaUsuario();
-        $tarefaUsu->tarefa_id = $request->input('idTarefa');
-        $tarefaUsu->user_id = $request->input('usuario');
-        $tarefaUsu->tempo_gasto = "00:00:00";
-        $tarefaUsu->ultimo_start = "1920-01-01 01:00:00";
-        $tarefaUsu->ultimo_stop = "1920-01-01 01:00:00";
-        $tarefaUsu->save();
-        return redirect('/tarefausuario/info/'.$request->input('idProjeto')."/".$request->input('idTarefa'));
+        $existe = TarefaUsuario::withTrashed()->where('tarefa_id', $request->input('idTarefa'))->where('user_id', $request->input('usuario'))->first();
+        if(isset($existe)){
+            $existe->restore();
+            return redirect('/tarefausuario/info/'.$request->input('idProjeto')."/".$request->input('idTarefa'));
+        }
+        else{
+            
+            $tarefaUsu = new TarefaUsuario();
+            $tarefaUsu->tarefa_id = $request->input('idTarefa');
+            $tarefaUsu->user_id = $request->input('usuario');
+            $tarefaUsu->tempo_gasto = "00:00:00";
+            $tarefaUsu->ultimo_start = "1920-01-01 01:00:00";
+            $tarefaUsu->ultimo_stop = "1920-01-01 01:00:00";
+            $tarefaUsu->save();
+            
+            return redirect('/tarefausuario/info/'.$request->input('idProjeto')."/".$request->input('idTarefa'));
+        }
     }
 
     /**
@@ -130,10 +144,12 @@ class ControllerTarefaUsuario extends Controller
         $tarefaUsuario = TarefaUsuario::where('user_id', $user)->where('tarefa_id', $tarefa)->first();
         $tarefaId = $tarefaUsuario->tarefa_id;
         $projetoId = Tarefa::find($tarefaId)->projeto_id;
-
+        $tarefa = Tarefa::find($tarefa);
+        
         if(isset($tarefaUsuario)){
             $tarefaUsuario->delete();
         }
+       
         return redirect("/tarefausuario/info/".$projetoId."/".$tarefaId);
     }
 
@@ -337,6 +353,20 @@ class ControllerTarefaUsuario extends Controller
     }
 
     public function gerenciar(Request $request){
+
+        $regras = [
+            'statusTarefa' => 'required|exists:status_tarefas,id',
+            'nomeTarefa' => 'required|max:255'
+        ];
+
+        $mensagens = [
+            'statusTarefa.required' => 'Preencha o status da tarefa',
+            'statusTarefa.exists' => 'Status não cadastrado',
+            'nomeTarefa.max' => 'Tamanho máximo: 255',
+            'nomeTarefa.required' => 'Preencha o nome da tarefa'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
         date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
         setlocale(LC_TIME, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');

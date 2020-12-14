@@ -53,11 +53,21 @@ class ControllerProjetoUsuario extends Controller
     public function store(Request $request)
     {
         //
-        $validatedData = $request->validate([
-            'idProjeto' => ['required'],
-            'usuario' => ['required', 'unique:projeto_usuarios,user_id,NULL,id,projeto_id,' . $request->input('idProjeto')],
-        ]);
 
+
+        $regras = [
+            'idProjeto' => 'required|exists:projetos,id',
+            'usuario' => 'required|exists:users,id|unique:tarefa_usuarios,user_id,NULL,id,tarefa_id,' . $request->input('idTarefa').',deleted_at,NULL'
+        ];
+
+        $mensagens = [
+            'idProjeto.required' => 'Preencha o projeto',
+            'idProjeto.exists' => 'Projeto não existe',
+            'usuario.required' => 'Informe o usuário',
+            'usuario.unique' => 'Usuário já alocado',
+            'usuario.exists' => 'Usuário não existe'
+        ];
+        $validateData = $request->validate($regras, $mensagens);
 
         date_default_timezone_set('America/Recife');
         setlocale(LC_ALL, 'pt_BR.utf-8', 'ptb', 'pt_BR', 'portuguese-brazil', 'portuguese-brazilian', 'bra', 'brazil', 'br');
@@ -65,10 +75,21 @@ class ControllerProjetoUsuario extends Controller
         $dataAtual = Carbon::now();
         $dataAtual = (Carbon::parse($dataAtual)->format('yy-m-d'));
 
-        $projeto = Projeto::findOrFail($request->idProjeto);
-        $user = User::findOrFail($request->usuario);
-        $user->projetos()->attach($projeto);
-        return redirect('/projetousuario/info/'.$request->input('idProjeto'));
+        $existe = ProjetoUsuario::withTrashed()->where('projeto_id', $request->input('idProjeto'))->where('user_id', $request->input('usuario'))->first();
+        if(isset($existe)){
+            $existe->restore();
+            return redirect('/projetousuario/info/'.$request->input('idProjeto'));
+        }
+        else{
+            $projeto = Projeto::findOrFail($request->idProjeto);
+            $user = User::findOrFail($request->usuario);
+            $projUsu = new ProjetoUsuario();
+            $projUsu->projeto_id = $request->input('idProjeto');
+            $projUsu->user_id = $request->input('usuario');
+            $projUsu->save();
+            return redirect('/projetousuario/info/'.$request->input('idProjeto'));
+        }
+
     }
 
     /**
@@ -123,11 +144,6 @@ class ControllerProjetoUsuario extends Controller
     public function destroy($idProjeto, $idUsuario)
     {
         //
-        
-        $projeto = Projeto::findOrFail($idProjeto);
-        $user = User::findOrFail($idUsuario);
-        $user->projetos()->detach($projeto);
-        return redirect("/projetousuario/info/".$idProjeto);
 
         $projetoUsuario = ProjetoUsuario::where('user_id', $idUsuario)->where('projeto_id', $idProjeto)->first();
         $projetoId = $projetoUsuario->projeto_id;
@@ -135,7 +151,9 @@ class ControllerProjetoUsuario extends Controller
         if(isset($projetoUsuario)){
             $projetoUsuario->delete();
         }
+
         return redirect("/projetousuario/info/".$projetoId);
+        
         
     }
 

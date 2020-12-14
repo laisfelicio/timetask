@@ -16,6 +16,9 @@
             <div class = "form-group">
                 <label for = "nomeProjeto"> Nome do projeto </label><br>
                 <input type = "text" class = "form-control" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$projeto->nome}}" readonly>
+                @error('idProjeto')
+                    <p class = "text-danger">{{$message}}</p>
+                @enderror
             </div>
             
             <div class="form-group">

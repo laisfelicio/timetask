@@ -19,6 +19,9 @@
                             <input type="hidden" id="idTarefa" name="idTarefa" value="{{$tarefa->id}}">
                             <div class = "form-group">
                                 <input type = "text" class = "form-control input-lg" name = "nomeTarefa" id = "nomeTarefa"  value = "{{$tarefa->nome}}">
+                                @error('nomeTarefa')
+                                    <p class = "text-danger"> {{$message}} </p>
+                                @enderror
                             </div>
                             <div class = "form-group">
                                 <input type = "text" class = "form-control border-light" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$tarefa->projeto->nome}}" readonly>
@@ -44,6 +47,9 @@
                             @endforeach
 
                         </select>
+                        @error('statusTarefa')
+                            <p class = "text-danger"> {{$message}} </p>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -189,6 +195,9 @@
                             <input type="hidden" id="idTarefa" name="idTarefa" value="{{$tarefa->id}}">
                             <div class = "form-group">
                                 <input type = "text" class = "form-control input-lg" name = "comentario" id = "comentario">
+                                @error('comentario')
+                                    <p class = "text-danger"> {{$message}} </p>
+                                @enderror
                             </div>
                         </div>
                     </div>

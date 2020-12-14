@@ -41,6 +41,17 @@ class ControllerComentario extends Controller
     public function store(Request $request)
     {
         //
+        $regras = [
+            
+            'comentario' => 'required|max:255'
+        ];
+
+        $mensagens = [
+            'comentario.required' => 'Preencha o comentário',
+            'comentario.max' => 'Tamanho máximo: 255'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
         $comentario = new Comentario();
         $comentario->user_id = Auth::user()->id;
         $comentario->tarefa_id = $request->idTarefa;

@@ -13,7 +13,7 @@ class Projeto extends Model
 
     
      public function users(){
-         return $this->belongsToMany('App\User', 'projeto_usuarios', 'projeto_id', 'user_id');
+         return $this->belongsToMany('App\User', 'projeto_usuarios', 'projeto_id', 'user_id')->whereNull('projeto_usuarios.deleted_at');
      }
 
      public function usersTrashed(){

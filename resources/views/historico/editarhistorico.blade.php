@@ -19,12 +19,18 @@
                 <input type = "text" class = "form-control" name = "dia" id = "dia" value = "{{$historico->dia->format('d/m/Y')}}" readonly>
             </div><br>  
             <div class = "form-group">
-                <label for = "tempo"> Hora Início </label>
+                <label for = "horaInicio"> Hora Início </label>
                 <input type = "time" class = "form-control" name = "horaInicio" id = "horaInicio" step="1" value = {{$historico->horaInicio}}>
+                @error('horaInicio')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div><br>  
             <div class = "form-group">
-                <label for = "tempo"> Hora Fim </label>
+                <label for = "horaFim"> Hora Fim </label>
                 <input type = "time" class = "form-control" name = "horaFim" id = "horaFim" step="1" value = {{$historico->horaFim}}>
+                @error('horaFim')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div><br>
             <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Salvar </button>
             <button type = "cancel" class = "btn btn-danger btn-sm btn-round"> Cancelar </button>

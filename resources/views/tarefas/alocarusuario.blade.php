@@ -16,15 +16,21 @@
             <div class = "form-group">
                 <label for = "nomeTarefa"> Nome da tarefa </label><br>
                 <input type = "text" class = "form-control" name = "nomeTarefa" id = "nomeTarefa"  value = "{{$tarefa->nome}}" readonly>
+                @error('idTarefa')
+                    <p class = "text-danger">{{$message}}</p>
+                @enderror
             </div>
+
             <div class = "form-group">
                 <label for = "nomeProjeto"> Nome do projeto </label><br>
                 <input type = "text" class = "form-control" name = "nomeProjeto" id = "nomeProjeto"  value = "{{$projeto->nome}}" readonly>
+                @error('idProjeto')
+                    <p class = "text-danger">{{$message}}</p>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="usuario">Usuário</label><br>
                 <select class="form-control" id="usuario" name = "usuario">
-                    
                   @foreach($usuarios as $usuario) 
                     <option value = {{$usuario->id}}>{{$usuario->name}}</option>
                   @endforeach

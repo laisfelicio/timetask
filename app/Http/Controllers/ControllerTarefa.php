@@ -219,6 +219,7 @@ class ControllerTarefa extends Controller
             'horaPrevista' => 'required',
             'minPrevisto' => 'required',
             'secPrevisto' => 'required',
+            'status' => 'required|exists:status_tarefas,id',
             'dataPrevista' => 'required|date'
         ];
 
@@ -232,6 +233,8 @@ class ControllerTarefa extends Controller
             'horaPrevista.required' => 'Preencha o campo: hora',
             'minPrevisto.required' => 'Preencha o campo: minuto',
             'secPrevisto.required' => 'Preencha o campo: segundo',
+            'status.required' => 'Preencha o status da tarefa',
+            'status.exists' => 'Status não cadastrado',
             'dataPrevista.required' => 'Preencha a data prevista',
             'dataPrevista.date' => 'Data prevista deve ser do tipo data'
         ];
@@ -354,7 +357,8 @@ class ControllerTarefa extends Controller
                 $html = $html. '
                 </table> <br> <hr>'; 
 
-                $usuarios = TarefaUsuario::where('tarefa_id', $dado->id)->get();
+
+                $usuarios = TarefaUsuario::withTrashed()->where('tarefa_id', $dado->id)->get();
 
                 $html = $html.'<h2> Usuários </h2>';
                 
@@ -364,7 +368,9 @@ class ControllerTarefa extends Controller
                 <td colspan="2">TEMPO GASTO</td>
                 </tr>';
                 if(count($usuarios) > 0){
+
                     foreach($usuarios as $usuario){
+                        
                         $user = User::findOrFail($usuario->user_id);
                         $html = $html.'<tr>';
                         $html = $html.'<td colspan="2"> '.$user->name . '</td> ';

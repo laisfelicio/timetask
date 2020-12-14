@@ -90,12 +90,25 @@ class ControllerProjeto extends Controller
     public function store(Request $request)
     {
         //
-        $validatedData = $request->validate([
+        $regras = [
             'nomeProjeto' => 'required|max:255',
             'descProjeto' => 'required|max:255',
             'cliente' => 'required|exists:clientes,id',
             'dataPrevista' => 'required'
-        ]);
+        ];
+
+        $mensagens = [
+            'nomeProjeto.required' => 'Preencha o nome do projeto',
+            'nomeProjeto.max' => 'Tamanho máximo: 255',
+            'descProjeto.required' => 'Preencha a descrição',
+            'descProjeto.max' => 'Tamanho máximo: 255',
+            'cliente.required' => 'Preencha o cliente',
+            'cliente.exists' => 'Cliente não existe',
+            'dataPrevista.date' => 'Data prevista deve ser do tipo data',
+            'dataPrevista.required' => 'Informe a data prevista'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
 
         $proj = new Projeto();
         $proj->nome = $request->input('nomeProjeto');
@@ -156,13 +169,28 @@ class ControllerProjeto extends Controller
             abort(404);
         }
 
-        $validatedData = $request->validate([
+        $regras = [
             'nomeProjeto' => 'required|max:255',
             'descProjeto' => 'required|max:255',
             'cliente' => 'required|exists:clientes,id',
-            'dataPrevista' => 'required',
-            'status' => 'required|exists:status_projetos,id' 
-        ]);
+            'status' => 'required|exists:status_projetos,id',
+            'dataPrevista' => 'required'
+        ];
+
+        $mensagens = [
+            'nomeProjeto.required' => 'Preencha o nome do projeto',
+            'nomeProjeto.max' => 'Tamanho máximo: 255',
+            'descProjeto.required' => 'Preencha a descrição',
+            'descProjeto.max' => 'Tamanho máximo: 255',
+            'cliente.required' => 'Preencha o cliente',
+            'cliente.exists' => 'Cliente não existe',
+            'status.required' => 'Preencha o status',
+            'status.exists' => 'Status não cadastrado',
+            'dataPrevista.date' => 'Data prevista deve ser do tipo data',
+            'dataPrevista.required' => 'Informe a data prevista'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
 
         $projeto = Projeto::find($id);
             if(isset($projeto)){

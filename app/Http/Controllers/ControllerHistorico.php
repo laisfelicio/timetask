@@ -76,6 +76,25 @@ class ControllerHistorico extends Controller
      */
     public function store(Request $request)
     {
+
+        $regras = [
+            'tarefa' => 'required|exists:tarefas,id',
+            'dia' => 'required|date',
+            'horaInicio' => 'required',
+            'horaFim' => 'required'     
+        ];
+
+        $mensagens = [
+            'tarefa.required' => 'Preencha a tarefa',
+            'tarefa.exists' => 'Tarefa não existe',
+            'dia.required' => 'Preencha a data',
+            'dia.date' => 'O campo deve ser no formato: data',
+            'horaInicio.required' => 'Preencha a hora de início',
+            'horaFim.required' => 'Preencha a hora final'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
+
         $historico = new Historico();
         $dia = Carbon::parse($request->dia)->format('yy-m-d');
         $historico->start = $dia." ".Carbon::parse($request->horaInicio)->format('H:i:s');
@@ -146,6 +165,20 @@ class ControllerHistorico extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $regras = [
+            'horaInicio' => 'required',
+            'horaFim' => 'required'     
+        ];
+
+        $mensagens = [
+            
+            'horaInicio.required' => 'Preencha a hora de início',
+            'horaFim.required' => 'Preencha a hora final'
+        ];
+
+        $validateData = $request->validate($regras, $mensagens);
+
         $fim = Carbon::parse($request->horaInicio);
         $inicio = Carbon::parse($request->horaFim);
         $totalAtualizado = $inicio->diffInHours($fim) . ':' . $inicio->diff($fim)->format('%I:%S');

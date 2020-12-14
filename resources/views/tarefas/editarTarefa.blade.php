@@ -27,16 +27,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label for="projeto">Projeto</label>
-                <select class="form-control" id="projeto" name = "projeto">
-                  @foreach($projetos as $projeto) 
-                    @if($projeto->id == $tarefa->projeto_id)
-                        <option value = {{$projeto->id}} selected>{{$projeto->nome}}</option>
-                    @else
-                        <option value = {{$projeto->id}}>{{$projeto->nome}}</option>
-                    @endif
-                  @endforeach
-                </select>
+                <input type="hidden" id="projeto" name="projeto" value="{{$tarefa->projeto_id}}">
             </div>
             <div class="form-group">
                 <label for="status">Status</label>
@@ -49,6 +40,9 @@
                     @endif
                   @endforeach
                 </select>
+                @error('status')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div>
             <div class = "form-group">
                 <label for = "tempoPrevisto"> Tempo estimado </label>

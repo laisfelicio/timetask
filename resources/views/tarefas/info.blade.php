@@ -20,7 +20,7 @@
                   
         <hr style="border-top: 1px solid black;">
         <div class = "row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class = "card border-light">
                     <div class = "card-body">
                         <label for = "dataPrevista"> Data Prevista </label>
@@ -29,11 +29,20 @@
                 </div>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class = "card border-light">
                     <div class = "card-body">
                         <label for = "tempoGasto"> Tempo Gasto </label>
                         <input type = "text" class = "form-control" name = "tempoGasto" id = "tempoGasto"  value = "{{$tarefa->tempo_gasto}}" readonly> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class = "card border-light">
+                    <div class = "card-body">
+                        <label for = "tempoPrevisto"> Tempo Previsto </label>
+                        <input type = "text" class = "form-control" name = "tempoPrevisto" id = "tempoPrevisto"  value = "{{$tarefa->tempo_previsto}}" readonly> 
                     </div>
                 </div>
             </div>
@@ -50,7 +59,9 @@
                                     <th> Código Usuário</th>
                                     <th> Nome </th>
                                     <th> Email </th>
-                                    <th> Ações </th>
+                                    @if(Auth::user()->admin == 1)
+                                        <th> Ações </th>
+                                    @endif
                                 </thead>
                                 <tbody>
                                     @foreach($tarefa->users as $usu)
@@ -58,9 +69,11 @@
                                         <td>{{$usu->id}}</td>
                                         <td>{{$usu->name}}</td>
                                         <td>{{$usu->email}}</td>
-                                        <td>
-                                            <a href = "/tarefausuario/apagar/{{$usu->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-danger btn-round"> Desalocar </a>
-                                        </td>
+                                        @if(Auth::user()->admin == 1)
+                                            <td>
+                                                <a href = "/tarefausuario/apagar/{{$usu->id}}/{{$tarefa->id}}" class = "btn btn-sm btn-danger btn-round"> Desalocar </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>

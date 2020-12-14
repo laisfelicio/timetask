@@ -26,14 +26,23 @@
             <div class = "form-group">
                 <label for = "dia"> Data </label><br>
                 <input type = "date" class = "form-control" name = "dia" id = "dia">
+                @error('dia')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div><br>  
             <div class = "form-group">
-                <label for = "tempo"> Hora Início </label>
+                <label for = "horaInicio"> Hora Início </label>
                 <input type = "time" class = "form-control" name = "horaInicio" id = "horaInicio" step="1" >
+                @error('horaInicio')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div><br>  
             <div class = "form-group">
-                <label for = "tempo"> Hora Fim </label>
+                <label for = "horaFim"> Hora Fim </label>
                 <input type = "time" class = "form-control" name = "horaFim" id = "horaFim" step="1">
+                @error('horaFim')
+                    <p class = "text-danger"> {{$message}} </p>
+                @enderror
             </div><br>
             <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Salvar </button>
             <button type = "cancel" class = "btn btn-danger btn-sm btn-round"> Cancelar </button>
