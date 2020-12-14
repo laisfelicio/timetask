@@ -8,6 +8,7 @@ class TarefaUsuario extends Model
 {
     //
     protected $appends = ['nomeUsuario', 'emailUsuario'];
+    protected $dates = ['ultimo_start', 'ultimo_stop'];
     use SoftDeletes;
 
     public function getNomeUsuarioAttribute(): string

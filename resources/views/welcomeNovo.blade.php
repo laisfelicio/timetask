@@ -13,7 +13,7 @@ Released   : 20140207
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title></title>
+<title>TaskingPlay</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="http://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
@@ -27,12 +27,12 @@ Released   : 20140207
 <div id="wrapper1">
 	<div id="header-wrapper">
 		<div id="header" class="container">
-            <div id="logo"> <span class="icon icon-cogs"></span>
-                    <h1><a href="#">TimeTask</a></h1>
+            <div id="logo"> <span class="icon icon-time"></span>
+                    <h1><a href="#">TaskingPlay</a></h1>
 			<div id="menu">
 				<ul>
 					<li class="current_page_item"><a href="#" accesskey="1" title="">Home</a></li>
-                    <li><a href="#" accesskey="2" title="">Sobre a plataforma</a></li>
+                    
                     @auth
                         <li><a href="/projetos" accesskey="2" title="">Voltar para a plataforma</a></li>
                     @else
@@ -45,58 +45,49 @@ Released   : 20140207
 	<div id="wrapper2">
 		<div id="welcome" class="container">
 			<div class="title">
-				<h2>Welcome to our website</h2>
+				<h2>Bem-vindo a nossa plataforma!</h2>
 			</div>
-			<p>This is <strong>Embellished</strong>, a free, fully standards-compliant CSS template designed by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>. The photos in this template are from <a href="http://fotogrph.com/"> Fotogrph</a>. This free template is released under the <a href="http://templated.co/license">Creative Commons Attribution</a> license, so youre pretty much free to do whatever you want with it provided you give us credit for it. Have fun :) </p>
+			<p>TaskingPlay é uma plataforma de gerenciamento de tarefas que ajuda você e sua equipe a se organizarem no cotidiano!</p>
 		</div>
 	</div>
 	<div id="wrapper3">
 		<div id="portfolio" class="container">
 			<div class="title">
-				<h2>Vivamus fermentum nibh</h2>
-				<span class="byline">Integer sit amet pede vel arcu aliquet pretium</span> </div>
+				<h2>Com o TaskingPlay você pode:</h2>
+				</div>
 			<div class="column1">
 				<div class="box">
-					<span class="icon icon-wrench"></span>
-					<h3>Vestibulum venenatis</h3>
-					<p>Fermentum nibh augue praesent a lacus at urna congue rutrum.</p>
-					<a href="#" class="button button-small">Etiam posuere</a> </div>
+					<span class="icon icon-group"></span>
+					<h3>Organizar sua equipe</h3>
+					<p>Com o TaskingPlay, você pode ter uma visão clara das responsabilidades de cada usuário e também acompanhar o tempo gasto em cada tarefa!</p>
+					</div>
 			</div>
 			<div class="column2">
 				<div class="box">
-					<span class="icon icon-trophy"></span>
-					<h3>Praesent scelerisque</h3>
-					<p>Vivamus fermentum nibh in augue praesent urna congue rutrum.</p>
-					<a href="#" class="button button-small">Etiam posuere</a> </div>
+					<span class="icon icon-file"></span>
+					<h3>Acessar relatórios</h3>
+					<p>Consulte seus dados em nossos relatórios de forma organizada e com fácil visualização! </p>
+					</div>
 			</div>
 			<div class="column3">
 				<div class="box">
-					<span class="icon icon-key"></span>
-					<h3>Donec dictum metus</h3>
-					<p>Vivamus fermentum nibh in augue praesent urna congue rutrum.</p>
-					<a href="#" class="button button-small">Etiam posuere</a> </div>
+					<span class="icon icon-play"></span>
+					<h3>Registrar o tempo gasto em suas tarefas</h3>
+					<p>Com o TaskingPlay você pode cronometrar de forma fácil o tempo gasto em cada tarefa (e alterar manualmente caso se esqueça!).</p>
+					</div>
 			</div>
 			<div class="column4">
 				<div class="box">
-					<span class="icon icon-lock"></span>
-					<h3>Mauris vulputate dolor</h3>
-					<p>Rutrum fermentum nibh in augue praesent urna congue rutrum.</p>
-					<a href="#" class="button button-small">Etiam posuere</a> </div>
+					<span class="icon icon-plus"></span>
+					<h3>E vários outros benefícios!</h3>
+					<p>Como gráficos e quadro Kanban que ajudarão no gerenciamento da sua equipe!</p>
+					</div>
 			</div>
 		</div>
 	</div>
 </div>
 <div id="footer" class="container">
-	<div class="title">
-		<h2>Get in touch</h2>
-		<span class="byline">Phasellus nec erat sit amet nibh pellentesque congue</span> </div>
-	<ul class="contact">
-		<li><a href="#" class="icon icon-twitter"><span>Twitter</span></a></li>
-		<li><a href="#" class="icon icon-facebook"><span></span></a></li>
-		<li><a href="#" class="icon icon-dribbble"><span>Pinterest</span></a></li>
-		<li><a href="#" class="icon icon-tumblr"><span>Google+</span></a></li>
-		<li><a href="#" class="icon icon-rss"><span>Pinterest</span></a></li>
-	</ul>
+
 </div>
 <div id="copyright" class="container">
 	<p>&copy; Untitled. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>

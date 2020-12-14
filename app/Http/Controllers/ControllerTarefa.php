@@ -220,7 +220,7 @@ class ControllerTarefa extends Controller
             'minPrevisto' => 'required',
             'secPrevisto' => 'required',
             'status' => 'required|exists:status_tarefas,id',
-            'dataPrevista' => 'required|date'
+            'dataPrevista' => 'required'
         ];
 
         $mensagens = [
@@ -278,6 +278,10 @@ class ControllerTarefa extends Controller
     public function destroy($id)
     {
         //
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
+
         $tarefa = Tarefa::find($id);
         $this->deletaDependentes($id);
         if(isset($tarefa)){

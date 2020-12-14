@@ -90,6 +90,11 @@ class ControllerProjeto extends Controller
     public function store(Request $request)
     {
         //
+
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
+        
         $regras = [
             'nomeProjeto' => 'required|max:255',
             'descProjeto' => 'required|max:255',

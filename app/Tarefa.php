@@ -9,6 +9,7 @@ class Tarefa extends Model
 {
     //
     protected $appends = ['emAtraso'];
+    protected $dates = ['data_prevista', 'data_finalizacao'];
     use SoftDeletes;
 
     public function status(){

@@ -55,6 +55,10 @@ class ControllerProjetoUsuario extends Controller
         //
 
 
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
+
         $regras = [
             'idProjeto' => 'required|exists:projetos,id',
             'usuario' => 'required|exists:users,id|unique:tarefa_usuarios,user_id,NULL,id,tarefa_id,' . $request->input('idTarefa').',deleted_at,NULL'
@@ -144,6 +148,10 @@ class ControllerProjetoUsuario extends Controller
     public function destroy($idProjeto, $idUsuario)
     {
         //
+
+        if(Auth::user()->admin == 0){
+            abort(404);
+        }
 
         $projetoUsuario = ProjetoUsuario::where('user_id', $idUsuario)->where('projeto_id', $idProjeto)->first();
         $projetoId = $projetoUsuario->projeto_id;

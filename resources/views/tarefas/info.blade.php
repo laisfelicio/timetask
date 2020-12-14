@@ -24,7 +24,7 @@
                 <div class = "card border-light">
                     <div class = "card-body">
                         <label for = "dataPrevista"> Data Prevista </label>
-                        <input type = "text" class = "form-control" name = "dataPrevista" id = "dataPrevista"  value = "{{$tarefa->data_prevista}}" readonly> 
+                        <input type = "text" class = "form-control" name = "dataPrevista" id = "dataPrevista"  value = "{{$tarefa->data_prevista->format('d/m/Y')}}" readonly> 
                     </div>
                 </div>
             </div>

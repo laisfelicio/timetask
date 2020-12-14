@@ -64,14 +64,14 @@
             </div>
             <div class = "form-group">
                 <label for = "dataPrevista"> Data prevista de entrega </label>
-                <input type = "date" class = "form-control" name = "dataPrevista" id = "dataPrevista" value = "{{$tarefa->data_prevista}}">
+                <input type = "date" class = "form-control" name = "dataPrevista" id = "dataPrevista" value = "{{$tarefa->data_prevista->format('Y-m-d')}}">
             
                 @error('dataPrevista')
                     <p class = "text-danger"> {{$message}} </p>
                 @enderror
             </div>
             <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Salvar </button>
-            <button type = "cancel" class = "btn btn-danger btn-sm btn-round"> Cancelar </button>
+            <a class = "btn btn-danger btn-sm btn-round" href = "{{url()->previous()}}"> Cancelar </a>
         </form>
     </div>
 </div>

@@ -18,7 +18,7 @@
                 @enderror
             </div>
             <button type = "submit" class = "btn btn-primary btn-sm btn-round"> Salvar </button>
-            <button type = "cancel" class = "btn btn-danger btn-sm btn-round"> Cancelar </button>
+            <a class = "btn btn-danger btn-sm btn-round" href = "{{url()->previous()}}"> Cancelar </a>
         </form>
     </div>
 </div>
