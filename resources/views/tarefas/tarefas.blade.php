@@ -21,10 +21,11 @@
                         <div class="form-group">
                             <label for="statusTarefa">Status</label>
                             <select class="form-control" id="statusTarefa" name = "statusTarefa">
-                            @foreach($statusTarefas as $status) 
-                                <option value = {{$status->id}}>{{$status->nome}}</option>
-                            @endforeach
                                 <option value = "">TODOS</option>
+                                @foreach($statusTarefas as $status) 
+                                    <option value = {{$status->id}}>{{$status->nome}}</option>
+                                @endforeach
+                                
                             </select>
                         </div>
         

@@ -61,7 +61,7 @@
             </div>
             <div class = "form-group">
                 <label for = "dataPrevista"> Data prevista de entrega </label>
-                <input type = "date" class = "form-control" name = "dataPrevista" id = "dataPrevista" value = "{{$projeto->data_prevista}}">
+                <input type = "date" class = "form-control" name = "dataPrevista" id = "dataPrevista" value = "{{$projeto->data_prevista->format('Y-m-d')}}">
             
                 @error('dataPrevista')
                     <p class = "text-danger"> {{$message}} </p>

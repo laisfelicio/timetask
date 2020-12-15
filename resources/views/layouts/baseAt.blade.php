@@ -117,14 +117,14 @@
                       </a>
                   </li>
                 @endif
-                @if(Auth::user()->admin == 1)
+                
                 <li @if($current=="relatorios") class="nav-item active" @else class="nav-item" @endif>
                     <a class="nav-link" href="/relatorios">
                     <i class="material-icons">article</i>
                     <p>Relatórios</p>
                     </a>
                 </li>
-              @endif
+              
               
             </ul>
           </div>

@@ -4,7 +4,7 @@
 <div class = "card border">
     <div class="card-header card-header-text card-header-rose">
         <div class="card-text">
-          <h4 class="card-title">+ Info</h4>
+          <h4 class="card-title">Meus projetos</h4>
         </div>
     </div>
     <div class = "card-body">
@@ -99,4 +99,5 @@
             <button type = "submit" class = "btn btn-info btn-sm"> Download Relatório</button>
         </form>
  </div>
+</div>
 @endsection

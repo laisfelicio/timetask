@@ -95,7 +95,13 @@ class ControllerTarefa extends Controller
     public function create()
     {
         //
-        $projetos = Projeto::all();
+        if(Auth::user()->admin == 0){
+            $projetos = Auth::user()->projetos;
+        }
+        else{
+            $projetos = Projeto::all();
+        }
+       
 
         return view('tarefas.novaTarefa', compact('projetos'));
     }
@@ -248,7 +254,9 @@ class ControllerTarefa extends Controller
         if(isset($tarefa)){
             if($request->status == 4){
                 $tarefa->finalizado = 1;
-                $tarefa->data_finalizacao = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+                if($tarefa->status->id <> 4){
+                    $tarefa->data_finalizacao = Carbon::parse($dataHora)->format('y-m-d H:i:s');
+                }
             }
             else{
                 $tarefa->finalizado = 0;
@@ -332,7 +340,7 @@ class ControllerTarefa extends Controller
                 <td colspan="2">TEMPO GASTO</td>
                 </tr>';
                 $html = $html.'<tr>';
-                $html = $html.'<td colspan="2"> '.$dado->data_prevista . '</td> ';
+                $html = $html.'<td colspan="2"> '.date('d/m/Y', strtotime($dado->data_prevista)) . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->tempo_previsto . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->tempo_gasto . '</td> ';
 
@@ -350,7 +358,7 @@ class ControllerTarefa extends Controller
                 $html = $html.'<td colspan="2"> '.$dado->status->nome . '</td> ';
                 if(isset($dado->finalizado) && $dado->finalizado == 1){
                     $html = $html.'<td colspan="2"> '.'SIM' . '</td> ';
-                    $html = $html.'<td colspan="2"> '.$dado->data_finalizacao . '</td> ';
+                    $html = $html.'<td colspan="2"> '.date('d/m/Y', strtotime($dado->data_finalizacao)) . '</td> ';
                 }
                 else{
                     $html = $html.'<td colspan="2"> '.'NAO' . '</td> ';

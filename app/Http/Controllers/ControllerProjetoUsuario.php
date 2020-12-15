@@ -61,7 +61,7 @@ class ControllerProjetoUsuario extends Controller
 
         $regras = [
             'idProjeto' => 'required|exists:projetos,id',
-            'usuario' => 'required|exists:users,id|unique:tarefa_usuarios,user_id,NULL,id,tarefa_id,' . $request->input('idTarefa').',deleted_at,NULL'
+            'usuario' => 'required|exists:users,id|unique:projeto_usuarios,user_id,NULL,id,projeto_id,' . $request->input('idProjeto').',deleted_at,NULL'
         ];
 
         $mensagens = [
@@ -230,7 +230,7 @@ class ControllerProjetoUsuario extends Controller
                 $html = $html.'<td colspan="2"> '.$dado->nome . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->cliente->nome . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->descricao . '</td> ';
-                $html = $html.'<td colspan="2"> '.$dado->data_prevista . '</td> ';
+                $html = $html.'<td colspan="2"> '.date('d/m/Y', strtotime($dado->data_prevista)) . '</td> ';
 
                 $html = $html.'</tr>';
                 $html = $html. '
@@ -247,7 +247,7 @@ class ControllerProjetoUsuario extends Controller
                 $html = $html.'<td colspan="2"> '.$dado->status->nome . '</td> ';
                 if(isset($dado->finalizado) && $dado->finalizado == 1){
                     $html = $html.'<td colspan="2"> '.'SIM' . '</td> ';
-                    $html = $html.'<td colspan="2"> '.$dado->data_finalizacao. '</td> ';
+                    $html = $html.'<td colspan="2"> '.date('d/m/Y', strtotime($dado->data_finalizacao)).'</td> ';
                 }
                 else{
                     $html = $html.'<td colspan="2"> '.'NAO' . '</td> ';
@@ -309,7 +309,7 @@ class ControllerProjetoUsuario extends Controller
                         $html = $html.'<td colspan="2"> '.$tarefa->tempo_gasto . '</td> ';
                         if(isset($tarefa->finalizado) && $tarefa->finalizado == 1){
                             $html = $html.'<td colspan="2"> '.'SIM' . '</td> ';
-                            $html = $html.'<td colspan="2"> '.$tarefa->data_finalizacao . '</td> ';
+                            $html = $html.'<td colspan="2"> '.$tarefa->data_finalizacao->format('d/m/Y') . '</td> ';
                         }
                         else{
                             $html = $html.'<td colspan="2"> '.'NAO' . '</td> ';
@@ -334,7 +334,7 @@ class ControllerProjetoUsuario extends Controller
    
          
        
-       PDF::SetTitle('Relatório - Tarefas');
+       PDF::SetTitle('Relatório - Projetos');
        PDF::AddPage();
        
    

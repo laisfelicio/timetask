@@ -26,7 +26,7 @@
             </div>  
             <div class = "form-group">
                 <label for = "senhaUsuario"> Senha </label>
-                <input type = "password" class = "form-control" name = "senhaUsuario" id = "senhaUsuario" value = "{{$usuario->password}}">
+                <input type = "password" class = "form-control" name = "senhaUsuario" id = "senhaUsuario">
                 @error('senhaUsuario')
                     <p class = "text-danger"> {{$message}} </p>
                 @enderror

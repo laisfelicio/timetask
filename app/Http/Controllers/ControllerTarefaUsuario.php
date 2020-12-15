@@ -422,7 +422,7 @@ class ControllerTarefaUsuario extends Controller
                 <td colspan="2">TEMPO GASTO</td>
                 </tr>';
                 $html = $html.'<tr>';
-                $html = $html.'<td colspan="2"> '.$dado->data_prevista . '</td> ';
+                $html = $html.'<td colspan="2"> '.date('d/m/Y', strtotime($dado->data_prevista )). '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->tempo_previsto . '</td> ';
                 $html = $html.'<td colspan="2"> '.$dado->tempo_gasto . '</td> ';
 
@@ -440,7 +440,7 @@ class ControllerTarefaUsuario extends Controller
                 $html = $html.'<td colspan="2"> '.$dado->status->nome . '</td> ';
                 if(isset($dado->finalizado) && $dado->finalizado == 1){
                     $html = $html.'<td colspan="2"> '.'SIM' . '</td> ';
-                    $html = $html.'<td colspan="2"> '.$dado->data_finalizacao . '</td> ';
+                    $html = $html.'<td colspan="2"> '.date('d/m/Y', strtotime($dado->data_finalizacao )) . '</td> ';
                 }
                 else{
                     $html = $html.'<td colspan="2"> '.'NAO' . '</td> ';

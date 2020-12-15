@@ -179,16 +179,13 @@ class ControllerCliente extends Controller
     
         
        
-    PDF::SetTitle('Hello World');
+    PDF::SetTitle('Clientes');
     PDF::AddPage();
     PDF::writeHTML($html, true, false, true, false, '');
 
-    PDF::Output('hello_world.pdf');
+    PDF::Output('clientes.pdf');
         
-    PDF::SetTitle('Hello World');
-    PDF::AddPage();
-    PDF::writeHTML($html, true, false, true, false, '');
-    PDF::Output('hello_world.pdf');
+    
 
      }
 }

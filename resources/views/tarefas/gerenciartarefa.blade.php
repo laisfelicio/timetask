@@ -106,7 +106,7 @@
                                             @if($tarefaUsuario->ultimo_start == "1920-01-01 01:00:00")
                                                 <td> - </td>
                                             @else
-                                                <td> {{$tarefaUsuario->ultimo_start}} </td>
+                                                <td> {{$tarefaUsuario->ultimo_start->format('d/m/Y')}} </td>
                                             @endif
                                             </tr>
                                        
@@ -135,13 +135,13 @@
                                             @if($infoUsu->ultimo_start == "1920-01-01 01:00:00")
                                                 <td> - </td>
                                             @else
-                                                <td> {{$infoUsu->ultimo_start}} </td>
+                                                <td> {{$infoUsu->ultimo_start->format('d/m/Y H:i:s')}} </td>
                                             @endif
 
                                             @if($infoUsu->ultimo_stop == "1920-01-01 01:00:00")
                                                 <td> - </td>
                                             @else
-                                                <td> {{$infoUsu->ultimo_stop}} </td>
+                                                <td> {{$infoUsu->ultimo_stop->format('d/m/Y H:i:s')}} </td>
                                             @endif
                                         
                                     </tr>

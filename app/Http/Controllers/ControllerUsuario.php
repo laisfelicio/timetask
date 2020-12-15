@@ -131,9 +131,8 @@ class ControllerUsuario extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->admin == 0){
-            abort(404);
-        }
+       
+        
 
         $regras = [
             'nomeUsuario' => 'required|max:255',
@@ -165,7 +164,12 @@ class ControllerUsuario extends Controller
         }
 
  
-        return redirect('/usuarios');
+        if(Auth::user()->admin == 1){
+            return redirect('/usuarios');
+        }
+        else{
+            return redirect('/meuperfil/editar');
+        }
     }
 
     /**
